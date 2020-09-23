@@ -1,0 +1,23 @@
+body {
+	background-image: url("../imgs/background_login.jpg");
+	background-position: center;
+	background-size: cover;
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+	color: white;	
+}
+
+.backForm{
+	background-color: rgb(255, 255, 255, 0.2);
+	color: white;	
+}
+
+.backForm:enabled{
+	background-color: rgb(255, 255, 255, 0.2);
+	color: white;
+}
+
+.backForm::placeholder{
+	color: white;
+}
+

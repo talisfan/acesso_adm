@@ -1,0 +1,35 @@
+/*tirando setas do lado do input de numeros*/
+input[type=number]::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+}
+
+input[type=number] {
+	-moz-appearance: textfield;
+	appearance: textfield;
+}
+
+/*iden do tipo data*/
+input[type=date]::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+}
+
+input[type=date] {
+	-moz-appearance: textfield;
+	appearance: textfield;            
+}
+
+input:-webkit-autofill {
+	/* Cor de fundo do autocomplete */
+	-webkit-box-shadow: 0 0 0 30px gray inset;
+
+	/* Cor do texto do autocomplete */
+	-webkit-text-fill-color: white !important;	
+}
+
+input:-webkit-autofill:focus{
+	-webkit-box-shadow: 0 0 0 30px gray inset;
+}
+
+
+
+
