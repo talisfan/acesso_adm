@@ -1,8 +1,20 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser'); 
-const fs = require("fs");
-const path = require("path");
+const fs = require('fs');
+const path = require('path');
+const handlebars = require('express-handlebars');
+
+//Template engine
+app.engine('handlebars', handlebars({ defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
+
+//Arquivos estaticos - CSS/IMGS/JS
+app.use(express.static(path.join(__dirname, 'assets')));
+
+//Body Parser
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json()); 
 
 //ROTAS
 const modelDepartamentos = require('./model/ModelDepartamentos');
@@ -11,28 +23,31 @@ const controllerCadastroFunc = require('./controller/ControllerCadFunc');
 const controllerCadastroDepart = require('./controller/ControllerCadDepart');
 const controllerLogin = require('./controller/ControllerLogin');
 
-
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json()); 
-
 app.use('/departamentos', modelDepartamentos);
 app.use('/funcionarios', modelFuncionarios);
 app.use('/login', controllerLogin);
 app.use('/cadDepart', controllerCadastroDepart);
 app.use('/cadFunc', controllerCadastroFunc);
 
-//Arquivos estaticos - CSS/IMGS/JS
-app.use(express.static(path.join(__dirname, "assets")));
-app.use(express.static(path.join(__dirname, "node_modules")));
-
 //Pagina principal (HOME)
 app.get('/', (req, res) => {
-    res.end(fs.readFileSync('src/views/index.html'));   
+    //res.end(fs.readFileSync('views/index.html'));   
+    res.render('index');
 });
 
-//Pagina para cadastro
-app.get('/viewCadFunc', (req, res) => {
-    res.end(fs.readFileSync('src/views/ViewCadFunc.html'));   
+//Pagina para escolha de ação ADM
+app.post('/viewEscolha', (req, res) => {
+    res.render('ViewEscolha');   
+});
+
+//Pagina para cadastro de funcionarios
+app.post('/viewFuncionarios', (req, res) => {
+    res.render('ViewFuncionarios');   
+});
+
+//Pagina para cadastro de departamentos
+app.post('/viewDepartamentos', (req, res) => {
+    res.render('ViewDepartamentos');   
 });
 
 //Validacoes com ajax

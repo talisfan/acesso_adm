@@ -1,0 +1,71 @@
+<head>	
+	<title>Acesso aos Funcionários</title>
+	<link rel="stylesheet" href="/css/StylesInput.css">
+</head>
+
+<body>
+	<div id="divEscolha" class="mx-auto border border-secondary rounded col-md-6 col-11 my-5 shadow-lg py-4 animated fadeInDown" role="alert" style="background-color: rgb(255, 255, 255, 0.2);">
+		<h1 class="display-4 lead text-center">O que deseja fazer ?</h1>
+		<div class="row mt-5">
+			<form id="cadFunc" method="POST" action="/validacoes" class="mr-auto ml-2">
+				<input type="submit" class="btn btn-primary btn-lg" value="CADASTRAR FUNCIONÁRIO">
+			</form>
+			<form id="consultFunc" method="POST" action="/validacoes" class="ml-auto mr-2">
+				<input type="submit" class="btn btn-primary btn-lg" value="CONSULTAR FUNCIONÁRIOS">
+			</form>			
+		</div>
+	</div>
+
+	<div id="divCad" class="d-none p-2 mx-auto border border-secondary rounded col-md-6 col-11 my-5 shadow-lg py-4 animated fadeInDown" role="alert" style="background-color: rgb(255, 255, 255, 0.2);">
+		<h1 class="lead text-center" style="font-size: 40px;">CADASTRO DE FUNCIONÁRIO</h1>
+		<form action="" method="POST" id="CadFunc" class="form px-4">
+			<!--NOME-->
+			<input type="text" name="nome" id="nome" placeholder="*Nome completo" class="form-control backForm mx-auto mt-4">
+			<div class="d-none" id="nomeInvalido" name="nomeInvalido">Por favor, informe o nome completo !</div>
+
+			<!--CPF-->
+			<input type="text" name="cpf" id="cpf" placeholder="*CPF" class="form-control backForm mx-auto mt-4">
+
+			<!--EMAIL-->
+			<input type="email" name="email" id="email" placeholder="*E-mail" class="form-control backForm mx-auto mt-4">			
+			
+			<!--TELCELL-->				
+			<input type="text" name="telCell" id="telCell" placeholder="*Tel Celular" class="form-control backForm mx-auto mt-4">							
+			
+			<!--TIPO DE ACESSO-->			
+			<select name="acesso" id="acesso" class="form-control backForm custom-select mx-auto mt-4" onfocus="style='color:black'" onblur="style='color:white'">
+				<option value="default" selected>*TIPO DE ACESSO</option>
+				<option>ADM</option>
+				<option>FUNCIONARIO</option>
+			</select>
+			
+
+			<!--SENHA-->
+			<div class="row">
+				<div class="col-md-6 mt-4">
+					<input type="password" name="senha" id="senha" placeholder="*Senha" class="form-control backForm">
+					<div class="d-none" name="senhaCurta" id="senhaCurta">A senha deve conter no mínimo 6 caracteres.</div>
+				</div>
+				<!--CONFIRMAR SENHA-->
+				<div class="col-md-6 mt-4">
+					<input type="password" name="confSenha" id="confSenha" placeholder="*Confirmar senha" class="form-control backForm">
+					<div class="d-none" name="passErro" id="passErro">Senhas diferentes</div>
+				</div>
+			</div>
+
+			<!-- BOTOES --->
+			<div class="row mx-auto mt-4">
+				<input name="cadastrar" class="btn btn-success col-5 mr-auto" type="submit" value="Cadastrar">
+				<input name="limpar" class="btn btn-danger ml-auto" type="reset" value="Limpar Tudo">
+			</div>
+		</form>
+	</div>
+
+	<div id="divConsult" class="d-none p-2 mx-auto border border-secondary rounded col-md-6 col-11 my-5 shadow-lg py-4 animated fadeInDown" role="alert" style="background-color: rgb(255, 255, 255, 0.2);">
+
+	</div>
+	
+	<script src="/jquery/dist/jquery.min.js"> </script>
+	<script src="/maskedInputJquery/dist/jquery.maskedinput.min.js"> </script>	
+	<script src="/masks/masks_cad.js"> </script>
+</body>
