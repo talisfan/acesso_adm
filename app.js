@@ -1,16 +1,44 @@
 const express = require('express');
 const app = express();
-const bodyParser = require('body-parser');
+const bodyParser = require('body-parser'); 
+const fs = require("fs");
+const path = require("path");
 
 //ROTAS
-const rotaDepartamentos = require('./routes/departamentos');
-const rotaFuncionarios = require('./routes/funcionarios');
+const modelDepartamentos = require('./model/ModelDepartamentos');
+const modelFuncionarios = require('./model/ModelFuncionarios');
+const controllerCadastroFunc = require('./controller/ControllerCadFunc');
+const controllerCadastroDepart = require('./controller/ControllerCadDepart');
+const controllerLogin = require('./controller/ControllerLogin');
+
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json()); 
 
-app.use('/departamentos', rotaDepartamentos);
-app.use('/funcionarios', rotaFuncionarios);
+app.use('/departamentos', modelDepartamentos);
+app.use('/funcionarios', modelFuncionarios);
+app.use('/login', controllerLogin);
+app.use('/cadDepart', controllerCadastroDepart);
+app.use('/cadFunc', controllerCadastroFunc);
+
+//Arquivos estaticos - CSS/IMGS/JS
+app.use(express.static(path.join(__dirname, "assets")));
+app.use(express.static(path.join(__dirname, "node_modules")));
+
+//Pagina principal (HOME)
+app.get('/', (req, res) => {
+    res.end(fs.readFileSync('src/views/index.html'));   
+});
+
+//Pagina para cadastro
+app.get('/viewCadFunc', (req, res) => {
+    res.end(fs.readFileSync('src/views/ViewCadFunc.html'));   
+});
+
+//Validacoes com ajax
+app.post('/validacoes', (req, res) => {
+    res.end(fs.readFileSync('assets/javascript/Validacoes.js'));   
+});
 
 //CORS
 app.use((req, res, next) => {    

@@ -2,40 +2,39 @@ const express = require('express');
 const router = express.Router();
 const mysql = require('../mysql').pool;
 
-//retorna todos departamentos
+//retorna todos funcionarios
 router.get('/', (req, res, next) => {
     mysql.getConnection((error, conn) => {
         conn.query(
-            'select * from tbl_departamento',            
-                (error, resultado, field) => {
-                conn.release();
+            'select * from tbl_funcionario',            
+                (error, result, field) => {
+                conn.release();                
 
                 if(error){
                     return res.status(500).send({
                         error: "true",
-                        msg: error    
+                        msg: error                        
                     });
                 }      
                 
                 res.status(200).send({
                     error: "false",
-                    msg: 'Mostrando todos departamentos: ',                    
-                    response: resultado
+                    msg: 'Mostrando todos funcionários: ',                    
+                    response: result
                 });
             }
         );
     });    
 });
 
-// cria novos departamentos
+// insere novos funcionarios
 router.post('/', (req, res, next) => {
-    const depart = req.body.nomeDepartamento;
     
     mysql.getConnection((error, conn) => {
         conn.query(
-            'insert into tbl_departamento (nome) values (?)',
-            [depart], //parametros
-                (error, resultado, field) => {
+            'insert into tbl_funcionario (nome, cpf, telefone, email, acesso) values(?, ?, ?, ?, ?)',
+            [req.body.nome, req.body.cpf, req.body.telefone, req.body.email, req.body.acesso], //parametros
+                (error, result, field) => {
                 conn.release();
 
                 if(error){
@@ -46,26 +45,23 @@ router.post('/', (req, res, next) => {
                 }      
                 
                 res.status(201).send({
-                    error: "false",
-                    msg: 'Departamento inserido com sucesso !',
-                    departamento: depart,
-                    idDepartamento: resultado.insertId
+                    msg: 'Funcionário inserido com sucesso !',                                        
                 });
             }
         );
     });    
 });
 
-//alterar/atualizar departamentos
+//alterar/atualizar funcionario
 router.patch('/', (req, res, next) => {
     res.status(201).send({
-        mensagem: 'teste usando patch'
+        msg: 'teste usando patch'
     });
 });
 
-//deletar departamentos
+//deletar funcionario
 router.delete('/', (req, res, next) => {
-    res.status(201).send({
+    res.status(202).send({
         mensagem: 'teste usando delete'
     });
 });
