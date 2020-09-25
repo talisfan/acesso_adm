@@ -26,8 +26,8 @@ const controllerLogin = require('./controller/ControllerLogin');
 app.use('/departamentos', modelDepartamentos);
 app.use('/funcionarios', modelFuncionarios);
 app.use('/login', controllerLogin);
-app.use('/cadDepart', controllerCadastroDepart);
-app.use('/cadFunc', controllerCadastroFunc);
+//app.use('/cadDepart', controllerCadastroDepart);
+//app.use('/cadFunc', controllerCadastroFunc);
 
 //Pagina principal (HOME)
 app.get('/', (req, res) => {
@@ -35,24 +35,28 @@ app.get('/', (req, res) => {
     res.render('index');
 });
 
+app.get('/alterarDepart', (req, res, next) =>{
+    res.render('AlterarDepart');
+});
+
 //Pagina para escolha de ação ADM
 app.post('/viewEscolha', (req, res) => {
     res.render('ViewEscolha');   
 });
 
-//Pagina para cadastro de funcionarios
-app.post('/viewFuncionarios', (req, res) => {
+//Pagina de funcionarios
+app.get('/viewFuncionarios', (req, res) => {
     res.render('ViewFuncionarios');   
 });
 
-//Pagina para cadastro de departamentos
-app.post('/viewDepartamentos', (req, res) => {
+//Pagina de departamentos
+app.get('/viewDepartamentos', (req, res) => {
     res.render('ViewDepartamentos');   
 });
 
 //Validacoes com ajax
-app.post('/validacoes', (req, res) => {
-    res.end(fs.readFileSync('assets/javascript/Validacoes.js'));   
+app.post('/escolha', (req, res) => {
+    res.send("escolha");   
 });
 
 //CORS

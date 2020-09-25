@@ -4,13 +4,14 @@
 </head>
 
 <body>
+	<div id="success" class="d-none">SUCESSO</div>
 	<div id="divEscolha" class="mx-auto border border-secondary rounded col-md-6 col-11 my-5 shadow-lg py-4 animated fadeInDown" role="alert" style="background-color: rgb(255, 255, 255, 0.2);">
 		<h1 class="display-4 lead text-center">O que deseja fazer ?</h1>
 		<div class="row mt-5">
-			<form id="cadFunc" method="POST" action="/validacoes" class="mr-auto ml-2">
+			<form id="cad" method="POST" action="/escolha" class="mr-auto ml-2">
 				<input type="submit" class="btn btn-primary btn-lg" value="CADASTRAR FUNCIONÁRIO">
 			</form>
-			<form id="consultFunc" method="POST" action="/validacoes" class="ml-auto mr-2">
+			<form id="consult" method="POST" action="/escolha" class="ml-auto mr-2">
 				<input type="submit" class="btn btn-primary btn-lg" value="CONSULTAR FUNCIONÁRIOS">
 			</form>			
 		</div>
@@ -18,7 +19,7 @@
 
 	<div id="divCad" class="d-none p-2 mx-auto border border-secondary rounded col-md-6 col-11 my-5 shadow-lg py-4 animated fadeInDown" role="alert" style="background-color: rgb(255, 255, 255, 0.2);">
 		<h1 class="lead text-center" style="font-size: 40px;">CADASTRO DE FUNCIONÁRIO</h1>
-		<form action="" method="POST" id="CadFunc" class="form px-4">
+		<form action="/cadFunc" method="POST" id="cadFunc" class="form px-4">
 			<!--NOME-->
 			<input type="text" name="nome" id="nome" placeholder="*Nome completo" class="form-control backForm mx-auto mt-4">
 			<div class="d-none" id="nomeInvalido" name="nomeInvalido">Por favor, informe o nome completo !</div>

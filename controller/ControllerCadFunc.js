@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', (req, res, next) => {    
-    res.status(200).send({
-        error: "false",
-        msg: 'bla'        
-    });
+router.post('/', (req, res, next) => {
+    var nome = req.body.nome;
+    var cpf = req.body.cpf;
+
+    console.log(nome, cpf);
 });
 
 module.exports = router;

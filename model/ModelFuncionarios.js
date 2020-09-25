@@ -6,7 +6,7 @@ const mysql = require('../mysql').pool;
 router.get('/', (req, res, next) => {
     mysql.getConnection((error, conn) => {
         conn.query(
-            'select * from tbl_funcionario',            
+            'select * from tbl_funcionarios',            
                 (error, result, field) => {
                 conn.release();                
 
@@ -54,9 +54,59 @@ router.post('/', (req, res, next) => {
 
 //alterar/atualizar funcionario
 router.patch('/', (req, res, next) => {
-    res.status(201).send({
-        msg: 'teste usando patch'
+    const email = req.body.email;
+    const telefone = req.body.telefone;
+    const id = req.body.id;
+    //const acesso = req.body.acesso;
+    //const senha = req.body.senha;
+    //const ativo = req.body.ativo;
+
+    mysql.getConnection((error, conn) => {
+        conn.query(
+            'update tbl_funcionarios set email = ?, telefone = ? where id = ?',
+            [email, telefone, id], //parametros
+            (error, result, field) => {
+                conn.release();
+
+                if (error) {
+                    return res.status(500).send({
+                        error: "true",
+                        msg: error
+                    });
+                }
+
+                res.status(201).send({
+                    error: "false",
+                    msg: 'Funcionario atualizado com sucesso !',
+                    id: id,                    
+                    email: email,
+                    telefone: telefone
+                });
+            }
+        );
     });
+});
+
+//retorna um funcionario por login
+router.post('/:user/:senha', (req, res, next) => {
+    mysql.getConnection((error, conn) => {
+        conn.query(
+            'select * from tbl_funcionarios where (email = ? or cpf = ?) and senha = ?',
+            [req.params.user, req.params.user, req.params.senha],            
+                (error, result, field) => {
+                conn.release();                
+
+                if(error){
+                    return res.status(500).send({
+                        error: "true",
+                        msg: error                        
+                    });
+                }      
+                
+                res.render('ViewEscolha');
+            }
+        );
+    });    
 });
 
 //deletar funcionario
