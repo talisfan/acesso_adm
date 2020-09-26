@@ -7,12 +7,12 @@
 
     <form action="/funcionarios/attFunc" method="POST" class="px-2">
         <!--ID-->
-        <input type="hidden" name="id" id="id" placeholder="ID" disabled class="form-control backForm mx-auto"
+        <input type="text" name="id" id="id" placeholder="ID" class="form-control backForm mx-auto d-none"
             value="{{id}}">
 
         <label for="nome" class="lead mt-3">NOME</label>
         <!--NOME-->
-        <input type="text" name="nome" id="nome" disabled placeholder="Nome completo"
+        <input type="text" name="nome" id="nome" placeholder="Nome completo"
             class="form-control backForm mx-auto" value="{{nome}}">
 
         <label for="email" class="lead mt-3">EMAIL</label>

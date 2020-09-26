@@ -61,7 +61,22 @@ router.post('/buscaFunc', (req, res, next) => {
 
 // insere novos funcionarios
 router.post('/', (req, res, next) => {
-   
+    //func = [{
+    //    nome: req.body.nome,
+    //    cpf: req.body.cpf, 
+    //    telefone: req.body.telefone, 
+    //    email: req.body.email, 
+    //    acesso: req.body.acesso, 
+    //    senha: req.body.senha, 
+    //    idDepart: req.body.idDepart
+    //}];
+//
+    //if(!func['nome'] || !func['cpf']){
+    //    res.render('CadFunc', {
+    //        erro: "Informe todos os dados do funcionário !"
+    //    });           
+    //}
+
     mysql.getConnection((error, conn) => {
         conn.query(
             'insert into tbl_funcionarios (nome, cpf, telefone, email, acesso, senha, idDepartamento) values(?, ?, ?, ?, ?, ?, ?)',
@@ -92,10 +107,13 @@ router.post('/', (req, res, next) => {
 
 //alterar/atualizar funcionario
 router.post('/attFunc', (req, res, next) => {
-    const email = req.body.email;
-    const telefone = req.body.telefone;
     const id = req.body.id;
+    const nome = req.body.nome;
+    const email = req.body.email;
+    const telefone = req.body.telefone;    
     const idDepart = req.body.idDepart;
+    
+    console.log(req.body);
 
     mysql.getConnection((error, conn) => {
         conn.query(
@@ -114,9 +132,10 @@ router.post('/attFunc', (req, res, next) => {
                 res.status(200).render('SucessoFunc', {
                     msg: 'Funcionario atualizado com sucesso !',
                     id: id,
+                    nome: nome,
                     email: email,
                     telefone: telefone,
-                    idDepart: idDepart
+                    idDepart: idDepart                    
                 });
             }
         );

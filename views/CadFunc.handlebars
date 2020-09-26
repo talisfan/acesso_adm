@@ -49,6 +49,10 @@
 		</div>
 	</form>
 
+	{{#if erro}}
+		<div class="alert alert-danger mx-auto mt-4 px-3">{{erro}}</div>
+	{{/if}}
+
 	<div class="text-center mt-3"> <a href="/" style="font-size: 25px;">VOLTAR</a>
 
 	<script src="/jquery/dist/jquery.min.js"> </script>
