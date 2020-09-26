@@ -7,7 +7,7 @@ router.get('/', (req, res, next) => {
 
     mysql.getConnection((error, conn) => {
         conn.query(
-            'select * from tbl_departamentos',
+            'select * from tbl_departamentos order by idDepart asc',
             (error, result, field) => {
                 conn.release();
 
@@ -36,7 +36,7 @@ router.post('/', (req, res, next) => {
 
     mysql.getConnection((error, conn) => {
         conn.query(
-            'insert into tbl_departamentos (nome) values (?)',
+            'insert into tbl_departamentos (nomeDepart) values (?)',
             [depart], //parametros
             (error, result, field) => {
                 conn.release();
@@ -49,20 +49,25 @@ router.post('/', (req, res, next) => {
                 }
 
                 //Sucesso            
-                res.render('SucessoDepart', {nome: depart, id: result.insertId})
-                
+                res.render('SucessoDepart', {
+                    msg: 'Deparatamento criado com sucesso !',
+                    nomeDepart: depart,
+                    idDepart: result.insertId
+                });                
             }
         );
     });
 });
 
 //alterar/atualizar departamentos
-router.patch('/', (req, res, next) => {
+router.post('/attDepart', (req, res, next) => {
+
     const nome = req.body.nomeDepart;
-    const id = req.body.idDepart;
+    const id = req.body.idDepart;    
+
     mysql.getConnection((error, conn) => {
         conn.query(
-            'update tbl_departamentos set nome = ? where id = ?',
+            'update tbl_departamentos set nomeDepart = ? where idDepart = ?',
             [nome, id], //parametros
             (error, result, field) => {
                 conn.release();
@@ -72,23 +77,40 @@ router.patch('/', (req, res, next) => {
                         error: "true",
                         msg: error
                     });
-                }
+                }    
 
-                res.status(201).send({
-                    error: "false",
+                res.status(200).render('SucessoDepart', {
                     msg: 'Departamento atualizado com sucesso !',
-                    departamento: nome,
-                    idDepartamento: id
+                    idDepart: id, 
+                    nomeDepart: nome
                 });
             }
         );
     });
 });
 
-//deletar departamentos
-router.delete('/', (req, res, next) => {
-    res.status(202).send({
-        msg: 'teste usando delete'
+//deletar funcionario
+router.post('/dellDepart', (req, res, next) => {
+    const idDepart = req.body.idDepart;
+
+    mysql.getConnection((error, conn) => {
+        conn.query(
+            'delete from tbl_departamentos where idDepart = ?',
+            [idDepart], //parametros
+            (error, result, field) => {
+                conn.release();
+                if (error) {
+                    return res.status(500).send({
+                        error: "true",
+                        msg: error
+                    });
+                }
+                res.status(202).render('SucessoFunc', {
+                    msg: 'DEPARTAMENTO DELETADO COM SUCESSO.',
+                    idDepart: idDepart,
+                    nomeDepart: "DELETADO"
+                });
+            });
     });
 });
 

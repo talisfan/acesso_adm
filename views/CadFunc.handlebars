@@ -1,0 +1,57 @@
+<head>
+	<title>Acesso aos Funcionários</title>
+	<link rel="stylesheet" href="/css/StylesInput.css">
+</head>
+
+<body>
+	<h1 class="lead text-center" style="font-size: 40px;">CADASTRO DE FUNCIONÁRIO</h1>
+	<form id="cadFunc" action="/funcionarios" method="POST" class="form px-4">
+		<!--NOME-->
+		<input type="text" name="nome" id="nome" placeholder="*Nome completo" class="form-control backForm mx-auto mt-4">		
+
+		<!--CPF-->
+		<input type="text" name="cpf" id="cpf" placeholder="*CPF" class="form-control backForm mx-auto mt-4">
+
+		<!--EMAIL-->
+		<input type="email" name="email" id="email" placeholder="*E-mail" class="form-control backForm mx-auto mt-4">
+
+		<!--TELCELL-->
+		<input type="text" name="telefone" id="telefone" placeholder="*Tel Celular" class="form-control backForm mx-auto mt-4">
+
+		<!--DEPARTAMENTO-->
+		<input type="text" name="idDepart" id="idDepart" placeholder="*ID Departamento" class="form-control backForm mx-auto mt-4">
+
+		<!--TIPO DE ACESSO-->
+		<select name="acesso" id="acesso" class="form-control backForm custom-select mx-auto mt-4"
+			onfocus="style='color:black'" onblur="style='color:white'">
+			<option selected>FUNCIONÁRIO</option>
+			<option>ADM</option>
+		</select>
+
+		<!--SENHA-->
+		<div class="row">
+			<div class="col-md-6 mt-4">
+				<input type="password" name="senha" id="senha" placeholder="*Senha" class="form-control backForm">
+				<div class="d-none" name="senhaCurta" id="senhaCurta">A senha deve conter no mínimo 6 caracteres.</div>
+			</div>
+			<!--CONFIRMAR SENHA-->
+			<div class="col-md-6 mt-4">
+				<input type="password" name="confSenha" id="confSenha" placeholder="*Confirmar senha"
+					class="form-control backForm">
+				<div class="d-none" name="passErro" id="passErro">Senhas diferentes</div>
+			</div>
+		</div>
+
+		<!-- BOTOES --->
+		<div class="row mx-auto mt-4">
+			<input name="cadastrar" class="btn btn-success col-5 mr-auto" type="submit" value="Cadastrar">
+			<input name="limpar" class="btn btn-danger ml-auto" type="reset" value="Limpar Tudo">
+		</div>
+	</form>
+
+	<div class="text-center mt-3"> <a href="/" style="font-size: 25px;">VOLTAR</a>
+
+	<script src="/jquery/dist/jquery.min.js"> </script>
+	<script src="/maskedInputJquery/dist/jquery.maskedinput.min.js"> </script>
+	<script src="/masks/masks_cad.js"> </script>
+</body>

@@ -8,16 +8,6 @@ input[type=number] {
 	appearance: textfield;
 }
 
-/*iden do tipo data*/
-input[type=date]::-webkit-inner-spin-button {
-	-webkit-appearance: none;
-}
-
-input[type=date] {
-	-moz-appearance: textfield;
-	appearance: textfield;            
-}
-
 input:-webkit-autofill {
 	/* Cor de fundo do autocomplete */
 	-webkit-box-shadow: 0 0 0 30px gray inset;

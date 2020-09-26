@@ -19,44 +19,68 @@ app.use(bodyParser.json());
 //ROTAS
 const modelDepartamentos = require('./model/ModelDepartamentos');
 const modelFuncionarios = require('./model/ModelFuncionarios');
-const controllerCadastroFunc = require('./controller/ControllerCadFunc');
-const controllerCadastroDepart = require('./controller/ControllerCadDepart');
-const controllerLogin = require('./controller/ControllerLogin');
 
 app.use('/departamentos', modelDepartamentos);
 app.use('/funcionarios', modelFuncionarios);
-app.use('/login', controllerLogin);
-//app.use('/cadDepart', controllerCadastroDepart);
-//app.use('/cadFunc', controllerCadastroFunc);
 
 //Pagina principal (HOME)
 app.get('/', (req, res) => {
     //res.end(fs.readFileSync('views/index.html'));   
-    res.render('index');
+    res.render('Escolha');
 });
 
+//Alterar departamento com parametros
+app.get('/alterarDepart/:idDepart/:nomeDepart', (req, res, next) =>{
+    const id = req.params.idDepart;
+    const nome = req.params.nomeDepart;
+    res.render('AlterarDepart', {
+        idDepart: id,
+        nomeDepart: nome
+    });
+});
+
+//Alterar departamento sem params
 app.get('/alterarDepart', (req, res, next) =>{
+    const id = req.params.idDepart;
+    const nome = req.params.nomeDepart;
     res.render('AlterarDepart');
 });
 
-//Pagina para escolha de ação ADM
-app.post('/viewEscolha', (req, res) => {
-    res.render('ViewEscolha');   
+//Pagina de cadastro de departamentos
+app.get('/cadDepart', (req, res) => {
+    res.render('CadDepart');   
 });
 
-//Pagina de funcionarios
-app.get('/viewFuncionarios', (req, res) => {
-    res.render('ViewFuncionarios');   
+//Pagina de cadastro de funcionarios
+app.get('/cadFunc', (req, res) => {
+    res.render('CadFunc');   
 });
 
-//Pagina de departamentos
-app.get('/viewDepartamentos', (req, res) => {
-    res.render('ViewDepartamentos');   
+//Alterar funcionario com parametros
+app.get('/alterarFunc/:id/:nome/:email/:telefone/:idDepart', (req, res, next) =>{
+    const id = req.params.id;
+    const nome = req.params.nome;
+    const email = req.params.email;
+    const telefone = req.params.telefone;
+    const idDepart = req.params.idDepart;    
+
+    res.render('AlterarFunc', {
+        id: id,
+        nome: nome,
+        email: email,
+        telefone: telefone,
+        idDepart: idDepart
+    });
 });
 
-//Validacoes com ajax
-app.post('/escolha', (req, res) => {
-    res.send("escolha");   
+//Alterar funcionario sem params
+app.get('/alterarFunc', (req, res, next) =>{   
+    res.render('AlterarFunc');
+});
+
+//buscar funcionario 
+app.get('/buscaFunc', (req, res, next) =>{   
+    res.render('BuscaFunc');
 });
 
 //CORS

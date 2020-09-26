@@ -1,0 +1,22 @@
+<head>
+	<title>Acesso aos Departamentos</title>
+	<link rel="stylesheet" href="/css/StylesInput.css">
+</head>
+
+<body>
+	<h1 class="lead text-center" style="font-size: 40px;">CADASTRO DE DEPARTAMENTOS</h1>
+	<form action="/departamentos" method="POST" class="form px-4">
+		<!--NOME-->
+		<input type="text" name="nomeDepart" id="nome" placeholder="*Nome do departamento"
+			class="form-control backForm mx-auto mt-4">
+		<div class="d-none" id="nomeInvalido" name="nomeInvalido">Por favor, informe o nome do departamento!
+		</div>
+
+		<!-- BOTOES --->
+		<input name="cadastrar" class="btn btn-success mx-auto mt-4" type="submit" value="Cadastrar">
+	</form>
+
+	<div class="text-center mt-3"> <a href="/" style="font-size: 25px;">VOLTAR</a> </div>	
+
+	<script src="/jquery/dist/jquery.min.js"> </script>
+</body>

@@ -1,0 +1,47 @@
+<head>
+    <title>ALTERAR FUNCIONÁRIO</title>
+</head>
+
+<body>
+    <h1 class="lead text-center" style="font-size: 40px;">ALTERAÇÃO DE FUNCIONÁRIO</h1>
+
+    <form action="/funcionarios/attFunc" method="POST" class="px-2">
+        <!--ID-->
+        <input type="hidden" name="id" id="id" placeholder="ID" disabled class="form-control backForm mx-auto"
+            value="{{id}}">
+
+        <label for="nome" class="lead mt-3">NOME</label>
+        <!--NOME-->
+        <input type="text" name="nome" id="nome" disabled placeholder="Nome completo"
+            class="form-control backForm mx-auto" value="{{nome}}">
+
+        <label for="email" class="lead mt-3">EMAIL</label>
+        <!--EMAIL-->
+        <input type="email" name="email" id="email" placeholder="E-mail" class="form-control backForm mx-auto"
+            value="{{email}}">
+
+        <label for="telefone" class="lead mt-3"> TELEFONE</label>
+        <!--TELCELL-->
+        <input type="text" name="telefone" id="telefone" placeholder="Tel Celular" class="form-control backForm mx-auto"
+            value="{{telefone}}">
+
+        <label for="idDepart" class="lead mt-3">ID DEPARTAMENTO</label>
+        <!--DEPARTAMENTO-->
+        <input type="text" name="idDepart" id="idDepart" placeholder="ID Departamento"
+            class="form-control backForm mx-auto" value="{{idDepart}}">
+
+        <input name="cadastrar" class="col-12 mx-auto btn btn-success mt-3" type="submit" value="ALTERAR">
+
+    </form>
+
+    <form action="/funcionarios/dellFunc" method="POST" class="mt-2">
+        <input type="hidden" name="id" value="{{id}}">
+        <input type="submit" class="text-light btn btn-danger ml-2" value="DELETAR FUNCIONÁRIO">
+    </form>
+
+    <div class="text-center mt-3"> <a href="/" style="font-size: 25px;">VOLTAR</a>
+
+        <script src="/jquery/dist/jquery.min.js"> </script>
+        <script src="/maskedInputJquery/dist/jquery.maskedinput.min.js"> </script>
+        <script src="/masks/masks_cad.js"> </script>
+</body>

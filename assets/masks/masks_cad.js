@@ -1,12 +1,12 @@
 jQuery(function ($) {
-	$("#telCell").mask("(99) 99999-9999");	
+	$("#telefone").mask("(99) 99999-9999");	
 	$("#cpf").mask("999.999.999-99");
 });
 
 
 //cursorStart
 
-document.getElementById("telCell").onclick = function () {
+document.getElementById("telefone").onclick = function () {
 	var begin = 0
 	var end = 0
 	if (this.setSelectionRange) {
