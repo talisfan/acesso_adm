@@ -29,7 +29,7 @@ router.get('/', (req, res, next) => {
     });
 });
 
-// busca de funcionario
+// busca de funcionario por nome
 router.post('/buscaFunc', (req, res, next) => {
     const nome = "%" + req.body.nome + "%";
 
@@ -61,7 +61,7 @@ router.post('/buscaFunc', (req, res, next) => {
 
 // insere novos funcionarios
 router.post('/', (req, res, next) => {
-
+   
     mysql.getConnection((error, conn) => {
         conn.query(
             'insert into tbl_funcionarios (nome, cpf, telefone, email, acesso, senha, idDepartamento) values(?, ?, ?, ?, ?, ?, ?)',

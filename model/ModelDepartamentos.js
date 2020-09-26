@@ -7,7 +7,7 @@ router.get('/', (req, res, next) => {
 
     mysql.getConnection((error, conn) => {
         conn.query(
-            'select * from tbl_departamentos order by idDepart asc',
+            'select * from tbl_departamentos where idDepart <> 1 order by idDepart asc',
             (error, result, field) => {
                 conn.release();
 
@@ -19,12 +19,10 @@ router.get('/', (req, res, next) => {
                 }
 
                 if (result.length == 0) {
-                    return res.status(404).send({
-                        msg: "Departamento não encontrado."
-                    });                    
+                    return res.status(404).render('AcessoDepartamentos', {msg: "Sem departamentos cadastrados"})                  
                 }      
 
-                res.render('AcessoDepartamentos', {result: result})          
+                res.status(200).render('AcessoDepartamentos', {result: result});         
             }
         );        
     });
@@ -105,7 +103,7 @@ router.post('/dellDepart', (req, res, next) => {
                         msg: error
                     });
                 }
-                res.status(202).render('SucessoFunc', {
+                res.status(202).render('SucessoDepart', {
                     msg: 'DEPARTAMENTO DELETADO COM SUCESSO.',
                     idDepart: idDepart,
                     nomeDepart: "DELETADO"

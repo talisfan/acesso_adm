@@ -20,8 +20,23 @@ idDepartamento integer not null,
 FOREIGN KEY (idDepartamento) REFERENCES tbl_departamentos (idDepart)
 );
 
+##trigger para deletar departamento
+Delimiter $
+CREATE TRIGGER trigger_depart before delete
+ON tbl_departamentos
+FOR EACH ROW
+BEGIN
+	update tbl_funcionarios set idDepartamento = 1 where idDepartamento = old.idDepart;
+END$
+DELIMITER ;
+
 insert into tbl_departamentos
-values (1, "TI");
+values (1, "SEM DEPARTAMENTO");
+
+insert into tbl_departamentos
+values (2, "TI");
+
+#delete from tbl_departamentos where idDepart = 2;
 
 select * from tbl_departamentos;
 
@@ -30,7 +45,5 @@ values ("Talisson Maciel Luques", "496.777.888-99", "(11) 95118-4349", "talis@ta
 
 select * from tbl_funcionarios;
 
-select * from tbl_funcionarios f inner join tbl_departamentos d on (f.idDepartamento = d.id);
-
-select f.nome, d.nome as DEPARTAMENTO from tbl_funcionarios f
-inner join tbl_departamentos d on (d.id = f.idDepartamento);
+select f.nome, d.nomeDepart as DEPARTAMENTO from tbl_funcionarios f
+inner join tbl_departamentos d on (d.idDepart = f.idDepartamento);
