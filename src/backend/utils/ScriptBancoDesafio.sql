@@ -1,6 +1,6 @@
-drop database DesafioTech_Database;
-create database DesafioTech_Database default character set utf8 collate utf8_unicode_ci;
-use DesafioTech_Database;
+drop database db_controle;
+create database db_controle default character set utf8 collate utf8_unicode_ci;
+use db_controle;
 
 create table if not exists tbl_departamentos(
 idDepart integer not null primary key auto_increment,

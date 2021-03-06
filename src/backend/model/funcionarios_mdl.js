@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const mysql = require('../mysql').pool;
+const mysql = require('../bin/mysql').pool;
 
 //retorna todos funcionarios
 router.get('/', (req, res, next) => {

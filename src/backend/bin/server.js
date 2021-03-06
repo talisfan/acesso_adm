@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-const bodyParser = require('body-parser'); 
 const fs = require('fs');
 const path = require('path');
 const handlebars = require('express-handlebars');
@@ -10,15 +9,11 @@ app.engine('handlebars', handlebars({ defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
 //Arquivos estaticos - CSS/IMGS/JS
-app.use(express.static(path.join(__dirname, 'assets')));
-
-//Body Parser
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json()); 
+//app.use(express.static(path.join(__dirname, 'assets')));
 
 //ROTAS
-const modelDepartamentos = require('./model/ModelDepartamentos');
-const modelFuncionarios = require('./model/ModelFuncionarios');
+const routeDepar = require('../routes/departamentos');
+const routeFunc = require('../routes/funcionarios');
 
 app.use('/departamentos', modelDepartamentos);
 app.use('/funcionarios', modelFuncionarios);
@@ -90,8 +85,8 @@ app.use((req, res, next) => {
     'Origin, X-Requested-With, Content-Type, Accept, Authorization');
 
     if(req.method == 'OPTIONS'){
-        res.header('Access-Control-Allow-Methds', 'PUT, POST, PATCH, DELETE, GET'); 
-        return res.status(200).send({});        
+        res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET'); 
+        return res.status(200).send();        
     }
     next();
 });
@@ -103,7 +98,6 @@ app.use((req, res, next) => {
     next(erro);
 });
 
-//Caso demore na conexao por exemplo
 app.use((error, req, res, next) => {
     res.status(error.status || 500);
     return res.send({
@@ -111,5 +105,9 @@ app.use((error, req, res, next) => {
         msg: error.message    
     });
 });
+
+const http = require('http');
+const server = http.createServer(app);
+server.listen(3000);
 
 module.exports = app;
