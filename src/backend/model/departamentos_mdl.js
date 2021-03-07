@@ -1,44 +1,64 @@
-
 const mysql = require('../mysql').pool;
 
-//retorna todos departamentos
-router.get('/', (req, res, next) => {
+// Retorna todos departamentos
+exports.getAllDepart = async (req, res)=>{
+
+    console.log('\nRealizando conexão com banco de dados...');
 
     mysql.getConnection((error, conn) => {
+
+        if(error){
+            throw({
+                error: true,
+                endpoint: 'Obter todos departamentos',
+                operation: 'Erro ao conectar com o banco de dados.',
+                errorDescription: error
+            });
+        }
+        
+        console.log('Conectado! Realizando consulta no banco de dados...');
+
         conn.query(
-            'select * from tbl_departamentos where idDepart <> 1 order by idDepart asc',
+            'SELECT * FROM tbl_departamentos WHERE idDepart <> 1 order BY idDepart ASC',
             (error, result, field) => {
                 conn.release();
 
-                if (error) {
-                    return res.status(500).send({
-                        error: "true",
-                        msg: error
+                if(error){
+                    throw({
+                        error: true,
+                        endpoint: 'Obter todos departamentos',
+                        operation: 'Erro ao realizar consulta no banco de dados.',
+                        errorDescription: error
                     });
                 }
 
-                if (result.length == 0) {
+                if (result.length == 0) {                    
+                    console.log('\nSem departamentos cadastrados.');
                     return res.status(404).render('AcessoDepartamentos', {msg: "Sem departamentos cadastrados"})                  
                 }      
 
+                console.log('Sucesso!')
                 res.status(200).render('AcessoDepartamentos', {result: result});         
             }
         );        
     });
-});
+};
 
-// cria novos departamentos
-router.post('/', (req, res, next) => {
+// Cria novos departamentos
+exports.createDepart = async (req, res)=>{
     const depart = req.body.nomeDepart;
 
     mysql.getConnection((error, conn) => {
         conn.query(
-            'insert into tbl_departamentos (nomeDepart) values (?)',
-            [depart], //parametros
+            'INSERT INTO tbl_departamentos (nomeDepart) VALUES (?)',
+            [ depart ], 
             (error, result, field) => {
                 conn.release();
 
                 if (error) {
+                    console.log('\n===== ERROR =====');
+                    console.log(error);
+
                     return res.status(500).send({
                         error: "true",
                         msg: error
@@ -49,27 +69,30 @@ router.post('/', (req, res, next) => {
                 res.render('SucessoDepart', {
                     msg: 'Deparatamento criado com sucesso !',
                     nomeDepart: depart,
-                    idDepart: result.insertId
+                    idDepart: result.INSERTId
                 });                
             }
         );
     });
-});
+};
 
-//alterar/atualizar departamentos
-router.post('/attDepart', (req, res, next) => {
+// Alterar / atualizar departamentos
+exports.attDepart = async (req, res)=>{
 
     const nome = req.body.nomeDepart;
     const id = req.body.idDepart;    
 
     mysql.getConnection((error, conn) => {
         conn.query(
-            'update tbl_departamentos set nomeDepart = ? where idDepart = ?',
+            'update tbl_departamentos set nomeDepart = ? WHERE idDepart = ?',
             [nome, id], //parametros
             (error, result, field) => {
                 conn.release();
 
                 if (error) {
+                    console.log('\n===== ERROR =====');
+                    console.log(error);
+
                     return res.status(500).send({
                         error: "true",
                         msg: error
@@ -84,24 +107,31 @@ router.post('/attDepart', (req, res, next) => {
             }
         );
     });
-});
+};
 
 //deletar funcionario
-router.post('/dellDepart', (req, res, next) => {
+exports.deleteDepart = async (req, res)=>{
     const idDepart = req.body.idDepart;
 
     mysql.getConnection((error, conn) => {
         conn.query(
-            'delete from tbl_departamentos where idDepart = ?',
-            [idDepart], //parametros
+            'DELETE FROM tbl_departamentos WHERE idDepart = ?',
+
+            [idDepart], 
+
             (error, result, field) => {
                 conn.release();
+
                 if (error) {
+                    console.log('\n===== ERROR =====');
+                    console.log(error);
+
                     return res.status(500).send({
                         error: "true",
                         msg: error
                     });
                 }
+
                 res.status(202).render('SucessoDepart', {
                     msg: 'DEPARTAMENTO DELETADO COM SUCESSO.',
                     idDepart: idDepart,
@@ -109,6 +139,4 @@ router.post('/dellDepart', (req, res, next) => {
                 });
             });
     });
-});
-
-module.exports = router;
+};
