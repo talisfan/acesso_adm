@@ -4,79 +4,16 @@ const fs = require('fs');
 const path = require('path');
 const handlebars = require('express-handlebars');
 
+const routePages = require('../routes/pages_rt');
+const routeDepart = require('../routes/departamentos_rt');
+const routeFunc = require('../routes/funcionarios_rt');
+
 //Template engine
 app.engine('handlebars', handlebars({ defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
 //Arquivos estaticos - CSS/IMGS/JS
 //app.use(express.static(path.join(__dirname, 'assets')));
-
-//ROTAS
-const routeDepar = require('../routes/departamentos');
-const routeFunc = require('../routes/funcionarios');
-
-app.use('/departamentos', modelDepartamentos);
-app.use('/funcionarios', modelFuncionarios);
-
-//Pagina principal (HOME)
-app.get('/', (req, res) => {
-    //res.end(fs.readFileSync('views/index.html'));   
-    res.render('Escolha');
-});
-
-//Alterar departamento com parametros
-app.get('/alterarDepart/:idDepart/:nomeDepart', (req, res, next) =>{
-    const id = req.params.idDepart;
-    const nome = req.params.nomeDepart;
-    res.render('AlterarDepart', {
-        idDepart: id,
-        nomeDepart: nome
-    });
-});
-
-//Alterar departamento sem params
-app.get('/alterarDepart', (req, res, next) =>{
-    const id = req.params.idDepart;
-    const nome = req.params.nomeDepart;
-    res.render('AlterarDepart');
-});
-
-//Pagina de cadastro de departamentos
-app.get('/cadDepart', (req, res) => {
-    res.render('CadDepart');   
-});
-
-//Pagina de cadastro de funcionarios
-app.get('/cadFunc', (req, res) => {
-    res.render('CadFunc');   
-});
-
-//Alterar funcionario com parametros
-app.get('/alterarFunc/:id/:nome/:email/:telefone/:idDepart', (req, res, next) =>{
-    const id = req.params.id;
-    const nome = req.params.nome;
-    const email = req.params.email;
-    const telefone = req.params.telefone;
-    const idDepart = req.params.idDepart;    
-
-    res.render('AlterarFunc', {
-        id: id,
-        nome: nome,
-        email: email,
-        telefone: telefone,
-        idDepart: idDepart
-    });
-});
-
-//Alterar funcionario sem params
-app.get('/alterarFunc', (req, res, next) =>{   
-    res.render('AlterarFunc');
-});
-
-//buscar funcionario 
-app.get('/buscaFunc', (req, res, next) =>{   
-    res.render('BuscaFunc');
-});
 
 //CORS
 app.use((req, res, next) => {    
@@ -91,19 +28,25 @@ app.use((req, res, next) => {
     next();
 });
 
-//Caso rota informada não exista
-app.use((req, res, next) => {
-    const erro = new Error('Não encontrado.');
-    erro.status = 404;
-    next(erro);
-});
+app.use('/', routePages);
+app.use('/departamentos', routeDepart);
+app.use('/funcionarios', routeFunc);
 
 app.use((error, req, res, next) => {
-    res.status(error.status || 500);
-    return res.send({
+
+    console.log('\n===== ERROR =====');
+    console.log(error);
+
+    return res.status(error.status || 500)
+    .send({
         error: "true",
-        msg: error.message    
+        errorDesciption: error
     });
+});
+
+//Caso rota informada não exista
+app.use((req, res) => {
+    return res.status(404).send();
 });
 
 const http = require('http');

@@ -1,35 +1,33 @@
-const mysql = require('../mysql').pool;
+const mysql = require('../bin/mysql').pool;
 
 // Retorna todos departamentos
-exports.getAllDepart = async (req, res)=>{
-
-    console.log('\nRealizando conexão com banco de dados...');
+exports.getAllDepart = async (req, res, next)=>{    
 
     mysql.getConnection((error, conn) => {
 
         if(error){
-            throw({
-                error: true,
+            next(new Error({
+                status: 502,
                 endpoint: 'Obter todos departamentos',
                 operation: 'Erro ao conectar com o banco de dados.',
-                errorDescription: error
-            });
+                errorMessage: error
+            }));
         }
         
         console.log('Conectado! Realizando consulta no banco de dados...');
 
-        conn.query(
-            'SELECT * FROM tbl_departamentos WHERE idDepart <> 1 order BY idDepart ASC',
+        conn.query('SELECT * FROM tbl_departamentos WHERE idDepart <> 1 order BY idDepart ASC',
+        
             (error, result, field) => {
                 conn.release();
 
                 if(error){
-                    throw({
-                        error: true,
+                    next(new Error({
+                        
                         endpoint: 'Obter todos departamentos',
                         operation: 'Erro ao realizar consulta no banco de dados.',
-                        errorDescription: error
-                    });
+                        errorMessage: error
+                    }));
                 }
 
                 if (result.length == 0) {                    
@@ -38,36 +36,46 @@ exports.getAllDepart = async (req, res)=>{
                 }      
 
                 console.log('Sucesso!')
-                res.status(200).render('AcessoDepartamentos', {result: result});         
+                return res.status(200).render('AcessoDepartamentos', {result: result});         
             }
         );        
     });
 };
 
 // Cria novos departamentos
-exports.createDepart = async (req, res)=>{
+exports.createDepart = async (req, res, next)=>{
     const depart = req.body.nomeDepart;
 
     mysql.getConnection((error, conn) => {
-        conn.query(
-            'INSERT INTO tbl_departamentos (nomeDepart) VALUES (?)',
+
+        if(error){
+            next(new Error({     
+                status: 502,           
+                endpoint: 'Criar departamento',
+                operation: 'Erro ao conectar com o banco de dados.',
+                errorMessage: error
+            }));
+        }
+        
+        console.log('Conectado! Realizando inserção no banco de dados...');
+
+        conn.query('INSERT INTO tbl_departamentos (nomeDepart) VALUES (?)',
+
             [ depart ], 
+
             (error, result, field) => {
                 conn.release();
 
-                if (error) {
-                    console.log('\n===== ERROR =====');
-                    console.log(error);
-
-                    return res.status(500).send({
-                        error: "true",
-                        msg: error
-                    });
+                if(error){
+                    next(new Error({                        
+                        endpoint: 'Criar departamento',
+                        operation: 'Erro ao inserir departamento no banco de dados.',
+                        errorMessage: error
+                    }));
                 }
-
-                //Sucesso            
+                        
                 res.render('SucessoDepart', {
-                    msg: 'Deparatamento criado com sucesso !',
+                    msg: 'Deparatamento criado com sucesso!',
                     nomeDepart: depart,
                     idDepart: result.INSERTId
                 });                
@@ -77,30 +85,41 @@ exports.createDepart = async (req, res)=>{
 };
 
 // Alterar / atualizar departamentos
-exports.attDepart = async (req, res)=>{
+exports.attDepart = async (req, res, next)=>{
 
     const nome = req.body.nomeDepart;
     const id = req.body.idDepart;    
 
     mysql.getConnection((error, conn) => {
-        conn.query(
-            'update tbl_departamentos set nomeDepart = ? WHERE idDepart = ?',
-            [nome, id], //parametros
+
+        if(error){
+            next(new Error({    
+                status: 502,            
+                endpoint: 'Atualizar departamento',
+                operation: 'Erro ao conectar com o banco de dados.',
+                errorMessage: error
+            }));
+        }
+        
+        console.log('Conectado! Realizando atualização de departamento...');
+
+        conn.query('update tbl_departamentos set nomeDepart = ? WHERE idDepart = ?',
+
+            [nome, id], 
+
             (error, result, field) => {
                 conn.release();
 
-                if (error) {
-                    console.log('\n===== ERROR =====');
-                    console.log(error);
-
-                    return res.status(500).send({
-                        error: "true",
-                        msg: error
-                    });
-                }    
+                if(error){
+                    next(new Error({                        
+                        endpoint: 'Atualizar departamento',
+                        operation: 'Erro ao atualizar departamento.',
+                        errorMessage: error
+                    }));
+                }  
 
                 res.status(200).render('SucessoDepart', {
-                    msg: 'Departamento atualizado com sucesso !',
+                    msg: 'Departamento atualizado com sucesso!',
                     idDepart: id, 
                     nomeDepart: nome
                 });
@@ -109,27 +128,35 @@ exports.attDepart = async (req, res)=>{
     });
 };
 
-//deletar funcionario
-exports.deleteDepart = async (req, res)=>{
+exports.deleteDepart = async (req, res, next)=>{
     const idDepart = req.body.idDepart;
 
     mysql.getConnection((error, conn) => {
-        conn.query(
-            'DELETE FROM tbl_departamentos WHERE idDepart = ?',
+
+        if(error){
+            next(new Error({
+                status: 502,
+                endpoint: 'Deletar departamento',
+                operation: 'Erro ao conectar com o banco de dados.',
+                errorMessage: error
+            }));
+        }
+        
+        console.log('Conectado! Realizando exclusão de departamento...');
+
+        conn.query('DELETE FROM tbl_departamentos WHERE idDepart = ?',
 
             [idDepart], 
 
             (error, result, field) => {
                 conn.release();
 
-                if (error) {
-                    console.log('\n===== ERROR =====');
-                    console.log(error);
-
-                    return res.status(500).send({
-                        error: "true",
-                        msg: error
-                    });
+                if(error){
+                    next(new Error({                        
+                        endpoint: 'Deletar departamento',
+                        operation: 'Erro ao deletar departamento.',
+                        errorMessage: error
+                    }));
                 }
 
                 res.status(202).render('SucessoDepart', {
