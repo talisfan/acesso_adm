@@ -23,7 +23,7 @@ router.patch('/', (req, res, next) => {
     await controller.attDepart(req, res, next);
 });
 
-router.delete('/', (req, res, next) => {
+router.delete('/:idDepart', (req, res, next) => {    
     console.log('\n// ROUTE DELETE - Delete Department');
     console.log('--REQUEST:');
     console.log(req);

@@ -6,7 +6,7 @@ exports.getAllDepart = async (req, res, next)=>{
     mysql.getConnection((error, conn) => {
 
         if(error){
-            next(new Error({
+            return next(new Error({
                 status: 502,
                 endpoint: 'Obter todos departamentos',
                 operation: 'Erro ao conectar com o banco de dados.',
@@ -22,8 +22,7 @@ exports.getAllDepart = async (req, res, next)=>{
                 conn.release();
 
                 if(error){
-                    next(new Error({
-                        
+                    return next(new Error({                        
                         endpoint: 'Obter todos departamentos',
                         operation: 'Erro ao realizar consulta no banco de dados.',
                         errorMessage: error
@@ -49,7 +48,7 @@ exports.createDepart = async (req, res, next)=>{
     mysql.getConnection((error, conn) => {
 
         if(error){
-            next(new Error({     
+            return next(new Error({     
                 status: 502,           
                 endpoint: 'Criar departamento',
                 operation: 'Erro ao conectar com o banco de dados.',
@@ -67,14 +66,14 @@ exports.createDepart = async (req, res, next)=>{
                 conn.release();
 
                 if(error){
-                    next(new Error({                        
+                    return next(new Error({                        
                         endpoint: 'Criar departamento',
                         operation: 'Erro ao inserir departamento no banco de dados.',
                         errorMessage: error
                     }));
                 }
                         
-                res.render('SucessoDepart', {
+                return res.render('SucessoDepart', {
                     msg: 'Deparatamento criado com sucesso!',
                     nomeDepart: depart,
                     idDepart: result.INSERTId
@@ -93,7 +92,7 @@ exports.attDepart = async (req, res, next)=>{
     mysql.getConnection((error, conn) => {
 
         if(error){
-            next(new Error({    
+            return next(new Error({    
                 status: 502,            
                 endpoint: 'Atualizar departamento',
                 operation: 'Erro ao conectar com o banco de dados.',
@@ -111,14 +110,14 @@ exports.attDepart = async (req, res, next)=>{
                 conn.release();
 
                 if(error){
-                    next(new Error({                        
+                    return next(new Error({                        
                         endpoint: 'Atualizar departamento',
                         operation: 'Erro ao atualizar departamento.',
                         errorMessage: error
                     }));
                 }  
 
-                res.status(200).render('SucessoDepart', {
+                return res.status(200).render('SucessoDepart', {
                     msg: 'Departamento atualizado com sucesso!',
                     idDepart: id, 
                     nomeDepart: nome
@@ -129,12 +128,12 @@ exports.attDepart = async (req, res, next)=>{
 };
 
 exports.deleteDepart = async (req, res, next)=>{
-    const idDepart = req.body.idDepart;
+    const idDepart = req.params.idDepart;
 
     mysql.getConnection((error, conn) => {
 
         if(error){
-            next(new Error({
+            return next(new Error({
                 status: 502,
                 endpoint: 'Deletar departamento',
                 operation: 'Erro ao conectar com o banco de dados.',
@@ -152,14 +151,14 @@ exports.deleteDepart = async (req, res, next)=>{
                 conn.release();
 
                 if(error){
-                    next(new Error({                        
+                    return next(new Error({                        
                         endpoint: 'Deletar departamento',
                         operation: 'Erro ao deletar departamento.',
                         errorMessage: error
                     }));
                 }
 
-                res.status(202).render('SucessoDepart', {
+                return res.status(202).render('SucessoDepart', {
                     msg: 'DEPARTAMENTO DELETADO COM SUCESSO.',
                     idDepart: idDepart,
                     nomeDepart: "DELETADO"
