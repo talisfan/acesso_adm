@@ -5,7 +5,7 @@
 <body>
     <h1 class="lead text-center" style="font-size: 40px;">ALTERAÇÃO DE FUNCIONÁRIO</h1>
 
-    <form action="/funcionarios/attFunc" method="POST" class="px-2">
+    <form action="/funcionarios/attFunc" method="PATCH" class="px-2">
         <!--ID-->
         <input type="text" name="id" id="id" placeholder="ID" class="form-control backForm mx-auto d-none"
             value="{{id}}">
@@ -34,14 +34,14 @@
 
     </form>
 
-    <form action="/funcionarios/dellFunc" method="POST" class="mt-2">
+    <form action="/funcionarios/dellFunc/{{id}}" method="POST" class="mt-2">
         <input type="hidden" name="id" value="{{id}}">
         <input type="submit" class="text-light btn btn-danger ml-2" value="DELETAR FUNCIONÁRIO">
     </form>
 
-    <div class="text-center mt-3"> <a href="/" style="font-size: 25px;">VOLTAR</a>
+    <div class="text-center mt-3"> <a href="/" style="font-size: 25px;">VOLTAR</a></div>
 
-        <script src="/jquery/dist/jquery.min.js"> </script>
-        <script src="/maskedInputJquery/dist/jquery.maskedinput.min.js"> </script>
-        <script src="/masks/masks_cad.js"> </script>
+    <script src="/jquery/dist/jquery.min.js"> </script>
+    <script src="/maskedInputJquery/dist/jquery.maskedinput.min.js"> </script>
+    <script src="/masks/masks_cad.js"> </script>
 </body>

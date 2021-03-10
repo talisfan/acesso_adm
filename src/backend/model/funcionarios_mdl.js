@@ -3,10 +3,20 @@ const router = express.Router();
 const mysql = require('../bin/mysql').pool;
 
 //retorna todos funcionarios
-router.get('/', (req, res, next) => {
+exports.getFunc = async (req, res, next) => {
+    
+    let query;
+
+    if(req.query && req.query.nomeFunc){
+        const nomeFunc = `%${req.body.nomeFunc}%`;
+        query = `select * from tbl_funcionarios f inner join tbl_departamentos d on (f.idDepartamento = d.idDepart) where f.nome like ${nomeFunc} order by f.id asc`;
+    }else{
+        query = 'select * from tbl_funcionarios f inner join tbl_departamentos d on (f.idDepartamento = d.idDepart) order by f.id asc';
+    }
+    
     mysql.getConnection((error, conn) => {
         conn.query(
-            'select * from tbl_funcionarios f inner join tbl_departamentos d on (f.idDepartamento = d.idDepart) order by f.id asc',
+            query,
             (error, result, field) => {
                 conn.release();
 
@@ -17,7 +27,7 @@ router.get('/', (req, res, next) => {
                     });
                 }
 
-                console.log(result)
+                console.log(result);
 
                 res.status(200).render('AcessoFuncionarios', {
                     error: "false",
@@ -27,37 +37,7 @@ router.get('/', (req, res, next) => {
             }
         );
     });
-});
-
-// busca de funcionario por nome
-router.post('/buscaFunc', (req, res, next) => {
-    const nome = "%" + req.body.nome + "%";
-
-    mysql.getConnection((error, conn) => {
-        conn.query(
-            'select * from tbl_funcionarios f inner join tbl_departamentos d on (f.idDepartamento = d.idDepart) where f.nome like ? order by f.id asc',
-            [nome],
-            (error, result, field) => {
-                conn.release();
-
-                if (error) {
-                    return res.status(500).send({
-                        error: "true",
-                        msg: error
-                    });
-                }
-
-                console.log(result)
-
-                res.status(200).render('AcessoFuncionarios', {
-                    error: "false",
-                    msg: 'Mostrando todos funcionários: ',
-                    result: result
-                });
-            }
-        );
-    });
-});
+};
 
 // insere novos funcionarios
 router.post('/', (req, res, next) => {
