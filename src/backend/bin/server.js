@@ -39,7 +39,7 @@ app.use((error, req, res, next) => {
 
     return res.status(error.status || 500)
     .send({
-        error: "true",
+        error: true,
         errorDesciption: error
     });
 });
