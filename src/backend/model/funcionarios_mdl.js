@@ -5,33 +5,45 @@ const mysql = require('../bin/mysql').pool;
 //retorna todos funcionarios
 exports.getFunc = async (req, res, next) => {
     
+    console.log('\nRealizando conexão com banco de dados...');
+
     let query;
 
     if(req.query && req.query.nomeFunc){
         const nomeFunc = `%${req.body.nomeFunc}%`;
-        query = `select * from tbl_funcionarios f inner join tbl_departamentos d on (f.idDepartamento = d.idDepart) where f.nome like ${nomeFunc} order by f.id asc`;
+        query = `select * from tbl_funcionarios f inner join tbl_departamentos d on (f.idDepart = d.id) where f.nome like ${nomeFunc} order by f.id asc`;
     }else{
-        query = 'select * from tbl_funcionarios f inner join tbl_departamentos d on (f.idDepartamento = d.idDepart) order by f.id asc';
+        query = 'select * from tbl_funcionarios f inner join tbl_departamentos d on (f.idDepart = d.id) order by f.id asc';
     }
     
     mysql.getConnection((error, conn) => {
-        conn.query(
-            query,
+
+        if(error){
+            return next(new Error({
+                status: 502,
+                endpoint: 'Obter funcionários',
+                operation: 'Erro ao conectar com o banco de dados.',
+                errorMessage: error
+            }));
+        }
+
+        conn.query(query,
             (error, result, field) => {
                 conn.release();
 
-                if (error) {
-                    return res.status(500).send({
-                        error: "true",
-                        msg: error
-                    });
+                if(error){
+                    return next(new Error({                        
+                        endpoint: 'Obter funcionários',
+                        operation: 'Erro ao realizar consulta no banco de dados.',
+                        errorMessage: error
+                    }));
                 }
 
+                console.log('Sucesso! Resultado:');
                 console.log(result);
 
-                res.status(200).render('AcessoFuncionarios', {
-                    error: "false",
-                    msg: 'Mostrando todos funcionários: ',
+                res.status(200).render('AcessoFuncionarios', {                    
+                    //msg: 'Mostrando todos funcionários: ',
                     result: result
                 });
             }
@@ -40,36 +52,35 @@ exports.getFunc = async (req, res, next) => {
 };
 
 // insere novos funcionarios
-router.post('/', (req, res, next) => {
-    //func = [{
-    //    nome: req.body.nome,
-    //    cpf: req.body.cpf, 
-    //    telefone: req.body.telefone, 
-    //    email: req.body.email, 
-    //    acesso: req.body.acesso, 
-    //    senha: req.body.senha, 
-    //    idDepart: req.body.idDepart
-    //}];
-//
-    //if(!func['nome'] || !func['cpf']){
-    //    res.render('CadFunc', {
-    //        erro: "Informe todos os dados do funcionário !"
-    //    });           
-    //}
+exports.attFunc = async (req, res, next) => {    
+
+    console.log('\nRealizando conexão com banco de dados...');
 
     mysql.getConnection((error, conn) => {
+        
+        if(error){
+            return next(new Error({
+                status: 502,
+                endpoint: 'Atualizar funcionário',
+                operation: 'Erro ao conectar com o banco de dados.',
+                errorMessage: error
+            }));
+        }
+
         conn.query(
             'insert into tbl_funcionarios (nome, cpf, telefone, email, acesso, senha, idDepartamento) values(?, ?, ?, ?, ?, ?, ?)',
             [req.body.nome, req.body.cpf, req.body.telefone, req.body.email, req.body.acesso, req.body.senha, req.body.idDepart], //parametros
             (error, result, field) => {
                 conn.release();
 
-                if (error) {
-                    return res.status(500).send({
-                        error: "true",
-                        msg: error
-                    });
+                if(error){
+                    return next(new Error({                        
+                        endpoint: 'Atualizar funcionários',
+                        operation: 'Erro ao realizar alteração no banco de dados.',
+                        errorMessage: error
+                    }));
                 }
+
 
                 res.status(201).render('SucessoFunc', {
                     msg: 'Funcionario inserido com sucesso !',
@@ -83,10 +94,14 @@ router.post('/', (req, res, next) => {
             }
         );
     });
-});
+};
 
 //alterar/atualizar funcionario
 router.post('/attFunc', (req, res, next) => {
+
+
+    console.log('\nRealizando conexão com banco de dados...');
+
     const id = req.body.id;
     const nome = req.body.nome;
     const email = req.body.email;
@@ -124,6 +139,9 @@ router.post('/attFunc', (req, res, next) => {
 
 //deletar funcionario
 router.post('/dellFunc', (req, res, next) => {
+
+    console.log('\nRealizando conexão com banco de dados...');
+
     const id = req.body.id;
 
     mysql.getConnection((error, conn) => {
@@ -146,28 +164,5 @@ router.post('/dellFunc', (req, res, next) => {
             });
     });
 });
-
-
-////retorna um funcionario por login
-//router.post('/:user/:senha', (req, res, next) => {
-//    mysql.getConnection((error, conn) => {
-//        conn.query(
-//            'select * from tbl_funcionarios where (email = ? or cpf = ?) and senha = ?',
-//            [req.params.user, req.params.user, req.params.senha],
-//            (error, result, field) => {
-//                conn.release();
-//
-//                if (error) {
-//                    return res.status(500).send({
-//                        error: "true",
-//                        msg: error
-//                    });
-//                }
-//
-//                res.render('ViewEscolha');
-//            }
-//        );
-//    });
-//});
 
 module.exports = router;
