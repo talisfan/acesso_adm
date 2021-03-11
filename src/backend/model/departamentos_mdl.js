@@ -85,7 +85,7 @@ exports.createDepart = async (req, res, next)=>{
                 return res.render('SucessoDepart', {
                     msg: 'Deparatamento criado com sucesso!',
                     nomeDepart: depart,
-                    idDepart: result.INSERTId
+                    idDepart: result.insertId
                 });                
             }
         );
