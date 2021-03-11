@@ -3,6 +3,8 @@ const mysql = require('../bin/mysql').pool;
 // Retorna todos departamentos
 exports.getAllDepart = async (req, res, next)=>{    
 
+    console.log('\nRealizando conexão com banco de dados...');
+
     mysql.getConnection((error, conn) => {
 
         if(error){
@@ -16,7 +18,7 @@ exports.getAllDepart = async (req, res, next)=>{
         
         console.log('Conectado! Realizando consulta no banco de dados...');
 
-        conn.query('SELECT * FROM tbl_departamentos WHERE idDepart <> 1 order BY idDepart ASC',
+        conn.query('SELECT * FROM tbl_departamentos WHERE id <> 1 order BY id ASC',
         
             (error, result, field) => {
                 conn.release();
@@ -34,7 +36,9 @@ exports.getAllDepart = async (req, res, next)=>{
                     return res.status(404).render('AcessoDepartamentos', {msg: "Sem departamentos cadastrados"})                  
                 }      
 
-                console.log('Sucesso!')
+                console.log('Sucesso! Resultado:');
+                console.log(result);
+                
                 return res.status(200).render('AcessoDepartamentos', {result: result});         
             }
         );        
@@ -43,10 +47,12 @@ exports.getAllDepart = async (req, res, next)=>{
 
 // Cria novos departamentos
 exports.createDepart = async (req, res, next)=>{
+
+    console.log('\nRealizando conexão com banco de dados...');
+
     const depart = req.body.nomeDepart;
 
     mysql.getConnection((error, conn) => {
-
         if(error){
             return next(new Error({     
                 status: 502,           
@@ -73,6 +79,9 @@ exports.createDepart = async (req, res, next)=>{
                     }));
                 }
                         
+                console.log('Sucesso! Resultado:');
+                console.log(result);
+
                 return res.render('SucessoDepart', {
                     msg: 'Deparatamento criado com sucesso!',
                     nomeDepart: depart,
@@ -85,6 +94,8 @@ exports.createDepart = async (req, res, next)=>{
 
 // Alterar / atualizar departamentos
 exports.attDepart = async (req, res, next)=>{
+
+    console.log('\nRealizando conexão com banco de dados...');
 
     const nome = req.body.nomeDepart;
     const id = req.body.idDepart;    
@@ -102,7 +113,7 @@ exports.attDepart = async (req, res, next)=>{
         
         console.log('Conectado! Realizando atualização de departamento...');
 
-        conn.query('update tbl_departamentos set nomeDepart = ? WHERE idDepart = ?',
+        conn.query('update tbl_departamentos set nomeDepart = ? WHERE id = ?',
 
             [nome, id], 
 
@@ -117,6 +128,9 @@ exports.attDepart = async (req, res, next)=>{
                     }));
                 }  
 
+                console.log('Sucesso! Resultado:');
+                console.log(result);
+
                 return res.status(200).render('SucessoDepart', {
                     msg: 'Departamento atualizado com sucesso!',
                     idDepart: id, 
@@ -128,6 +142,9 @@ exports.attDepart = async (req, res, next)=>{
 };
 
 exports.deleteDepart = async (req, res, next)=>{
+    
+    console.log('\nRealizando conexão com banco de dados...');
+
     const idDepart = req.params.idDepart;
 
     mysql.getConnection((error, conn) => {
@@ -143,7 +160,7 @@ exports.deleteDepart = async (req, res, next)=>{
         
         console.log('Conectado! Realizando exclusão de departamento...');
 
-        conn.query('DELETE FROM tbl_departamentos WHERE idDepart = ?',
+        conn.query('DELETE FROM tbl_departamentos WHERE id = ?',
 
             [idDepart], 
 
@@ -158,8 +175,11 @@ exports.deleteDepart = async (req, res, next)=>{
                     }));
                 }
 
+                console.log('Sucesso! Resultado:');
+                console.log(result);
+
                 return res.status(202).render('SucessoDepart', {
-                    msg: 'DEPARTAMENTO DELETADO COM SUCESSO.',
+                    msg: 'Departamento deletado com sucesso.',
                     idDepart: idDepart,
                     nomeDepart: "DELETADO"
                 });

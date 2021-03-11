@@ -16,7 +16,7 @@ exports.createDepart = async(req, res, next)=>{
                 errorMessage: 'Property "nomeDepart" contains invalid characters.'
             }));
         }        
-    }else{
+    }else{        
         return next(new Error({     
             status: 400,              
             errorMessage: 'Missing property "nomeDepart".'
