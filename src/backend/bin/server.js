@@ -2,18 +2,18 @@ const express = require('express');
 const app = express();
 const fs = require('fs');
 const path = require('path');
-const handlebars = require('express-handlebars');
+const exphbs = require('express-handlebars');
 
 const routePages = require('../routes/pages_rt');
 const routeDepart = require('../routes/departamentos_rt');
 const routeFunc = require('../routes/funcionarios_rt');
 
-//Template engine
-app.engine('handlebars', handlebars({ defaultLayout: 'main'}));
+app.set('views', path.join(path.resolve(), '/src/frontend/views'));
+app.engine('handlebars', exphbs({ defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
 //Arquivos estaticos - CSS/IMGS/JS
-//app.use(express.static(path.join(__dirname, 'assets')));
+app.use(express.static(path.join(path.resolve(), '/src/frontend/assets')));
 
 //CORS
 app.use((req, res, next) => {    
@@ -34,13 +34,16 @@ app.use('/funcionarios', routeFunc);
 
 app.use((error, req, res, next) => {
 
+    if(!error.status){
+        error.status = 500;
+    }
     console.log('\n===== ERROR =====');
     console.log(error);
 
-    return res.status(error.status || 500)
+    return res.status(error.status)
     .send({
         error: true,
-        errorDesciption: error
+        errorDescription: error
     });
 });
 
@@ -51,6 +54,8 @@ app.use((req, res) => {
 
 const http = require('http');
 const server = http.createServer(app);
-server.listen(3000);
+const port = 3000;
+server.listen(port);
+console.log(`Servidor rodando na porta ${port}!`);
 
 module.exports = app;
