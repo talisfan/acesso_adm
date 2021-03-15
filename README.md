@@ -1,6 +1,5 @@
 # GUIA
 
-=================
 <!--ts-->
    * [Introdução](#INTRODUÇÃO)
    * [Sobre](#SOBRE)
@@ -46,5 +45,5 @@ npm start
 
 # SOBRE 
 
-Desenvolvido por: Talisson Maciel Luques
-Profissão: Desenvolvedor Back-End
+* Desenvolvido por: Talisson Maciel Luques
+* Profissão: Desenvolvedor Back-End
