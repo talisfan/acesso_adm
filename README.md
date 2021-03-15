@@ -1,15 +1,13 @@
 # GUIA
 
-<!--ts-->
-   * [Introdução](#INTRODUÇÃO)
-   * [Sobre](#SOBRE)
-   * [Ambientes](#AMBIENTES)   
-      * [Dev](#DEV)
-      * [Prod](#PROD)         
-   * [Descrição](#DESCRIÇÃO)
-      * [Front-end](#FRONT-END)
-      * [Back-end](#BACK-END)         
-<!--te-->
+* [Introdução](#INTRODUÇÃO)
+* [Sobre](#SOBRE)
+* [Ambientes](#AMBIENTES)   
+   * [Dev](#DEV)
+   * [Prod](#PROD)         
+* [Descrição](#DESCRIÇÃO)
+   * [Front-end](#FRONT-END)
+   * [Back-end](#BACK-END)         
 
 # INTRODUÇÃO
 
