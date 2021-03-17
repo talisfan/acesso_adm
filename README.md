@@ -1,17 +1,27 @@
 # GUIA
 
 * [Introdução](#INTRODUÇÃO)
-* [Sobre](#SOBRE)
+* [Tecnologias](#TECNOLOGIAS)
 * [Ambientes](#AMBIENTES)   
    * [Dev](#DEV)
    * [Prod](#PROD)         
-* [Descrição](#DESCRIÇÃO)
+* [Aplicação](#APLICAÇÃO)
    * [Front-end](#FRONT-END)
-   * [Back-end](#BACK-END)         
+   * [Back-end](#BACK-END)
+      * [API](#API)       
+   * [Banco de dados](#BANCO-DE-DADOS)  
+* [Estrutura](#ESTRUTURA)
+* [Sobre](#SOBRE)
 
 # INTRODUÇÃO
 
-# TECNOLOGIAS E DEPENDÊNCIAS
+# TECNOLOGIAS
+
+1. Node v14.16.0   
+   * dotenv ^8.2.0
+   * express ^4.17.1
+   * expressadlebars ^5.1.0
+   * mysql ^2.18.1
 
 # AMBIENTES
 ## DEV
@@ -28,8 +38,10 @@ Estágio final.
 npm start
 ```
 
-# DESCRIÇÃO
+# APLICAÇÃO
 ## FRONT-END
+
+Páginas desenvolvidas com Handlebars.
 
 ## BACK-END
 
@@ -39,9 +51,14 @@ npm start
 
 #### ENDPOINTS
 
+## BANCO-DE-DADOS
+
 # ESTRUTURA
+
+```
+```
 
 # SOBRE 
 
 * Desenvolvido por: Talisson Maciel Luques
-* Profissão: Desenvolvedor Back-End
+* Finalidade: Testes de conhecimento e aplicação de prática.
