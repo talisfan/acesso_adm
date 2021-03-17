@@ -1,5 +1,5 @@
 const mysql = require('../bin/mysql');
-
+const tablesName_db = require('../static/tablesName_db');
 //retorna todos funcionarios
 exports.getFunc = async (req, res, next) => {
     
@@ -9,9 +9,9 @@ exports.getFunc = async (req, res, next) => {
 
     if(req.query && req.query.nomeFunc){
         const nomeFunc = `%${req.query.nomeFunc}%`;
-        query = `select * from tbl_funcionarios f inner join tbl_departamentos d on (f.idDepart = d.id) where f.nome like ${nomeFunc} order by f.id asc`;
+        query = `select * from ${tablesName_db.FUNCIONARIOS} f inner join ${tablesName_db.DEPARTAMENTOS} d on (f.idDepart = d.id) where f.nome like ${nomeFunc} order by f.id asc`;
     }else{
-        query = 'select * from tbl_funcionarios f inner join tbl_departamentos d on (f.idDepart = d.id) order by f.id asc';
+        query = `select * from ${tablesName_db.FUNCIONARIOS} f inner join ${tablesName_db.DEPARTAMENTOS} d on (f.idDepart = d.id) order by f.id asc`;
     }
     
     mysql.getConnection((error, conn) => {
@@ -65,7 +65,9 @@ exports.createFunc = async (req, res, next) => {
             });
         }
 
-        conn.query('insert into tbl_funcionarios (nome, cpf, telefone, email, acesso, senha, idDepartamento) values(?, ?, ?, ?, ?, ?, ?)',
+        const query = `insert into ${tablesName_db.FUNCIONARIOS} (nome, cpf, telefone, email, acesso, senha, idDepartamento) values(?, ?, ?, ?, ?, ?, ?)`;
+        
+        conn.query(query,
             [req.body.nome, req.body.cpf, req.body.telefone, req.body.email, req.body.acesso, req.body.senha, req.body.idDepart], //parametros
             (error, result, field) => {
                 conn.release();
@@ -115,7 +117,9 @@ exports.attFunc = async (req, res, next) => {
             });
         }
 
-        conn.query('update tbl_funcionarios set email = ?, telefone = ?, idDepartamento = ? where id = ?',
+        const query = `update ${tablesName_db.FUNCIONARIOS} set email = ?, telefone = ?, idDepartamento = ? where id = ?`;
+        
+        conn.query(query,
             [email, telefone, idDepart, id], //parametros
             (error, result, field) => {
                 conn.release();
@@ -161,7 +165,9 @@ exports.deleteFunc = async (req, res, next) => {
             });
         }
 
-        conn.query('delete from tbl_funcionarios where id = ?',
+        const query = `delete from ${tablesName_db.FUNCIONARIOS} where id = ?`;
+
+        conn.query(query,
             [id], //parametros
             (error, result, field) => {
                 conn.release();

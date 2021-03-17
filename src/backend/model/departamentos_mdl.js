@@ -1,4 +1,5 @@
 const mysql = require('../bin/mysql');
+const tablesName_db = require('../static/tablesName_db');
 
 // Retorna todos departamentos
 exports.getAllDepart = async (req, res, next)=>{    
@@ -20,7 +21,9 @@ exports.getAllDepart = async (req, res, next)=>{
         
         console.log('Conectado! Realizando consulta no banco de dados...');
 
-        conn.query('SELECT * FROM tbl_departamentos WHERE id <> 1 order BY id ASC',
+        const query = `SELECT * FROM ${tablesName_db.DEPARTAMENTOS} WHERE id <> 1 ORDER BY id ASC`;
+
+        conn.query(query,
         
             (error, result, field) => {
                 conn.release();
@@ -68,8 +71,9 @@ exports.createDepart = async (req, res, next)=>{
         
         console.log('Conectado! Realizando inserção no banco de dados...');
 
-        conn.query('INSERT INTO tbl_departamentos (nomeDepart) VALUES (?)',
+        const query = `INSERT INTO ${tablesName_db.DEPARTAMENTOS} (nomeDepart) VALUES (?)`;
 
+        conn.query(query, 
             [ depart ], 
 
             (error, result, field) => {
@@ -119,8 +123,9 @@ exports.attDepart = async (req, res, next)=>{
         
         console.log('Conectado! Realizando atualização de departamento...');
 
-        conn.query('update tbl_departamentos set nomeDepart = ? WHERE id = ?',
+        const query = `update ${tablesName_db.DEPARTAMENTOS} set nomeDepart = ? WHERE id = ?`;
 
+        conn.query(query,
             [nome, id], 
 
             (error, result, field) => {
@@ -168,8 +173,9 @@ exports.deleteDepart = async (req, res, next)=>{
         
         console.log('Conectado! Realizando exclusão de departamento...');
 
-        conn.query('DELETE FROM tbl_departamentos WHERE id = ?',
+        const query = `DELETE FROM ${tablesName_db.DEPARTAMENTOS} WHERE id = ?`;
 
+        conn.query(query,
             [idDepart], 
 
             (error, result, field) => {
