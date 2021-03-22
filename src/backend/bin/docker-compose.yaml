@@ -1,0 +1,20 @@
+version: '3.8'
+
+volumes:
+    dados-db-acesso-adm:      
+
+services:
+  db-acesso-adm:
+    container_name: "db-acesso-adm"
+    image: "mysql"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=acesso_adm
+      - MYSQL_USER=talis
+      - MYSQL_PASSWORD=root
+    ports:
+      - 3307:3306
+    expose:
+      - 3307
+    volumes: 
+      - dados-db-acesso-adm:/var/lib/mysql
