@@ -21,7 +21,7 @@ exports.getAllDepart = async (req, res, next)=>{
         
         console.log('Conectado! Realizando consulta no banco de dados...');
 
-        const query = `SELECT * FROM ${tablesName_db.DEPARTAMENTOS} WHERE id <> 1 ORDER BY id ASC`;
+        const query = `SELECT * FROM ${tablesName_db.DEPARTAMENTOS} WHERE idDepart <> 1 ORDER BY idDepart ASC`;
 
         conn.query(query,
         
@@ -123,7 +123,7 @@ exports.attDepart = async (req, res, next)=>{
         
         console.log('Conectado! Realizando atualização de departamento...');
 
-        const query = `update ${tablesName_db.DEPARTAMENTOS} set nomeDepart = ? WHERE id = ?`;
+        const query = `update ${tablesName_db.DEPARTAMENTOS} set nomeDepart = ? WHERE idDepart = ?`;
 
         conn.query(query,
             [nome, id], 
@@ -173,7 +173,7 @@ exports.deleteDepart = async (req, res, next)=>{
         
         console.log('Conectado! Realizando exclusão de departamento...');
 
-        const query = `DELETE FROM ${tablesName_db.DEPARTAMENTOS} WHERE id = ?`;
+        const query = `DELETE FROM ${tablesName_db.DEPARTAMENTOS} WHERE idDepart = ?`;
 
         conn.query(query,
             [idDepart], 

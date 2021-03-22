@@ -9,9 +9,9 @@ exports.getFunc = async (req, res, next) => {
 
     if(req.query && req.query.nomeFunc){
         const nomeFunc = `%${req.query.nomeFunc}%`;
-        query = `select * from ${tablesName_db.FUNCIONARIOS} f inner join ${tablesName_db.DEPARTAMENTOS} d on (f.idDepart = d.id) where f.nome like ${nomeFunc} order by f.id asc`;
+        query = `select * from ${tablesName_db.FUNCIONARIOS} f inner join ${tablesName_db.DEPARTAMENTOS} d on (f.idDepart = d.idDepart) where f.nome like ${nomeFunc} order by f.id asc`;
     }else{
-        query = `select * from ${tablesName_db.FUNCIONARIOS} f inner join ${tablesName_db.DEPARTAMENTOS} d on (f.idDepart = d.id) order by f.id asc`;
+        query = `select * from ${tablesName_db.FUNCIONARIOS} f inner join ${tablesName_db.DEPARTAMENTOS} d on (f.idDepart = d.idDepart) order by f.id asc`;
     }
     
     mysql.getConnection((error, conn) => {
@@ -65,7 +65,7 @@ exports.createFunc = async (req, res, next) => {
             });
         }
 
-        const query = `insert into ${tablesName_db.FUNCIONARIOS} (nome, cpf, telefone, email, acesso, senha, idDepartamento) values(?, ?, ?, ?, ?, ?, ?)`;
+        const query = `insert into ${tablesName_db.FUNCIONARIOS} (nome, cpf, telefone, email, acesso, senha, idDepart) values(?, ?, ?, ?, ?, ?, ?)`;
         
         conn.query(query,
             [req.body.nome, req.body.cpf, req.body.telefone, req.body.email, req.body.acesso, req.body.senha, req.body.idDepart], //parametros
@@ -117,7 +117,7 @@ exports.attFunc = async (req, res, next) => {
             });
         }
 
-        const query = `update ${tablesName_db.FUNCIONARIOS} set email = ?, telefone = ?, idDepartamento = ? where id = ?`;
+        const query = `update ${tablesName_db.FUNCIONARIOS} set email = ?, telefone = ?, idDepart = ? where id = ?`;
         
         conn.query(query,
             [email, telefone, idDepart, id], //parametros
