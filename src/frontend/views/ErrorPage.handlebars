@@ -1,0 +1,34 @@
+<head>
+    <title>Home</title>
+
+    <script>
+		function errorDetails(){
+            const details = {{{errorDescription}}};
+
+            
+			Swal.fire({
+                        title: 'Erro',                                                                        
+                        text: JSON.stringify(details), 
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });                      
+		}
+	</script>
+</head>
+
+<body>
+    <div class="text-center display-4 text-danger"> ERRO {{{status}}} </div>
+
+    <div class="row">
+        <img src="/imgs/errorImg.png" class="mx-auto col-6">
+    </div>
+
+    <div class="text-center text-primary mt-4" style="font-size: x-large; cursor: pointer;">
+        <u id="errorBtn" onclick="errorDetails()"> Mais detalhes do erro </u>
+    </div>
+
+    <div>
+        
+    </div>
+
+</body>

@@ -1,5 +1,5 @@
 const mysql = require('../bin/mysql');
-const tablesName_db = require('../static/tablesName_db');
+const tablesName_db = require('./static/tablesName_db');
 
 // Retorna todos departamentos
 exports.getAllDepart = async (req, res, next)=>{    

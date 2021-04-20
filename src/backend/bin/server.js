@@ -38,13 +38,15 @@ app.use((error, req, res, next) => {
         error.status = 500;
     }
     console.log('\n===== ERROR =====');
-    console.log(error);
+    console.log(JSON.stringify(error));
 
-    return res.status(error.status)
-    .send({
-        error: true,
-        errorDescription: error
-    });
+    return res
+        .status(error.status)
+        .render('ErrorPage', {
+            error: true,
+            errorDescription: JSON.stringify(error),
+            status: error.status
+        });
 });
 
 //Caso rota informada não exista

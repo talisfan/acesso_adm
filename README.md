@@ -15,6 +15,8 @@
 
 # INTRODUÇÃO
 
+Web Service que simula um controle de administração corporativo.
+
 # TECNOLOGIAS
 
 1. Node v14.16.0   
@@ -28,7 +30,7 @@
 Testes locais.
 
 ```
-ENV=dev npm run dev
+npm run dev
 ```
 
 ## PROD
@@ -45,7 +47,11 @@ Páginas desenvolvidas com Handlebars.
 
 ## BACK-END
 
+Back-End desenvolvido com Node.Js.
+
 ### API
+
+Todas as rotas dessa API funcionam como Server Side Extension do website.
 
 #### AUTENTICAÇÃO
 
