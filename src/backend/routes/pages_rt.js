@@ -7,6 +7,11 @@ router.get('/', (req, res) => {
     return res.render('Escolha');
 });
 
+router.get('/funcionarios', (req, res) => {
+    console.log('\n// Página Funcionarios chamada.');    
+    return res.render('AcessoFuncionarios');
+});
+
 router.get('/alterarDepart', async (req, res) => {
 
     console.log('\n// Página alterarDepart chamada. Request:');

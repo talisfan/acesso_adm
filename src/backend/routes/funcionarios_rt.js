@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const controller = require('../controller/funcionarios_ctrl');
 
-router.get('/', async (req, res, next) => {
+router.get('/getAll', async (req, res, next) => {
     try{
         console.log('\n// ROUTE GET - Get All Functionaries');
         console.log('--REQUEST:');
@@ -52,7 +52,7 @@ router.patch('/', async (req, res, next) => {
     try{
         console.log('\n// ROUTE PATCH - Update Functionary');
         console.log('--REQUEST:');
-         console.log({
+        console.log({
             method: req.method || undefined,
             endpoint: req.url || undefined,
             params: req.params || undefined,

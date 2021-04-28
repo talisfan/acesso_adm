@@ -40,10 +40,7 @@ exports.getFunc = async (req, res, next) => {
                 console.log('Sucesso! Resultado:');
                 console.log(result);
 
-                res.status(200).render('AcessoFuncionarios', {                    
-                    //msg: 'Mostrando todos funcionários: ',
-                    result: result
-                });
+                res.status(200).send(result);
             }
         );
     });
