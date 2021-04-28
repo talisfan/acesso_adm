@@ -1,5 +1,5 @@
 const mysql = require('../bin/mysql');
-const tablesName_db = require('../static/tablesName_db');
+const tablesName_db = require('./static/tablesName_db');
 //retorna todos funcionarios
 exports.getFunc = async (req, res, next) => {
     
@@ -17,12 +17,12 @@ exports.getFunc = async (req, res, next) => {
     mysql.getConnection((error, conn) => {
 
         if(error){
-            return next({
+            return next(new Error ({
                 status: 502,
                 endpoint: 'Obter funcionários',
                 operation: 'Erro ao conectar com o banco de dados.',
                 errorMessage: error
-            });
+            }));
         }
 
         conn.query(query,
@@ -30,11 +30,11 @@ exports.getFunc = async (req, res, next) => {
                 conn.release();
 
                 if(error){
-                    return next({                        
+                    return next(new Error ({                        
                         endpoint: 'Obter funcionários',
                         operation: 'Erro ao realizar consulta no banco de dados.',
                         errorMessage: error
-                    });
+                    }));
                 }
 
                 console.log('Sucesso! Resultado:');
@@ -57,12 +57,12 @@ exports.createFunc = async (req, res, next) => {
     mysql.getConnection((error, conn) => {
         
         if(error){
-            return next({
+            return next(new Error ({
                 status: 502,
                 endpoint: 'Criar funcionário',
                 operation: 'Erro ao conectar com o banco de dados.',
                 errorMessage: error
-            });
+            }));
         }
 
         const query = `insert into ${tablesName_db.FUNCIONARIOS} (nome, cpf, telefone, email, acesso, senha, idDepart) values(?, ?, ?, ?, ?, ?, ?)`;
@@ -73,11 +73,11 @@ exports.createFunc = async (req, res, next) => {
                 conn.release();
 
                 if(error){
-                    return next({                        
+                    return next(new Error ({                        
                         endpoint: 'Criar funcionário',
                         operation: 'Erro ao realizar inserção no banco de dados.',
                         errorMessage: error
-                    });
+                    }));
                 }
 
                 console.log('Sucesso! Resultado:');
@@ -109,12 +109,12 @@ exports.attFunc = async (req, res, next) => {
     mysql.getConnection((error, conn) => {
 
         if(error){
-            return next({
+            return next(new Error ({
                 status: 502,
                 endpoint: 'Atualizar funcionário',
                 operation: 'Erro ao conectar com o banco de dados.',
                 errorMessage: error
-            });
+            }));
         }
 
         const query = `update ${tablesName_db.FUNCIONARIOS} set email = ?, telefone = ?, idDepart = ? where id = ?`;
@@ -125,11 +125,11 @@ exports.attFunc = async (req, res, next) => {
                 conn.release();
 
                 if(error){
-                    return next({                        
+                    return next(new Error ({                        
                         endpoint: 'Atualizar funcionário',
                         operation: 'Erro ao realizar alteração no banco de dados.',
                         errorMessage: error
-                    });
+                    }));
                 }
 
                 console.log('Sucesso! Resultado:');
@@ -157,12 +157,12 @@ exports.deleteFunc = async (req, res, next) => {
     mysql.getConnection((error, conn) => {
 
         if(error){
-            return next({
+            return next(new Error ({
                 status: 502,
                 endpoint: 'Deletar funcionário',
                 operation: 'Erro ao conectar com o banco de dados.',
                 errorMessage: error
-            });
+            }));
         }
 
         const query = `delete from ${tablesName_db.FUNCIONARIOS} where id = ?`;
@@ -173,11 +173,11 @@ exports.deleteFunc = async (req, res, next) => {
                 conn.release();
 
                 if(error){
-                    return next({                        
+                    return next(new Error ({                        
                         endpoint: 'Deletar funcionário',
                         operation: 'Erro ao realizar remoção no banco de dados.',
                         errorMessage: error
-                    });
+                    }));
                 }
 
                 console.log('Sucesso! Resultado:');

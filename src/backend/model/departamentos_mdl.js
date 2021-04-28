@@ -11,12 +11,12 @@ exports.getAllDepart = async (req, res, next)=>{
     mysql.getConnection((error, conn) => {
 
         if(error){
-            return next({
+            return next(new Error ({
                 status: 502,
                 endpoint: endpoint,
                 operation: 'Erro ao conectar com o banco de dados.',
                 errorMessage: error
-            });
+            }));
         }
         
         console.log('Conectado! Realizando consulta no banco de dados...');
@@ -29,11 +29,11 @@ exports.getAllDepart = async (req, res, next)=>{
                 conn.release();
 
                 if(error){
-                    return next({                        
+                    return next(new Error ({                        
                         endpoint: endpoint,
                         operation: 'Erro ao realizar consulta no banco de dados.',
                         errorMessage: error
-                    });
+                    }));
                 }
 
                 if (result.length == 0) {                    
@@ -61,12 +61,12 @@ exports.createDepart = async (req, res, next)=>{
 
     mysql.getConnection((error, conn) => {
         if(error){
-            return next({     
+            return next(new Error ({     
                 status: 502,           
                 endpoint: endpoint,
                 operation: 'Erro ao conectar com o banco de dados.',
                 errorMessage: error
-            });
+            }));
         }
         
         console.log('Conectado! Realizando inserção no banco de dados...');
@@ -80,11 +80,11 @@ exports.createDepart = async (req, res, next)=>{
                 conn.release();
 
                 if(error){
-                    return next({                        
+                    return next(new Error ({                        
                         endpoint: endpoint,
                         operation: 'Erro ao inserir departamento no banco de dados.',
                         errorMessage: error
-                    });
+                    }));
                 }
                         
                 console.log('Sucesso! Resultado:');
@@ -113,12 +113,12 @@ exports.attDepart = async (req, res, next)=>{
     mysql.getConnection((error, conn) => {
 
         if(error){
-            return next({    
+            return next(new Error ({    
                 status: 502,            
                 endpoint: endpoint,
                 operation: 'Erro ao conectar com o banco de dados.',
                 errorMessage: error
-            });
+            }));
         }
         
         console.log('Conectado! Realizando atualização de departamento...');
@@ -132,11 +132,11 @@ exports.attDepart = async (req, res, next)=>{
                 conn.release();
 
                 if(error){
-                    return next({                        
+                    return next(new Error ({                        
                         endpoint: endpoint,
                         operation: 'Erro ao atualizar departamento.',
                         errorMessage: error
-                    });
+                    }));
                 }  
 
                 console.log('Sucesso! Resultado:');
@@ -163,12 +163,12 @@ exports.deleteDepart = async (req, res, next)=>{
     mysql.getConnection((error, conn) => {
 
         if(error){
-            return next({
+            return next(new Error ({
                 status: 502,
                 endpoint: endpoint,
                 operation: 'Erro ao conectar com o banco de dados.',
                 errorMessage: error
-            });
+            }));
         }
         
         console.log('Conectado! Realizando exclusão de departamento...');
@@ -182,11 +182,11 @@ exports.deleteDepart = async (req, res, next)=>{
                 conn.release();
 
                 if(error){
-                    return next({                        
+                    return next(new Error ({                        
                         endpoint: endpoint,
                         operation: 'Erro ao deletar departamento.',
                         errorMessage: error
-                    });
+                    }));
                 }
 
                 console.log('Sucesso! Resultado:');
