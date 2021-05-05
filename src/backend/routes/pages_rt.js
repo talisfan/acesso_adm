@@ -12,6 +12,11 @@ router.get('/funcionarios', (req, res) => {
     return res.render('AcessoFuncionarios');
 });
 
+router.get('/departamentos', (req, res) => {
+    console.log('\n// Página Departamentos chamada.');    
+    return res.render('AcessoDepartamentos');
+});
+
 router.get('/alterarDepart', async (req, res) => {
 
     console.log('\n// Página alterarDepart chamada. Request:');

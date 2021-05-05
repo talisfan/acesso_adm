@@ -4,16 +4,46 @@
 
 <body>
     <div class="text-center lead text-primary mb-4" style="font-size: 35px;">Mostrando todos Departamentos</div>
-    {{#each result}}
-    <div class="row col-12 mt-2">
-        <h1 class="lead mr-auto pl-5" style="font-size: 30px;">ID: {{idDepart}} </h1>
-        <h1 class="lead ml-auto pr-3" style="font-size: 30px;">Departamento: {{nomeDepart}} </h1>
+    <div id="resultados">
+        <script>
+            (()=>{
+                    // pega endereço atual da page
+                    let location = window.location.href;
+                    
+                    fetch(location + "/getAll").then( async (result)=>{
+
+                        if(!result) return;
+
+                        result = await result.json();
+                        let element = window.document.getElementById("resultados");  
+                        let conteudo = '';              
+
+                        if(result.error){
+                            conteudo += `
+                                <div>
+                                    ERRO: ${result.error}
+                                </div>
+                                `;
+                        }else{                                                       
+                            result.forEach((obj)=>{
+                                conteudo += `
+                                <div class="row col-12 mt-2">
+                                    <h1 class="lead mr-auto pl-5" style="font-size: 30px;">ID: ${obj.idDepart} </h1>
+                                    <h1 class="lead ml-auto pr-3" style="font-size: 30px;">Departamento: ${obj.nomeDepart} </h1>
+                                </div>
+                                <a href="/alterarDepart?idDepart={{idDepart}}&nomeDepart:{{nomeDepart}}" class="text-decoration-none mt-2 row"> <input type="button"
+                                        value="EDITAR" class="mx-auto col-10 btn btn-light"> </a>
+                                <!--linha-->
+                                <h1 class="mx-5 mt-3" style="border: 1px solid gray;"></h1>
+                                `;
+                            });
+                        }
+
+                        element.innerHTML = conteudo;
+                    });
+            })()
+        </script>
     </div>
-    <a href="/alterarDepart?idDepart={{idDepart}}&nomeDepart:{{nomeDepart}}" class="text-decoration-none mt-2 row"> <input type="button"
-            value="EDITAR" class="mx-auto col-10 btn btn-light"> </a>
-    <!--linha-->
-    <h1 class="mx-5 mt-3" style="border: 1px solid gray;"></h1>
-    {{/each}}
 
     <div class="text-center mt-3"> <a href="/" style="font-size: 25px;">VOLTAR</a> </div>
 

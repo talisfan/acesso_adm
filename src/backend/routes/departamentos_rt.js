@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const controller = require('../controller/departamentos_ctrl');
 
-router.get('/', async (req, res, next) => {
+router.get('/getAll', async (req, res, next) => {
     try{
         console.log('\n// ROUTE GET - Get All Departments');
         console.log('--REQUEST:');
