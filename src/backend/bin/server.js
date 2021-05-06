@@ -3,6 +3,7 @@ const app = express();
 const fs = require('fs');
 const path = require('path');
 const exphbs = require('express-handlebars');
+const bodyParser = require('body-parser');
 
 const routePages = require('../routes/pages_rt');
 const routeDepart = require('../routes/departamentos_rt');
@@ -27,6 +28,9 @@ app.use((req, res, next) => {
     }
     next();
 });
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/', routePages);
 app.use('/departamentos', routeDepart);
