@@ -107,8 +107,8 @@ exports.attDepart = async (req, res, next)=>{
 
     console.log('\nRealizando conexão com banco de dados...');
 
-    const nome = req.body.nomeDepart;
-    const id = req.body.idDepart;    
+    const nome = req.query.nomeDepart;
+    const id = req.query.idDepart;    
 
     mysql.getConnection((error, conn) => {
 
@@ -142,11 +142,9 @@ exports.attDepart = async (req, res, next)=>{
                 console.log('Sucesso! Resultado:');
                 console.log(result);
 
-                return res.status(200).render('SucessoDepart', {
-                    msg: 'Departamento atualizado com sucesso!',
-                    idDepart: id, 
-                    nomeDepart: nome
-                });
+                const msg = result['changedRows'] > 0 ? 'Sucesso na alteração' : 'Falha na alteração';
+
+                return res.status(200).send({ msg });
             }
         );
     });

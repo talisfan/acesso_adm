@@ -17,12 +17,12 @@ exports.createDepart = async(req, res, next)=>{
 
 exports.attDepart = async(req, res, next)=>{
       
-    if(req.body && req.body.nomeDepart && req.body.idDepart && req.body.idDepart > 0){        
+    if(req.query && req.query.nomeDepart && req.query.idDepart && req.query.idDepart > 0){        
         return await model.attDepart(req, res, next);        
     }else{
         return next({     
             status: 400,              
-            errorMessage: 'Missing parameters "nomeDepart" & "idDepart".'
+            errorMessage: 'Missing parameters "nomeDepart" and / or "idDepart".'
         });
     }
 }
