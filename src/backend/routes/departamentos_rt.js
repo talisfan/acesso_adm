@@ -52,7 +52,8 @@ router.post('/', async (req, res, next) => {
 router.patch('/', async (req, res, next) => {
     try{
         console.log('\n// ROUTE PATCH - Update Department');
-        console.log('--REQUEST:');
+        console.log('--REQUEST:');        
+        console.log(req)
         console.log({
             method: req.method || undefined,
             endpoint: req.url || undefined,
