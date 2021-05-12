@@ -17,38 +17,40 @@ router.get('/departamentos', (req, res) => {
     return res.render('AcessoDepartamentos');
 });
 
-router.get('/alterarDepart', async (req, res) => {
+router.get('/alterarDepart', (req, res) => {
 
     console.log('\n// Página alterarDepart chamada. Request:');
     console.log('--REQUEST:');
     console.log(req);
 
-    if (req.params) {
-        let params = {};
-
-        for (const prop in req.params) {
-            params[prop] = req.params[prop];
-        }        
-
-        return res.render('AlterarDepart', params);
+    console.log({
+        method: req.method || undefined,
+        endpoint: req.url || undefined,
+        params: req.params || undefined,
+        queryString: req.query || undefined,
+        body: req.body || undefined
+    });
+    
+    if (req.query) {        
+        return res.render('AlterarDepart', { ...req.query });
     } else {
         return res.render('AlterarDepart');
     }
 });
 
-router.get('/cadDepart', async (req, res) => {
+router.get('/cadDepart', (req, res) => {
     
     console.log('\n// Página cadDepart chamada.');       
     return res.render('CadDepart');
 });
 
-router.get('/cadFunc', async (req, res) => {
+router.get('/cadFunc', (req, res) => {
 
     console.log('\n// Página cadFunc chamada.');    
     return res.render('CadFunc');
 });
 
-router.get('/alterarFunc', async (req, res) => {
+router.get('/alterarFunc', (req, res) => {
 
     console.log('\nPágina alterarFunc chamada. Request:');
     console.log('--REQUEST:');
@@ -68,7 +70,7 @@ router.get('/alterarFunc', async (req, res) => {
     }
 });
 
-router.get('/buscaFunc', async (req, res, next) => {
+router.get('/buscaFunc', (req, res, next) => {
 
     console.log('\n// Página buscaFunc chamada.');    
     return res.render('BuscaFunc');
