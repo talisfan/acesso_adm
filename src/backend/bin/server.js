@@ -46,7 +46,7 @@ app.use((error, req, res, next) => {
 
     return res
         .status(error.status)
-        .render('ErrorPage', {
+        .send({
             error: true,
             errorDescription: JSON.stringify(error),
             status: error.status
