@@ -10,7 +10,7 @@ exports.createDepart = async(req, res, next)=>{
     }else{        
         return next({     
             status: 400,              
-            errorMessage: 'Missing property "nomeDepart".'
+            errorMessage: "Missing property 'nomeDepart'."
         });
     }
 }

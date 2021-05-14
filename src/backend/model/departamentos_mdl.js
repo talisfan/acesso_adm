@@ -86,15 +86,19 @@ exports.createDepart = async (req, res, next)=>{
                         errorMessage: error
                     });
                 }
+
+                if(!result.insertId || result.insertId <= 0){
+                    return next({                        
+                        endpoint: endpoint,
+                        operation: 'Erro ao inserir departamento no banco de dados.',
+                        errorMessage: result.message
+                    });
+                }
                         
                 console.log('Sucesso! Resultado:');
                 console.log(result);
 
-                return res.render('SucessoDepart', {
-                    msg: 'Deparatamento criado com sucesso!',
-                    nomeDepart: depart,
-                    idDepart: result.insertId
-                });                
+                return res.status(201).send({ idDepart: result.insertId });                
             }
         );
     });
@@ -144,7 +148,7 @@ exports.attDepart = async (req, res, next)=>{
 
                 const msg = result['changedRows'] > 0 ? 'Sucesso na alteração' : 'Falha na alteração';
 
-                return res.status(200).send({ msg });
+                return res.status(204).send({ msg });
             }
         );
     });
@@ -190,11 +194,7 @@ exports.deleteDepart = async (req, res, next)=>{
                 console.log('Sucesso! Resultado:');
                 console.log(result);
 
-                return res.status(202).render('SucessoDepart', {
-                    msg: 'Departamento deletado com sucesso.',
-                    idDepart: idDepart,
-                    nomeDepart: "DELETADO"
-                });
+                return res.status(204).send();
             });
     });
 };

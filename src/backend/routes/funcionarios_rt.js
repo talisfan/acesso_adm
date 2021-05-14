@@ -25,6 +25,29 @@ router.get('/getAll', async (req, res, next) => {
     }
 });
 
+router.get('/buscaFunc', async (req, res, next) => {
+    try{
+        console.log('\n// ROUTE GET - Search Functionary');
+        console.log('--REQUEST:');
+        console.log({
+            method: req.method || undefined,
+            endpoint: req.url || undefined,
+            params: req.params || undefined,
+            queryString: req.query || undefined,
+            body: req.body || undefined
+        });
+        await controller.getFunc(req, res, next);
+
+    }catch(error){       
+        return next({      
+            status: error.status || undefined,
+            operation: error.operation || undefined,      
+            endpoint: 'Busca funcionário',            
+            errorMessage: error.message || error
+        });
+    }
+});
+
 router.post('/', async (req, res, next) => {
     try{
         console.log('\n// ROUTE POST - Create Functionary');

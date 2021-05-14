@@ -16,16 +16,12 @@
                 class="form-control backForm ml-auto">
         </div>
 
-        <!-- BOTOES --->
         <input class="btn btn-success mx-auto mt-3 col-12" onclick="attDepart()" type="button" value="ALTERAR">
     </div>
-
-    <form action="/departamentos/dellDepart" method="POST" class="mt-2 ml-4">
-        <input type="hidden" name="idDepart">
-        <input type="submit" class="text-light btn btn-danger" value="DELETAR DEPARTAMENTO">
-    </form>
+    
+    <input type="button" class="mt-2 ml-4 text-light btn btn-danger" onclick="dellDepart()" value="DELETAR DEPARTAMENTO">    
 
     <div class="text-center"> <a href="/" class="mt-4" style="font-size: 25px;">VOLTAR</a> </div>    
 
-    <script src="/javascript/alterarDepart.js"> </script>
+    <script src="/javascript/alterarDepart_functions.js"> </script>
 </body>

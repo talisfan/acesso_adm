@@ -27,9 +27,10 @@ router.get('/getAll', async (req, res, next) => {
 });
 
 router.post('/', async (req, res, next) => {
-    try{
+    try{        
         console.log('\n// ROUTE POST - Create Department');
         console.log('--REQUEST:');
+        console.log(req)
         console.log({
             method: req.method || undefined,
             endpoint: req.url || undefined,

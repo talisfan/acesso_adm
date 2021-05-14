@@ -2,11 +2,11 @@ const model = require('../model/funcionarios_mdl');
 const queryAccepted = require('../middleware/queryAccepted');
 
 exports.getFunc = async(req, res, next)=>{
-    if(req.query && req.query.nomeFunc){
+    if(req.query && req.query.nome){
         if(!queryAccepted(req.query.nomeFunc)){                    
             return next({     
                 status: 400,              
-                errorMessage: 'QueryString "nomeFunc" contains invalid characters.'
+                errorMessage: 'QueryString "nome" contains invalid characters.'
             });
         }  
     }

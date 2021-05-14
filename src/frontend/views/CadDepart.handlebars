@@ -1,22 +1,43 @@
 <head>
 	<title>Acesso aos Departamentos</title>
-	<link rel="stylesheet" href="/css/StylesInput.css">
+	<link rel="stylesheet" href="/css/StylesInput.css">		
+	<script>		
+		function cadDepart(){
+			let nomeDepart = document.getElementById('nomeDepart');
+			
+			const req =  { 
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ nomeDepart: nomeDepart.value })
+			}			
+
+			fetch('/departamentos', req)
+			.then(async (res)=>{
+				if(res.status == 201){
+					popupCadastro('departamento');
+				}else{					
+					res = await res.json();																	
+					genericErrors(res.errorDescription);										
+				}
+			})
+			.catch((error)=>{
+				window.location.href = 'errorPage?errorDescription='+error
+				console.log('ERROR', error);
+			});
+		}
+	</script>
 </head>
 
 <body>
 	<h1 class="lead text-center" style="font-size: 40px;">CADASTRO DE DEPARTAMENTOS</h1>
-	<form action="/departamentos" method="POST" class="form px-4">
-		<!--NOME-->
-		<input type="text" name="nomeDepart" id="nome" placeholder="*Nome do departamento"
+	<div id="formCadDepart" class="form px-4">		
+		<input type="text" name="nomeDepart" id="nomeDepart" placeholder="*Nome do departamento"
 			class="form-control backForm mx-auto mt-4">
 		<div class="d-none" id="nomeInvalido" name="nomeInvalido">Por favor, informe o nome do departamento!
 		</div>
 
-		<!-- BOTOES --->
-		<input name="cadastrar" class="btn btn-success mx-auto mt-4" type="submit" value="Cadastrar">
-	</form>
+		<input name="cadastrar" class="btn btn-success mx-auto mt-4" type="button" onclick="cadDepart()" value="Cadastrar">
+	</div>
 
-	<div class="text-center mt-3"> <a href="/" style="font-size: 25px;">VOLTAR</a> </div>	
-
-	<script src="/jquery/dist/jquery.min.js"> </script>
+	<div class="text-center mt-3"> <a href="/" style="font-size: 25px;">VOLTAR</a> </div>		
 </body>

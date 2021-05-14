@@ -7,7 +7,7 @@ exports.getFunc = async (req, res, next) => {
 
     let query;
 
-    if(req.query && req.query.nomeFunc){
+    if(req.query && req.query.nome){
         const nomeFunc = `%${req.query.nomeFunc}%`;
         query = `select * from ${tablesName_db.FUNCIONARIOS} f inner join ${tablesName_db.DEPARTAMENTOS} d on (f.idDepart = d.idDepart) where f.nome like ${nomeFunc} order by f.id asc`;
     }else{
@@ -89,8 +89,7 @@ exports.createFunc = async (req, res, next) => {
                     id: result.insertId,
                     nome: req.body.nome,
                     telefone: req.body.telefone,
-                    email: req.body.email,
-                    senha: req.body.senha,
+                    email: req.body.email,                    
                     idDepart: req.body.idDepart
                 });
             }
