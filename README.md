@@ -1,57 +1,58 @@
-# GUIA
+# CONTROLE ADM 
+
+## SUMÁRIO
 
 * [Introdução](#INTRODUÇÃO)
+* [Fluxo](#FLUXO)
+* [Arquitetura](#ARQUITETURA)
 * [Tecnologias](#TECNOLOGIAS)
 * [Ambientes](#AMBIENTES)   
    * [Dev](#DEV)
    * [Prod](#PROD)         
 * [Aplicação](#APLICAÇÃO)
    * [Front-end](#FRONT-END)
-   * [Back-end](#BACK-END)
-      * [API](#API)       
+   * [Back-end](#BACK-END)      
    * [Banco de dados](#BANCO-DE-DADOS)  
 * [Estrutura](#ESTRUTURA)
 * [Sobre](#SOBRE)
 
-# INTRODUÇÃO
+## INTRODUÇÃO
 
 Web Service que simula um controle de administração corporativo.
 
-# TECNOLOGIAS
+## FLUXO
+
+## ARQUITETURA
+
+## TECNOLOGIAS
 
 1. Node v14.16.0   
-   * dotenv ^8.2.0
-   * express ^4.17.1
-   * expressadlebars ^5.1.0
-   * mysql ^2.18.1
 
-# AMBIENTES
-## DEV
+## AMBIENTES
+### DEV
 Testes locais.
 
 ```
 npm run dev
 ```
 
-## PROD
+### PROD
 Estágio final.
 
 ```
 npm start
 ```
 
-# APLICAÇÃO
-## FRONT-END
+## APLICAÇÃO
+### FRONT-END
 
 Páginas desenvolvidas com Handlebars.
 
-## BACK-END
+### BACK-END
 
 Back-End desenvolvido com Node.Js.
 
-### API
-
-Todas as rotas dessa API funcionam como Server Side Extension do website.
+#### API
 
 #### AUTENTICAÇÃO
 
@@ -59,12 +60,8 @@ Todas as rotas dessa API funcionam como Server Side Extension do website.
 
 ## BANCO-DE-DADOS
 
-# ESTRUTURA
 
-```
-```
-
-# SOBRE 
+## SOBRE 
 
 * Desenvolvido por: Talisson Maciel Luques
-* Finalidade: Testes de conhecimento e aplicação de prática.
+* Finalidade: Testes de conhecimento e aplicação de prática, focando principalmente no back-end.
