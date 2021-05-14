@@ -76,5 +76,8 @@ router.get('/buscaFunc', (req, res, next) => {
     return res.render('BuscaFunc');
 });
 
+router.get('/errorPage', (req, res, next)=>{
+    res.render('ErrorPage');
+});
 
 module.exports = router;
