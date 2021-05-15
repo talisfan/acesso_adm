@@ -16,7 +16,7 @@ function popupCadastro (entity){
         showConfirmButton: true,
         showCancelButton: true,
         confirmButtonText: 'Continuar cadastro',
-        cancelButtonText: '<a href="localhost:3000/">HOME</a>'					
+        cancelButtonText: '<a href="/">HOME</a>'					
     });
 }
 
@@ -31,6 +31,7 @@ function genericErrors (message){
             }
         }
     }
+
     Swal.fire({
         icon: 'error',
         title: 'Erro',
