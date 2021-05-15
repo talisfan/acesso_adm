@@ -48,7 +48,9 @@ function dellDepart(){
         if(res.status == 204){
             dialogCentralTemporary(`Departamento "${nomeDepart.value}" deletado com sucesso!`);     
             nomeDepart.value = '';
-            idDepart.value = '';   
+            idDepart.value = '';
+            await sleep(2500);
+            window.location.href = 'departamentos'
         }else{
             res = await res.json();
             genericErrors(res.errorDescription);            
@@ -57,4 +59,8 @@ function dellDepart(){
         window.location.href = 'errorPage?errorDescription='+error
         console.log(error);
     });
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
