@@ -1,38 +1,5 @@
 <head>
-    <title>Home</title>
-
-    <script>
-        
-        const url = window.location.href;            
-        let errorDescription;
-        let arr = url.split('?');    
-
-        if(arr[1]){
-            let querys = arr[1].split('&');
-            
-            for(let i=0; i < querys.length; i++){
-                let queryString = querys[i];
-                let key_value = queryString.split('=')                                
-
-                if(!key_value[1]){ key_value[1] = ''; }
-
-                if(key_value[0] == 'errorDescription'){   
-                    errorDescription = key_value[1];
-                    errorDescription = decodeURI(errorDescription);                          
-                    errorDescription = JSON.parse(errorDescription);
-                }
-            }    
-        }
-
-		function errorDetails(){           
-			Swal.fire({
-                        title: 'Erro',                                                                        
-                        text: JSON.stringify(errorDescription), 
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-            });                      
-		}
-	</script>
+    <title>Home</title>    
 </head>
 
 <body>
@@ -45,4 +12,26 @@
     <div class="text-center text-primary mt-4" style="font-size: x-large; cursor: pointer;">
         <u id="errorBtn" onclick="errorDetails()"> Mais detalhes do erro </u>
     </div>
+
+
+
+    <script>
+        const querys = getQueryStrings();
+        if(!key_value[1]){ key_value[1] = ''; }
+
+        if(key_value[0] == 'errorDescription'){   
+            errorDescription = key_value[1];
+            errorDescription = decodeURI(errorDescription);                          
+            errorDescription = JSON.parse(errorDescription);
+        }         
+
+		function errorDetails(){           
+			Swal.fire({
+                        title: 'Erro',                                                                        
+                        text: JSON.stringify(errorDescription), 
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+            });                      
+		}
+	</script>
 </body>
