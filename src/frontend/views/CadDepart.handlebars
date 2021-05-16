@@ -1,31 +1,6 @@
 <head>
 	<title>Acesso aos Departamentos</title>
-	<link rel="stylesheet" href="/css/StylesInput.css">		
-	<script>		
-		function cadDepart(){
-			let nomeDepart = document.getElementById('nomeDepart');
-			
-			const req =  { 
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ nomeDepart: nomeDepart.value })
-			}			
-
-			fetch('/departamentos', req)
-			.then(async (res)=>{
-				if(res.status == 201){
-					popupCadastro('departamento');
-				}else{					
-					res = await res.json();																	
-					genericErrors(res.errorDescription);										
-				}
-			})
-			.catch((error)=>{
-				window.location.href = 'errorPage?errorDescription='+error
-				console.log('ERROR', error);
-			});
-		}
-	</script>
+	<link rel="stylesheet" href="/css/StylesInput.css">			
 </head>
 
 <body>
@@ -40,4 +15,37 @@
 	</div>
 
 	<div class="text-center mt-3"> <a href="/" style="font-size: 25px;">VOLTAR</a> </div>		
+
+	
+		
+	<script>		
+		function cadDepart(){
+			const nomeDepart = document.getElementById('nomeDepart');
+			
+			const req =  { 
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ nomeDepart: nomeDepart.value })
+			}			
+
+			fetch('/departamentos', req)
+			.then(async (res)=>{
+				if(res.status == 201){
+					popupCadastro('departamento', nomeDepart.value);
+					await sleep(2500);
+					nomeDepart.value = '';
+				}else{					
+					res = await res.json();				
+					if(res.errorDescription.errorMessage.code &&
+					    res.errorDescription.errorMessage.code == 'ER_DUP_ENTRY'){
+						genericErrors('Departamento já existente');										
+					}													
+				}
+			})
+			.catch((error)=>{
+				window.location.href = 'errorPage?errorDescription='+error
+				console.log('ERROR', error);
+			});
+		}
+	</script>	
 </body>
