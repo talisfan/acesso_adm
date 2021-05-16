@@ -8,11 +8,11 @@ function dialogCentralTemporary (title){
     });
 }
 
-function popupCadastro (entity){
+function popupCadastro (entity, nameEntity){
     Swal.fire({
         position: 'botton',
         icon: 'success',
-        title: `Sucesso ao cadastrar ${entity}!`,
+        title: `Sucesso ao cadastrar ${entity} "${nameEntity}"!`,
         showConfirmButton: true,
         showCancelButton: true,
         confirmButtonText: 'Continuar cadastro',
