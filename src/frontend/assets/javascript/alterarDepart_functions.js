@@ -1,29 +1,20 @@
 const idDepart = document.getElementById("idDepart");
 const nomeDepart = document.getElementById("nomeDepart");
 
-// pega endereço atual da page
-const url = window.location.href;            
-let arr = url.split('?');    
+const querys = getQueryStrings();
+console.log(querys)
 
-if(arr[1]){
-    let querys = arr[1].split('&');
-    
-    for(let i=0; i < querys.length; i++){
-        let queryString = querys[i];
-        let key_value = queryString.split('=')                                
-
-        if(!key_value[1]){ key_value[1] = ''; }
-
-        switch(key_value[0]){                
-            case 'idDepart':                
-                idDepart.value = key_value[1];                                        
-                break;
-            case 'nomeDepart':
-                nomeDepart.value = key_value[1];                        
-                break;
-        }
-    }    
-}
+querys.forEach(query => {
+    // query = [queryString, value]     
+    switch(query[0]){                
+        case 'idDepart':                
+            idDepart.value = query[1];                                        
+            break;
+        case 'nomeDepart':
+            nomeDepart.value = query[1];                        
+            break;
+    } 
+});
 
 function attDepart(){    
     const endpoint = `/departamentos?idDepart=${idDepart.value}&nomeDepart=${nomeDepart.value}`;
@@ -59,8 +50,4 @@ function dellDepart(){
         window.location.href = 'errorPage?errorDescription='+error
         console.log(error);
     });
-}
-
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
 }
