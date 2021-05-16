@@ -5,9 +5,7 @@ const path = require('path');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 
-const routePages = require('../routes/pages_rt');
-const routeDepart = require('../routes/departamentos_rt');
-const routeFunc = require('../routes/funcionarios_rt');
+const routes = require('../routes');
 
 app.set('views', path.join(path.resolve(), '/src/frontend/views'));
 app.engine('handlebars', exphbs({ defaultLayout: 'main'}));
@@ -32,9 +30,9 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use('/', routePages);
-app.use('/departamentos', routeDepart);
-app.use('/funcionarios', routeFunc);
+app.use('/', routes.pages);
+app.use('/departamentos', routes.departamentos);
+app.use('/funcionarios', routes.funcionarios);
 
 app.use((error, req, res, next) => {
 

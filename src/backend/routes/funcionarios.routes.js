@@ -1,18 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../controller/funcionarios_ctrl');
+const static = require('../static');
 
 router.get('/getAll', async (req, res, next) => {
     try{
         console.log('\n// ROUTE GET - Get All Functionaries');
         console.log('--REQUEST:');
-        console.log({
-            method: req.method || undefined,
-            endpoint: req.url || undefined,
-            params: req.params || undefined,
-            queryString: req.query || undefined,
-            body: req.body || undefined
-        });
+        static.utils_functions.printRequest(req);
         await controller.getFunc(req, res, next);
 
     }catch(error){       
@@ -29,13 +24,7 @@ router.get('/buscaFunc', async (req, res, next) => {
     try{
         console.log('\n// ROUTE GET - Search Functionary');
         console.log('--REQUEST:');
-        console.log({
-            method: req.method || undefined,
-            endpoint: req.url || undefined,
-            params: req.params || undefined,
-            queryString: req.query || undefined,
-            body: req.body || undefined
-        });
+        static.utils_functions.printRequest(req);
         await controller.getFunc(req, res, next);
 
     }catch(error){       
@@ -52,13 +41,7 @@ router.post('/', async (req, res, next) => {
     try{
         console.log('\n// ROUTE POST - Create Functionary');
         console.log('--REQUEST:');
-        console.log({
-            method: req.method || undefined,
-            endpoint: req.url || undefined,
-            params: req.params || undefined,
-            queryString: req.query || undefined,
-            body: req.body || undefined
-        });
+        static.utils_functions.printRequest(req);
         await controller.createFunc(req, res, next);
         
     }catch(error){       
@@ -75,13 +58,7 @@ router.patch('/', async (req, res, next) => {
     try{
         console.log('\n// ROUTE PATCH - Update Functionary');
         console.log('--REQUEST:');
-        console.log({
-            method: req.method || undefined,
-            endpoint: req.url || undefined,
-            params: req.params || undefined,
-            queryString: req.query || undefined,
-            body: req.body || undefined
-        });
+        static.utils_functions.printRequest(req);
         await controller.attFunc(req, res, next);
 
     }catch(error){       
@@ -98,13 +75,7 @@ router.delete('/:idFunc', async (req, res, next) => {
     try{
         console.log('\n// ROUTE DELETE - Delete Functionary');
         console.log('--REQUEST:');
-        console.log({
-            method: req.method || undefined,
-            endpoint: req.url || undefined,
-            params: req.params || undefined,
-            queryString: req.query || undefined,
-            body: req.body || undefined
-        });
+        static.utils_functions.printRequest(req);
         await controller.deleteFunc(req, res, next);
 
     }catch(error){       

@@ -1,5 +1,5 @@
 const mysql = require('../bin/mysql');
-const tablesName_db = require('./static/tablesName_db');
+const static = require('../static');
 
 // Retorna todos departamentos
 exports.getAllDepart = async (req, res, next)=>{    
@@ -21,7 +21,7 @@ exports.getAllDepart = async (req, res, next)=>{
         
         console.log('Conectado! Realizando consulta no banco de dados...');
 
-        const query = `SELECT * FROM ${tablesName_db.DEPARTAMENTOS} WHERE idDepart <> 1 ORDER BY idDepart ASC`;
+        const query = `SELECT * FROM ${static.strings.TABLE_DEPARTAMENTOS} WHERE idDepart <> 1 ORDER BY idDepart ASC`;
 
         conn.query(query,
         
@@ -71,7 +71,7 @@ exports.createDepart = async (req, res, next)=>{
         
         console.log('Conectado! Realizando inserção no banco de dados...');
 
-        const query = `INSERT INTO ${tablesName_db.DEPARTAMENTOS} (nomeDepart) VALUES (?)`;
+        const query = `INSERT INTO ${static.strings.TABLE_DEPARTAMENTOS} (nomeDepart) VALUES (?)`;
 
         conn.query(query, 
             [ depart ], 
@@ -127,7 +127,7 @@ exports.attDepart = async (req, res, next)=>{
         
         console.log('Conectado! Realizando atualização de departamento...');
 
-        const query = `update ${tablesName_db.DEPARTAMENTOS} set nomeDepart = ? WHERE idDepart = ?`;
+        const query = `update ${static.strings.TABLE_DEPARTAMENTOS} set nomeDepart = ? WHERE idDepart = ?`;
 
         conn.query(query,
             [nome, id], 
@@ -175,7 +175,7 @@ exports.deleteDepart = async (req, res, next)=>{
         
         console.log('Conectado! Realizando exclusão de departamento...');
 
-        const query = `DELETE FROM ${tablesName_db.DEPARTAMENTOS} WHERE idDepart = ?`;
+        const query = `DELETE FROM ${static.strings.TABLE_DEPARTAMENTOS} WHERE idDepart = ?`;
 
         conn.query(query,
             [idDepart], 

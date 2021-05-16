@@ -1,5 +1,5 @@
 const mysql = require('../bin/mysql');
-const tablesName_db = require('./static/tablesName_db');
+const static = require('../static');
 //retorna todos funcionarios
 exports.getFunc = async (req, res, next) => {
     
@@ -9,9 +9,9 @@ exports.getFunc = async (req, res, next) => {
 
     if(req.query && req.query.nome){
         const nomeFunc = `%${req.query.nomeFunc}%`;
-        query = `select * from ${tablesName_db.FUNCIONARIOS} f inner join ${tablesName_db.DEPARTAMENTOS} d on (f.idDepart = d.idDepart) where f.nome like ${nomeFunc} order by f.id asc`;
+        query = `select * from ${static.strings.TABLE_FUNCIONARIOS} f inner join ${static.strings.TABLE_DEPARTAMENTOS} d on (f.idDepart = d.idDepart) where f.nome like ${nomeFunc} order by f.id asc`;
     }else{
-        query = `select * from ${tablesName_db.FUNCIONARIOS} f inner join ${tablesName_db.DEPARTAMENTOS} d on (f.idDepart = d.idDepart) order by f.id asc`;
+        query = `select * from ${static.strings.TABLE_FUNCIONARIOS} f inner join ${static.strings.TABLE_DEPARTAMENTOS} d on (f.idDepart = d.idDepart) order by f.id asc`;
     }
     
     mysql.getConnection((error, conn) => {
@@ -62,7 +62,7 @@ exports.createFunc = async (req, res, next) => {
             });
         }
 
-        const query = `insert into ${tablesName_db.FUNCIONARIOS} 
+        const query = `insert into ${static.strings.TABLE_FUNCIONARIOS} 
         (nome, cpf, telefone, email, acesso, senha, idDepart) values(?, ?, ?, ?, ?, ?, ?)`;
         
         conn.query(query,
@@ -117,7 +117,7 @@ exports.attFunc = async (req, res, next) => {
             });
         }
 
-        const query = `update ${tablesName_db.FUNCIONARIOS} set email = ?, telefone = ?, idDepart = ? where id = ?`;
+        const query = `update ${static.strings.TABLE_FUNCIONARIOS} set email = ?, telefone = ?, idDepart = ? where id = ?`;
         
         conn.query(query,
             [email, telefone, idDepart, id], //parametros
@@ -165,7 +165,7 @@ exports.deleteFunc = async (req, res, next) => {
             });
         }
 
-        const query = `delete from ${tablesName_db.FUNCIONARIOS} where id = ?`;
+        const query = `delete from ${static.strings.TABLE_FUNCIONARIOS} where id = ?`;
 
         conn.query(query,
             [id], //parametros

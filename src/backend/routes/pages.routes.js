@@ -1,3 +1,4 @@
+const static = require('../static');
 const express = require('express');
 const router = express.Router();
 
@@ -18,18 +19,9 @@ router.get('/departamentos', (req, res) => {
 });
 
 router.get('/alterarDepart', (req, res) => {
-
     console.log('\n// Página alterarDepart chamada. Request:');
     console.log('--REQUEST:');
-    console.log(req);
-
-    console.log({
-        method: req.method || undefined,
-        endpoint: req.url || undefined,
-        params: req.params || undefined,
-        queryString: req.query || undefined,
-        body: req.body || undefined
-    });
+    static.utils_functions.printRequest(req);
     
     if (req.query) {        
         return res.render('AlterarDepart', { ...req.query });
@@ -39,22 +31,19 @@ router.get('/alterarDepart', (req, res) => {
 });
 
 router.get('/cadDepart', (req, res) => {
-    
     console.log('\n// Página cadDepart chamada.');       
     return res.render('CadDepart');
 });
 
 router.get('/cadFunc', (req, res) => {
-
     console.log('\n// Página cadFunc chamada.');    
     return res.render('CadFunc');
 });
 
 router.get('/alterarFunc', (req, res) => {
-
     console.log('\nPágina alterarFunc chamada. Request:');
     console.log('--REQUEST:');
-    console.log(req);
+    static.utils_functions.printRequest(req);
 
     if (req.params) {
         let params = {};
@@ -71,7 +60,6 @@ router.get('/alterarFunc', (req, res) => {
 });
 
 router.get('/buscaFunc', (req, res, next) => {
-
     console.log('\n// Página buscaFunc chamada.');    
     return res.render('BuscaFunc');
 });
