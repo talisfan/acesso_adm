@@ -42,11 +42,22 @@ app.use((error, req, res, next) => {
     console.log('\n===== ERROR =====');
     console.log(JSON.stringify(error));
 
+    if(error && error.errorMessage && 
+        typeof error.errorMessage == 'object')
+    {
+        const errorMessage = error.errorMessage;
+        for(const prop in errorMessage){
+            if(prop.includes('sql')){
+                delete error.errorMessage[prop];
+            }
+        };
+    }
+
     return res
         .status(error.status)
         .send({
             error: true,
-            errorDescription: JSON.stringify(error),
+            errorDescription: error,
             status: error.status
         });
 });
