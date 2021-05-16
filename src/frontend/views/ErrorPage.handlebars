@@ -17,20 +17,24 @@
 
     <script>
         const querys = getQueryStrings();
-        if(!key_value[1]){ key_value[1] = ''; }
+        let errorDescription;
 
-        if(key_value[0] == 'errorDescription'){   
-            errorDescription = key_value[1];
-            errorDescription = decodeURI(errorDescription);                          
-            errorDescription = JSON.parse(errorDescription);
-        }         
+        querys.forEach(query =>{
+            if(!query[1]){ query[1] = ''; }
+
+            if(query[0] == 'errorDescription'){   
+                errorDescription = query[1];
+                errorDescription = decodeURI(errorDescription);                                          
+            }         
+        });
+
 
 		function errorDetails(){           
 			Swal.fire({
-                        title: 'Erro',                                                                        
-                        text: JSON.stringify(errorDescription), 
-                        icon: 'error',
-                        confirmButtonText: 'OK'
+                title: 'Erro',                                                                        
+                text: errorDescription, 
+                icon: 'error',
+                confirmButtonText: 'OK'
             });                      
 		}
 	</script>
