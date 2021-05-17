@@ -10,7 +10,7 @@ exports.createDepart = async(req, res, next)=>{
     }else{        
         return next({     
             status: 400,              
-            errorMessage: "Missing property 'nomeDepart'."
+            errorMessage: "Missing required property 'nomeDepart'."
         });
     }
 }
@@ -21,7 +21,7 @@ exports.attDepart = async(req, res, next)=>{
     }else{
         return next({     
             status: 400,              
-            errorMessage: 'Missing parameters "nomeDepart" and / or "idDepart".'
+            errorMessage: 'Missing required parameters "nomeDepart" and / or "idDepart".'
         });
     }
 }
@@ -32,7 +32,7 @@ exports.deleteDepart = async(req, res, next)=>{
     }else{
         return next({     
             status: 400,              
-            errorMessage: 'Missing parameter "idDepart".'
+            errorMessage: 'Missing required parameter "idDepart".'
         });
     }
 }

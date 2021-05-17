@@ -32,7 +32,7 @@ async function treatmentErrorResponse(res){
         genericErrors('Departamento já existente');										
     }else if(
         res.error && res.errorDescription.errorMessage &&
-        res.errorDescription.errorMessage.includes('Missing property')
+        res.errorDescription.errorMessage.includes('Missing required')
     ){
         genericErrors('Preencha todos os campos obrigatórios!');	
     }else{
