@@ -21,20 +21,10 @@ function popupCadastro (entity, nameEntity){
 }
 
 function genericErrors (message){
-    message = JSON.parse(message)    
-
-    // Tratamento para evitar que comandos SQL sejam repassados ao front
-    if(message.errorMessage){                
-        for(let prop in message.errorMessage){
-            if(prop.includes('sql')){
-                delete message.errorMessage[prop];
-            }
-        }
-    }
 
     Swal.fire({
         icon: 'error',
         title: 'Erro',
-        text: JSON.stringify(message),        
+        text: message,        
     });
 }
