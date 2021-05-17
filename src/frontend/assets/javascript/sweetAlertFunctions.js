@@ -21,7 +21,6 @@ function popupCadastro (entity, nameEntity){
 }
 
 function genericErrors (message){
-
     Swal.fire({
         icon: 'error',
         title: 'Erro',
