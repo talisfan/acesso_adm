@@ -38,14 +38,17 @@
 					res = await res.json();									
 					if(res.error && res.errorDescription.errorMessage.code &&
 					    res.errorDescription.errorMessage.code == 'ER_DUP_ENTRY')
-					{							
+					{								
 						genericErrors('Departamento já existente');										
-					}													
+					}else{
+						res = btoa(res);
+						window.location.href = 'errorPage?errorDescription='+res				
+					}									
 				}
 			})
 			.catch((error)=>{
-				window.location.href = 'errorPage?errorDescription='+error
-				console.log('ERROR', error);
+				error = btoa(error);
+				window.location.href = 'errorPage?errorDescription='+error				
 			});
 		}
 	</script>	

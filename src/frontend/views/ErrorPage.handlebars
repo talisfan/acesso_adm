@@ -16,15 +16,15 @@
 
 
     <script>
+        let errorDescription = '';
         const querys = getQueryStrings();
-        let errorDescription;
 
         querys.forEach(query =>{
             if(!query[1]){ query[1] = ''; }
 
             if(query[0] == 'errorDescription'){   
                 errorDescription = query[1];
-                errorDescription = decodeURI(errorDescription);                                          
+                errorDescription = atob(errorDescription);                                                               
             }         
         });
 
