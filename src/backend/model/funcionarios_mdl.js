@@ -50,6 +50,7 @@ exports.getFunc = async (req, res, next) => {
 exports.createFunc = async (req, res, next) => {    
 
     console.log('\nRealizando conexão com banco de dados...');
+    const hashPass = static.utils_functions.hashMD5(req.body.senha);
 
     mysql.getConnection((error, conn) => {
         
@@ -68,7 +69,7 @@ exports.createFunc = async (req, res, next) => {
         conn.query(query,
             [
                 req.body.nome, req.body.cpf, req.body.telefone, req.body.email,
-                req.body.acesso, req.body.senha, req.body.idDepart
+                req.body.acesso, hashPass, req.body.departamento
             ], 
             (error, result, field) => {
                 conn.release();
