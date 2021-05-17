@@ -15,7 +15,10 @@
 		<input type="text" name="telefone" id="telefone" placeholder="*Tel Celular" class="form-control backForm mx-auto mt-4">
 
 		<!--DEPARTAMENTO-->
-		<input type="text" name="idDepart" id="idDepart" placeholder="*ID Departamento" class="form-control backForm mx-auto mt-4">
+		<select name="departamento" id="departamento" class="form-control backForm custom-select mx-auto mt-4"
+			onfocus="style='color:black'" onblur="style='color:white'">
+			<option>*DEPARTAMENTO</option>			
+		</select>
 
 		<!--TIPO DE ACESSO-->
 		<select name="acesso" id="acesso" class="form-control backForm custom-select mx-auto mt-4"
@@ -49,4 +52,34 @@
 	
 	<script src="/maskedInputJquery/dist/jquery.maskedinput.min.js"> </script>
 	<script src="/masks/masks_cad.js"> </script>
+	<script>
+		let tentativas = 0;
+		const select_departamento = document.getElementById('departamento');
+		let departList = [];
+		getDeparts();
+
+
+		function getDeparts(){
+			fetch('/departamentos/getAll')
+			.then(async (res)=>{
+				res = await res.json();
+				departList = res;
+				
+				res.forEach(depart =>{				
+					let opt = document.createElement('option');	
+					opt.appendChild( document.createTextNode(depart.nomeDepart) );
+					opt.value = depart.idDepart;					
+					select_departamento.appendChild(opt);
+				});
+			})
+			.catch(error=>{
+				console.log(error);
+				if(tentativas < 3){
+					tentativas++;
+					sleep(1000);
+					getDeparts();
+				}
+			});
+		}
+	</script>
 </body>
