@@ -37,7 +37,7 @@ async function treatmentErrorResponse(res, entity){
         genericErrors('Preencha todos os campos obrigatórios!');	
     }else if(
         res.error && res.errorDescription.errorMessage &&
-        res.errorDescription.errorMessage.includes('senhas')
+        (res.errorDescription.errorMessage.includes('senhas') || res.errorDescription.errorMessage.includes('senha'))
     ){
         genericErrors(res.errorDescription.errorMessage);	
     }else{

@@ -17,8 +17,28 @@ exports.getFunc = async(req, res, next)=>{
 exports.createFunc = async(req, res, next)=>{
     if(
         req.body && req.body.nome && req.body.telefone 
-        && req.body.email && req.body.acesso && req.body.senha && req.body.departamento
-    ){        
+        && req.body.email && req.body.acesso && req.body.senha 
+        && req.body.confSenha && req.body.departamento 
+    ){    
+        if(req.body.departamento == '*DEPARTAMENTO' || req.body.acesso == '*NIVEL DE ACESSO'){
+            return next({     
+                status: 400,              
+                errorMessage: 'Missing required properties.'
+            });
+        }
+        if(req.body.senha != req.body.confSenha){
+            return next({     
+                status: 400,              
+                errorMessage: 'As senhas não conferem.'
+            });
+        }           
+        if(req.body.senha.length < 6){
+            return next({     
+                status: 400,              
+                errorMessage: 'A senha deve ter no mínimo 6 caracteres.'
+            });
+        }
+
         return await model.createFunc(req, res, next);            
     }else{
         return next({     
@@ -38,7 +58,7 @@ exports.deleteFunc = async(req, res, next)=>{
     }else{
         return next({     
             status: 400,              
-            errorMessage: 'Missing parameter "idFunc".'
+            errorMessage: 'Missing required parameter "idFunc".'
         });
     }
 }

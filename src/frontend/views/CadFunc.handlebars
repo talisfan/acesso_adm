@@ -4,7 +4,7 @@
 
 <body>
 	<h1 class="lead text-center" style="font-size: 40px;">CADASTRO DE FUNCIONÁRIO</h1>
-	<form id="cadFunc" action="/funcionarios" method="POST" class="form px-4">
+	<div id="cadFunc" class="form px-4">
 		<!--NOME-->
 		<input type="text" name="nome" id="nome" placeholder="*Nome completo" class="form-control backForm mx-auto mt-4">				
 
@@ -23,7 +23,8 @@
 		<!--TIPO DE ACESSO-->
 		<select name="acesso" id="acesso" class="form-control backForm custom-select mx-auto mt-4"
 			onfocus="style='color:black'" onblur="style='color:white'">
-			<option selected>FUNCIONÁRIO</option>
+			<option selected>*NIVEL DE ACESSO</option>
+			<option>FUNCIONÁRIO</option>
 			<option>ADM</option>
 		</select>
 
@@ -43,10 +44,10 @@
 
 		<!-- BOTOES --->
 		<div class="row mx-auto mt-4">
-			<input name="cadastrar" class="btn btn-success col-5 mr-auto" type="submit" value="Cadastrar">
+			<input name="cadastrar" class="btn btn-success col-5 mr-auto" type="button" onclick="cadFunc()" value="Cadastrar">
 			<input name="limpar" class="btn btn-danger ml-auto" type="reset" value="Limpar Tudo">
 		</div>
-	</form>	
+	</div>	
 
 	<div class="text-center mt-3"> <a href="/" style="font-size: 25px;">VOLTAR</a>
 	
@@ -54,16 +55,21 @@
 	<script src="/masks/masks_cad.js"> </script>
 	<script>
 		let tentativas = 0;
-		const select_departamento = document.getElementById('departamento');
-		let departList = [];
-		getDeparts();
 
+		let select_departamento = document.getElementById('departamento');		
+		let email = document.getElementById('email');
+		let nome = document.getElementById('nome');
+		let telefone = document.getElementById('telefone');
+		let senha = document.getElementById('senha');
+		let confSenha = document.getElementById('confSenha');
+		let acesso = document.getElementById('acesso');
+
+		getDeparts();
 
 		function getDeparts(){
 			fetch('/departamentos/getAll')
 			.then(async (res)=>{
-				res = await res.json();
-				departList = res;
+				res = await res.json();				
 				
 				res.forEach(depart =>{				
 					let opt = document.createElement('option');	
@@ -79,6 +85,41 @@
 					sleep(1000);
 					getDeparts();
 				}
+			});
+		}
+
+		function cadFunc(){
+			fetch('/funcionarios',{
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					email: email.value,
+					nome: nome.value,
+					telefone: telefone.value,
+					senha: senha.value,
+					confSenha: confSenha.value,
+					acesso: acesso.value,
+					departamento: select_departamento.value
+				})
+			})
+			.then(async (res)=>{
+				if(res.status == 201){
+					popupCadastro('funcionário', nome.value);
+					await sleep(2500);
+					email.value = '';
+					nome.value = '';
+					telefone.value = '';
+					senha.value = '';
+					confSenha.value = '';
+					acesso.tabIndex = 0;
+					select_departamento.tabIndex = 0;
+				}else{					
+					treatmentErrorResponse(res, 'Funcionário');									
+				}
+			})
+			.catch((error)=>{								
+				error = btoa(error);
+				window.location.href = 'errorPage?errorDescription='+error				
 			});
 		}
 	</script>
