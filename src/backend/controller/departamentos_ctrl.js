@@ -15,8 +15,7 @@ exports.createDepart = async(req, res, next)=>{
     }
 }
 
-exports.attDepart = async(req, res, next)=>{
-      
+exports.attDepart = async(req, res, next)=>{      
     if(req.query && req.query.nomeDepart && req.query.idDepart && req.query.idDepart > 0){        
         return await model.attDepart(req, res, next);        
     }else{

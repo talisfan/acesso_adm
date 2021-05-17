@@ -1,6 +1,7 @@
 const model = require('../model/funcionarios_mdl');
 const queryAccepted = require('../middleware/queryAccepted');
 
+
 exports.getFunc = async(req, res, next)=>{
     if(req.query && req.query.nome){
         if(!queryAccepted(req.query.nomeFunc)){                    
@@ -15,9 +16,9 @@ exports.getFunc = async(req, res, next)=>{
 
 exports.createFunc = async(req, res, next)=>{
     if(
-        req.body && req.body.nome && req.body.cpf && req.body.telefone 
-        && req.body.email && req.body.acesso && req.body.senha && req.body.idDepart
-        ){        
+        req.body && req.body.nome && req.body.telefone 
+        && req.body.email && req.body.acesso && req.body.senha && req.body.departamento
+    ){        
         return await model.createFunc(req, res, next);            
     }else{
         return next({     
@@ -32,7 +33,6 @@ exports.attFunc = async(req, res, next)=>{
 }
 
 exports.deleteFunc = async(req, res, next)=>{    
-
     if(req.params && req.params.idFunc && req.params.idFunc > 0){
         return await model.deleteFunc(req, res, next);                  
     }else{
