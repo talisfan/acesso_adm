@@ -64,11 +64,11 @@ exports.createFunc = async (req, res, next) => {
         }
 
         const query = `insert into ${static.strings.TABLE_FUNCIONARIOS} 
-        (nome, cpf, telefone, email, acesso, senha, idDepart) values(?, ?, ?, ?, ?, ?, ?)`;
+        (nome, telefone, email, acesso, senha, idDepart) values(?, ?, ?, ?, ?, ?)`;
         
         conn.query(query,
             [
-                req.body.nome, req.body.cpf, req.body.telefone, req.body.email,
+                req.body.nome, req.body.telefone, req.body.email,
                 req.body.acesso, hashPass, req.body.departamento
             ], 
             (error, result, field) => {
