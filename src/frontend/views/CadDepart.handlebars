@@ -16,12 +16,12 @@
 
 	<div class="text-center mt-3"> <a href="/" style="font-size: 25px;">VOLTAR</a> </div>		
 
-	
-		
+
+
 	<script>		
-		function cadDepart(){
-			const nomeDepart = document.getElementById('nomeDepart');
-			
+		const nomeDepart = document.getElementById('nomeDepart');
+
+		function cadDepart(){			
 			const req =  { 
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
@@ -35,9 +35,10 @@
 					await sleep(2500);
 					nomeDepart.value = '';
 				}else{					
-					res = await res.json();				
-					if(res.errorDescription.errorMessage.code &&
-					    res.errorDescription.errorMessage.code == 'ER_DUP_ENTRY'){
+					res = await res.json();									
+					if(res.error && res.errorDescription.errorMessage.code &&
+					    res.errorDescription.errorMessage.code == 'ER_DUP_ENTRY')
+					{							
 						genericErrors('Departamento já existente');										
 					}													
 				}
