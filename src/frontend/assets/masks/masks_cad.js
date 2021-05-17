@@ -20,18 +20,3 @@ document.getElementById("telefone").onclick = function () {
 		range.select();
 	}
 }
-
-document.getElementById("cpf").onclick = function () {
-	var begin = 0
-	var end = 0
-	if (this.setSelectionRange) {
-		this.focus();
-		this.setSelectionRange(begin, end);
-	} else if (this.createTextRange) {
-		var range = this.createTextRange();
-		range.collapse(true);
-		range.moveEnd('character', end);
-		range.moveStart('character', begin);
-		range.select();
-	}
-}
