@@ -21,3 +21,23 @@ function getQueryStrings(){
 
     return null;
 }
+
+async function treatmentErrorResponse(res){
+    res = await res.json();									
+
+    if(
+        res.error && res.errorDescription.errorMessage.code &&
+        res.errorDescription.errorMessage.code == 'ER_DUP_ENTRY'
+    ){								
+        genericErrors('Departamento já existente');										
+    }else if(
+        res.error && res.errorDescription.errorMessage &&
+        res.errorDescription.errorMessage.includes('Missing property')
+    ){
+        genericErrors('Preencha todos os campos obrigatórios!');	
+    }else{
+        res = JSON.stringify(res);
+        res = btoa(res);
+        window.location.href = 'errorPage?errorDescription='+res				
+    }
+}
