@@ -6,6 +6,7 @@ RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 # make sure apt is up to date
 RUN apt-get update --fix-missing
 RUN apt-get install -y curl
+RUN apt-get install -y dnsutils
 RUN apt-get install -y build-essential libssl-dev
 
 RUN mkdir /usr/local/nvm
