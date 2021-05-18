@@ -18,3 +18,9 @@ services:
       - 3307
     volumes: 
       - dados-db-acesso-adm:/var/lib/mysql
+
+  server-acesso-adm:
+    container_name: "server-acesso-adm"
+    build: .
+    ports: 
+      - 3000:3000
