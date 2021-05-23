@@ -2,7 +2,7 @@ const mysql = require('../bin/mysql');
 const static = require('../static');
 
 // Retorna todos departamentos
-exports.getAllDepart = async (req, res, next)=>{    
+exports.getAllDepart = (req, res, next)=>{    
 
     const endpoint = 'Obter todos departamentos';
 
@@ -51,7 +51,7 @@ exports.getAllDepart = async (req, res, next)=>{
 };
 
 // Cria novos departamentos
-exports.createDepart = async (req, res, next)=>{
+exports.createDepart = (req, res, next)=>{
 
     const endpoint = 'Criar departamento';
 
@@ -105,7 +105,7 @@ exports.createDepart = async (req, res, next)=>{
 };
 
 // Alterar / atualizar departamentos
-exports.attDepart = async (req, res, next)=>{
+exports.attDepart = (req, res, next)=>{
 
     const endpoint = 'Atualizar departamento';
 
@@ -154,7 +154,7 @@ exports.attDepart = async (req, res, next)=>{
     });
 };
 
-exports.deleteDepart = async (req, res, next)=>{
+exports.deleteDepart = (req, res, next)=>{
     
     const endpoint = 'Deletar departamento';
 
