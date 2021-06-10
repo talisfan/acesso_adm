@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const controller = require('../controller/funcionarios_ctrl');
+const controller = require('../middlewares/funcionarios.mid');
 const static = require('../static');
 
 router.get('/getAll', async (req, res, next) => {
