@@ -7,26 +7,26 @@
     <div id="resultados">
         <script>
             (()=>{
-                    // pega endereço atual da page
-                    let location = window.location.href;
-                    
-                    fetch(location + "/getAll").then( async (result)=>{
+                // pega endereço atual da page
+                let location = window.location.href;
+                
+                fetch(location + "/getAll").then( async (result)=>{
 
-                        if(!result) return;
+                    if(!result) return;
 
-                        result = await result.json();
-                        let element = window.document.getElementById("resultados");  
-                        let conteudo = '';              
+                    result = await result.json();
+                    let element = window.document.getElementById("resultados");  
+                    let conteudo = '';              
 
-                        if(result.error){
+                    if(result.error){
+                        conteudo += `
+                            <div>
+                                ERRO: ${result.error}
+                            </div>
+                            `;
+                    }else{                                                       
+                        result.forEach((obj)=>{
                             conteudo += `
-                                <div>
-                                    ERRO: ${result.error}
-                                </div>
-                                `;
-                        }else{                                                       
-                            result.forEach((obj)=>{
-                                conteudo += `
                                 <div class="row col-12 mt-2">
                                     <h1 class="lead mr-auto pl-5" style="font-size: 30px;">ID: ${obj.idDepart} </h1>
                                     <h1 class="lead ml-auto pr-3" style="font-size: 30px;">Departamento: ${obj.nomeDepart} </h1>
@@ -35,12 +35,12 @@
                                         value="EDITAR" class="mx-auto col-10 btn btn-light"> </a>
                                                                         
                                 <h1 class="mx-5 mt-3" style="border: 1px solid gray;"></h1>
-                                `;
-                            });
-                        }
+                            `;
+                        });
+                    }
 
-                        element.innerHTML = conteudo;
-                    });
+                    element.innerHTML = conteudo;
+                });
             })()
         </script>
     </div>

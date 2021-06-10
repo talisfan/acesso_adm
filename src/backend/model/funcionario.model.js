@@ -9,9 +9,19 @@ exports.getFunc = async (req, res, next) => {
 
     if(req.query && req.query.nome){
         const nomeFunc = `%${req.query.nomeFunc}%`;
-        query = `select * from ${static.strings.TABLE_FUNCIONARIOS} f inner join ${static.strings.TABLE_DEPARTAMENTOS} d on (f.idDepart = d.idDepart) where f.nome like ${nomeFunc} order by f.id asc`;
+
+        query = `
+            select * from ${static.strings.TABLE_FUNCIONARIOS} f 
+            inner join ${static.strings.TABLE_DEPARTAMENTOS} d 
+            on (f.idDepart = d.idDepart) 
+            where f.nome like ${nomeFunc} order by f.id asc
+        `;
     }else{
-        query = `select * from ${static.strings.TABLE_FUNCIONARIOS} f inner join ${static.strings.TABLE_DEPARTAMENTOS} d on (f.idDepart = d.idDepart) order by f.id asc`;
+        query = `
+            select * from ${static.strings.TABLE_FUNCIONARIOS} f
+            inner join ${static.strings.TABLE_DEPARTAMENTOS} d
+            on (f.idDepart = d.idDepart) order by f.id asc
+        `;
     }
     
     mysql.getConnection((error, conn) => {
