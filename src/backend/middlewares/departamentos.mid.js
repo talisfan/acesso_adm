@@ -1,11 +1,11 @@
-const model = require('../model/departamentos.model');
+const controllers = require('../controllers/departamentos.ctrl');
 const static = require('../static');
 
 exports.getAllDepart = (req, res, next)=>{
     static.utils_functions.printRequest(req);
     try{
         static.utils_functions.printRequest(req);
-        return model.getAllDepart(req, res, next);
+        return controllers.getAllDepart(req, res, next);
     }catch(error){                   
         return next({      
             status: error.status || undefined,
@@ -20,7 +20,7 @@ exports.createDepart = (req, res, next)=>{
     static.utils_functions.printRequest(req);
     try{
         if(req.body && req.body.nomeDepart){             
-            return model.createDepart(req, res, next);                
+            return controllers.createDepart(req, res, next);                
         }else{        
             return next({     
                 status: 400,              
@@ -41,7 +41,7 @@ exports.attDepart = (req, res, next)=>{
     static.utils_functions.printRequest(req);
     try{
         if(req.query && req.query.nomeDepart && req.query.idDepart && req.query.idDepart > 0){        
-            return model.attDepart(req, res, next);        
+            return controllers.attDepart(req, res, next);        
         }else{
             return next({     
                 status: 400,              
@@ -62,7 +62,7 @@ exports.deleteDepart = (req, res, next)=>{
     static.utils_functions.printRequest(req); 
     try{
         if(req.params && req.params.idDepart && req.params.idDepart > 0){        
-            return model.deleteDepart(req, res, next);                
+            return controllers.deleteDepart(req, res, next);                
         }else{
             return next({     
                 status: 400,              
