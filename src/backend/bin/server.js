@@ -42,8 +42,8 @@ app.use((error, req, res, next) => {
     if(!error.status){
         error.status = 500;
     }
-    console.log('\n===== ERROR =====');
-    console.log(JSON.stringify(error));
+    console.error('\n===== ERROR =====');
+    console.error(JSON.stringify(error));
 
     if(error && error.errorMessage && 
         typeof error.errorMessage == 'object')
@@ -56,12 +56,9 @@ app.use((error, req, res, next) => {
         };
     }
 
-    return res
-        .status(error.status)
-        .send({
+    return res.status(error.status).send({
             error: true,
-            errorDescription: error,
-            status: error.status
+            errorDescription: error            
         });
 });
 
