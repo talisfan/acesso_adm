@@ -1,11 +1,27 @@
 exports.printRequest = (req)=>{
-    console.log('--REQUEST:');
+    let clientIp = req.headers['x-forwarded-for'];    
+    
+    if(clientIp && clientIp.indexOf(',') > -1){        
+        let arr = clientIp.split(', ');        
+        clientIp = arr[arr.length-1];
+    }
+
+    console.log('--REQUEST INBOUND--');
     console.log({
+        client: clientIp || undefined,
         method: req.method || undefined,
         endpoint: req.url || undefined,
         params: req.params || undefined,
         queryString: req.query || undefined,
         body: req.body || undefined
+    });
+}
+
+exports.printResponse = (res)=>{
+    console.log('--RESPONSE OUTBOUND--');
+    console.log({
+        status: res.status || undefined,
+        body: res.body || undefined
     });
 }
 
