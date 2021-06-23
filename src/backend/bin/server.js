@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
+const utils_functions = require('../static/utils_functions');
 
 const routes = require('../routes');
 
@@ -15,7 +16,7 @@ app.set('view engine', 'handlebars');
 app.use(express.static(path.join(path.resolve(), '/src/frontend/assets')));
 
 //CORS
-app.use((req, res, next) => {    
+app.use((req, res, next) => {        
     res.header('Access-Control-Allow-Origin', '*'); 
     res.header('Access-Control-Allow-Header', 
     'Origin, X-Requested-With, Content-Type, Accept, Authorization');
@@ -23,6 +24,8 @@ app.use((req, res, next) => {
     if(req.method == 'OPTIONS'){
         res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET'); 
         return res.status(200).send();        
+    }else{
+        utils_functions.printRequest(req);
     }
     next();
 });
@@ -30,7 +33,7 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use('/', routes.pages);
+app.use('/page', routes.pages);
 app.use('/departamentos', routes.departamentos);
 app.use('/funcionarios', routes.funcionarios);
 
