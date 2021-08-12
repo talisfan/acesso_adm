@@ -40,7 +40,7 @@ values (2, "TI");
 select * from tbl_departamentos;
 
 insert into tbl_funcionarios (nome, telefone, email, senha, acesso, idDepart)
-values ("Talisson Maciel Luques", "(11) 95118-4349", "talis@talis.com", "123456", "ADM", 2);
+values ("Talisson Maciel Luques", "(11) 95118-4349", "talis@teste.com", "123456", "ADM", 2);
 
 select * from tbl_funcionarios;
 

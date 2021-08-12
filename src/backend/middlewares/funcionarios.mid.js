@@ -2,14 +2,7 @@ const controllers = require('../controllers/funcionario.ctrl');
 const static = require('../static');
 
 exports.getFunc = async(req, res, next)=>{
-    if(req.query && req.query.nome){
-        if(!static.utils_functions.queryAccepted(req.query.nomeFunc)){                    
-            return next({     
-                status: 400,              
-                errorMessage: 'QueryString "nome" contains invalid characters.'
-            });
-        }  
-    }
+    if(!req.query.nome) return next({ status: 400 });            
 
     try{
         return await controllers.getFunc(req, res, next);

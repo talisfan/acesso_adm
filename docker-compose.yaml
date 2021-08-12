@@ -1,7 +1,7 @@
 version: '3.8'
 
 volumes:
-    dados-db-acesso-adm:      
+    dados-db:      
 
 services:
   db-acesso-adm:
@@ -17,7 +17,7 @@ services:
     expose:
       - 3307
     volumes: 
-      - dados-db-acesso-adm:/var/lib/mysql
+      - dados-db:/var/lib/mysql
     networks: 
       - netfull
 

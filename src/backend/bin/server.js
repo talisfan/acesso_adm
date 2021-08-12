@@ -33,6 +33,14 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+// HOME
+app.get('/', async (req, res) => {
+    console.log('\n// Página HOME chamada.');    
+    const firstCreationDatabase = require('./firstCreationDatabase');
+    await firstCreationDatabase();
+    return res.render('Escolha');
+});
+
 app.use('/page', routes.pages);
 app.use('/departamentos', routes.departamentos);
 app.use('/funcionarios', routes.funcionarios);

@@ -2,12 +2,6 @@ const static = require('../static');
 const express = require('express');
 const router = express.Router();
 
-// HOME
-router.get('/', (req, res) => {
-    console.log('\n// Página HOME chamada.');    
-    return res.render('Escolha');
-});
-
 router.get('/funcionarios', (req, res) => {
     console.log('\n// Página Funcionarios chamada.');    
     return res.render('AcessoFuncionarios');
