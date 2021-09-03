@@ -35,10 +35,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // HOME
 app.get('/', async (req, res) => {
-    console.log('\n// Página HOME chamada.');    
+    console.log('\n// Página HOME chamada.');        
+    return res.render('Home');
+});
+
+// Creation database in first access
+app.get('/firstAccess', async(req, res)=>{
+    console.log('\nFIRST ACCESS - CREATING DATABASE...')
     const firstCreationDatabase = require('./firstCreationDatabase');
     await firstCreationDatabase();
-    return res.render('Escolha');
 });
 
 app.use('/page', routes.pages);
