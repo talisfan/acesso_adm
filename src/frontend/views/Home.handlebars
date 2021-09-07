@@ -32,8 +32,9 @@
 
     <script>
         let cookies = document.cookie; 
-        console.log('cookies', cookies);
-        if(!cookies || !cookies.split('=').includes('sessionActive')){
+        let session = cookies.split('=');
+
+        if(!session[1] || session[1] === 'false'){
             console.log('PRIMEIRO ACESSO')
             let location = window.location.href; 
             fetch(location + 'firstAccess'); 
@@ -42,7 +43,9 @@
             let data = new Date(ano, 01, 01);                
             data = data.toUTCString();
             document.cookie = 'sessionActive=true; expires='+data; 
-        }     
+        }else{
+            console.log('BANCO DE DADOS JÁ CRIADO');
+        }
     </script>
     <script src="/jquery/dist/jquery.min.js"> </script>
     <script src="/maskedInputJquery/dist/jquery.maskedinput.min.js"> </script>
