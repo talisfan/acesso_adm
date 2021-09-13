@@ -2,8 +2,6 @@ const controllers = require('../controllers/funcionario.ctrl');
 const static = require('../static');
 
 exports.getFunc = async(req, res, next)=>{
-    if(!req.query.nome) return next({ status: 400 });            
-
     try{
         return await controllers.getFunc(req, res, next);
     }catch(error){       

@@ -3,7 +3,7 @@ const router = express.Router();
 const middlewares = require('../middlewares/departamentos.mid');
 
 
-router.get('/getAll', middlewares.getAllDepart);
+router.get('/', middlewares.getAllDepart);
 
 router.post('/', middlewares.createDepart);
 

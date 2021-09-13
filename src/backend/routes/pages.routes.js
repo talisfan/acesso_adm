@@ -4,12 +4,12 @@ const router = express.Router();
 
 router.get('/funcionarios', (req, res) => {
     console.log('\n// Página Funcionarios chamada.');    
-    return res.render('AcessoFuncionarios');
+    return res.render('ListaFuncionarios');
 });
 
 router.get('/departamentos', (req, res) => {
     console.log('\n// Página Departamentos chamada.');    
-    return res.render('AcessoDepartamentos');
+    return res.render('ListaDepartamentos');
 });
 
 router.get('/alterarDepart', (req, res) => {
@@ -40,14 +40,7 @@ router.get('/alterarFunc', (req, res) => {
     static.utils_functions.printRequest(req);
 
     if (req.params) {
-        let params = {};
-
-        for (const prop in req.params) {
-            params[prop] = req.params[prop];
-        }
-
-        return res.render('AlterarFunc', params);
-
+        return res.render('AlterarFunc', req.params);
     } else {
         return res.render('AlterarFunc');
     }
