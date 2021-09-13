@@ -29,11 +29,11 @@ module.exports = async()=>{
         }
     }
         
-    console.log('\nCriando banco de dados...\n');
+    console.log('\n[MYSQL] Criando banco de dados...\n');
     const listQuerys = require('./utils/script_db.min');
 
     let arrayTables = listQuerys.tables.split(';');
-
+    console.log('[MYSQL] Criando tabelas...')
     for(let query of arrayTables){
         query += ';';   
         let queryValue_tables = { query, values: null }                     
@@ -44,10 +44,11 @@ module.exports = async()=>{
         query: listQuerys.trigger,
         values: null
     }    
+    console.log('[MYSQL] Criando Triggers...')
     await services.databaseConn(queryValue_trigger);       
 
     let arrayInserts = listQuerys.inserts.split(';');
-
+    console.log('[MYSQL] Inserindo valores inicias nas tabelas...')
     for(let query of arrayInserts){
         query += ';';                
         let queryValue_inserts = { query, values: null }                             
