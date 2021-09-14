@@ -34,7 +34,7 @@ router.get('/cadFunc', (req, res) => {
     return res.render('CadFunc');
 });
 
-router.get('/alterarFunc', (req, res) => {
+router.get('/alterarFunc/:id', (req, res) => {
     console.log('\nPágina alterarFunc chamada. Request:');
     console.log('--REQUEST:');
     static.utils_functions.printRequest(req);
