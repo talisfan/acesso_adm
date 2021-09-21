@@ -9,8 +9,9 @@
     <script>        
         // pega endereço atual da page
         let baseUrl = window.location.origin;
+        let params = window.location.search || '';
         
-        fetch(baseUrl + "/funcionarios").then( async (result)=>{
+        fetch(baseUrl + "/funcionarios" + params).then( async (result)=>{
 
             if(!result) return;
 
@@ -19,27 +20,31 @@
             let element = window.document.getElementById("resultados");                
             let conteudo = '';                                        
 
-            result.forEach((obj)=>{
-                conteudo += 
-                    `<div class="ml-5">
-                        <div class="row mx-auto">
-                            <h3 class="lead mt-2 mr-auto " style="font-size: 25px;">ID: ${obj.id} </h3>
-                            <h3 class="lead mt-2 ml-auto mr-5" style="font-size: 25px;">Nome: ${obj.nome} </h3>
+            if(result.length > 0){
+                result.forEach((obj)=>{
+                    conteudo += 
+                        `<div class="ml-5">
+                            <div class="row mx-auto">
+                                <h3 class="lead mt-2 mr-auto " style="font-size: 25px;">ID: ${obj.id} </h3>
+                                <h3 class="lead mt-2 ml-auto mr-5" style="font-size: 25px;">Nome: ${obj.nome} </h3>
+                            </div>
+                            <div class="row mx-auto
+                                <h3 class="lead mt-2 mr-auto" style="font-size: 20px;">ID Departamento: ${obj.idDepart} </h3>
+                                <h3 class="lead mt-2 ml-auto mr-5" style="font-size: 20px;">Departamento: ${obj.nomeDepart} </h3>
+                            </div>
+                            <h3 class="lead mt-2" style="font-size: 25px;">E-mail: ${obj.email} </h3>
+                            <h3 class="lead mt-2" style="font-size: 25px;">Telefone: ${obj.telefone} </h3>
+                            <h3 class="lead mt-2" style="font-size: 25px;">Acesso: ${obj.acesso} </h3>
                         </div>
-                        <div class="row mx-auto
-                            <h3 class="lead mt-2 mr-auto" style="font-size: 20px;">ID Departamento: ${obj.idDepart} </h3>
-                            <h3 class="lead mt-2 ml-auto mr-5" style="font-size: 20px;">Departamento: ${obj.nomeDepart} </h3>
-                        </div>
-                        <h3 class="lead mt-2" style="font-size: 25px;">E-mail: ${obj.email} </h3>
-                        <h3 class="lead mt-2" style="font-size: 25px;">Telefone: ${obj.telefone} </h3>
-                        <h3 class="lead mt-2" style="font-size: 25px;">Acesso: ${obj.acesso} </h3>
-                    </div>
 
-                    <a href="/page/alterarFunc/${obj.id}"
-                        class="text-decoration-none mt-3 row"> <input type="button" value="EDITAR" class="mx-auto col-10 btn btn-light"> </a>                            
-                    <h1 class="mx-5 mt-3" style="border: 1px solid gray;"></h1>`
-                ;
-            });
+                        <a href="/page/alterarFunc/${obj.id}"
+                            class="text-decoration-none mt-3 row"> <input type="button" value="EDITAR" class="mx-auto col-10 btn btn-light"> </a>                            
+                        <h1 class="mx-5 mt-3" style="border: 1px solid gray;"></h1>`
+                    ;
+                });
+            }else{
+                conteudo += '<h3 class="text-center">SEM RESULTADOS</h2>'
+            }
 
             element.innerHTML = conteudo;
         }).catch(error=>{

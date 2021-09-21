@@ -5,10 +5,17 @@
 <body>
     <h1 class="lead text-center" style="font-size: 40px;">ALTERAÇÃO DE FUNCIONÁRIO</h1>
 
-    <form action="/funcionarios/buscaFunc" method="GET" class="px-2">
+    <form method="GET" onsubmit="return getFunc(this)" class="px-2">
         <label for="nome" class="lead">Pesquisar funcionário pelo nome</label>
         <!--NOME-->
         <input type="text" name="nome" id="nome" placeholder="NOME" class="form-control backForm mx-auto">
         <input type="submit" value="PROCURAR" class="btn btn-primary col-12 mx-auto mt-3">
     </form>
+
+    <script>
+        function getFunc(form){
+            form.action = `/page/funcionarios?${form.elements[0].value}`
+            return true;
+        }
+    </script>
 </body>

@@ -5,24 +5,18 @@ exports.getFunc = async (req, res, next) => {
     
     console.log('\nRealizando conexão com banco de dados...');
 
-    let query;
+    let query = `
+        select f.nome, f.telefone, f.email, f.id, d.idDepart, d.nomeDepart, f.acesso 
+        from ${static.strings.TABLE_FUNCIONARIOS} f 
+        inner join ${static.strings.TABLE_DEPARTAMENTOS} d 
+        on (f.idDepart = d.idDepart) 
+    `;
 
     if(req.query && req.query.nome){
-        const nomeFunc = `%${req.query.nomeFunc}%`;
-
-        query = `
-            select * from ${static.strings.TABLE_FUNCIONARIOS} f 
-            inner join ${static.strings.TABLE_DEPARTAMENTOS} d 
-            on (f.idDepart = d.idDepart) 
-            where f.nome like ${nomeFunc} order by f.id asc
-        `;
-    }else{
-        query = `
-            select * from ${static.strings.TABLE_FUNCIONARIOS} f
-            inner join ${static.strings.TABLE_DEPARTAMENTOS} d
-            on (f.idDepart = d.idDepart) order by f.id asc
-        `;
+        const nomeFunc = `%${req.query.nome}%`;
+        query += `where f.nome like "${nomeFunc}" order by f.id asc`;
     }
+
     try{
         const result = await services.databaseConn({query, values: null});
         return res.status(200).send(result);
