@@ -3,7 +3,6 @@ const app = express();
 const fs = require('fs');
 const path = require('path');
 const exphbs = require('express-handlebars');
-const bodyParser = require('body-parser');
 const utils_functions = require('../static/utils_functions');
 
 const routes = require('../routes');
@@ -14,6 +13,9 @@ app.set('view engine', 'handlebars');
 
 //Arquivos estaticos - CSS/IMGS/JS
 app.use(express.static(path.join(path.resolve(), '/src/frontend/assets')));
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 //CORS
 app.use((req, res, next) => {        
@@ -29,9 +31,6 @@ app.use((req, res, next) => {
     }
     next();
 });
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
 
 // HOME
 app.get('/', async (req, res) => {
