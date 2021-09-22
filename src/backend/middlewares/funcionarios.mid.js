@@ -27,7 +27,7 @@ exports.createFunc = async(req, res, next)=>{
                     errorMessage: 'Missing required properties.'
                 });
             }
-            if(req.body.senha != req.body.confSenha){
+            if(req.body.senha !== req.body.confSenha){
                 return next({     
                     status: 400,              
                     errorMessage: 'As senhas não conferem.'
