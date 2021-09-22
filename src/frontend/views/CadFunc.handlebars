@@ -4,7 +4,7 @@
 
 <body>
 	<h1 class="lead text-center" style="font-size: 40px;">CADASTRO DE FUNCIONÁRIO</h1>
-	<div id="cadFunc" class="form px-4">
+	<form method="POST" action="/funcionarios" id="cadFunc" class="form px-4">
 		<!--NOME-->
 		<input type="text" name="nome" id="nome" placeholder="*Nome completo" class="form-control backForm mx-auto mt-4">				
 
@@ -44,10 +44,10 @@
 
 		<!-- BOTOES --->
 		<div class="row mx-auto mt-4">
-			<input name="cadastrar" class="btn btn-success col-5 mr-auto" type="button" onclick="cadFunc()" value="Cadastrar">
+			<input name="cadastrar" type="submit" class="btn btn-success col-5 mr-auto" value="Cadastrar">
 			<input name="limpar" class="btn btn-danger ml-auto" type="reset" value="Limpar Tudo">
 		</div>
-	</div>	
+	</form>	
 
 	<div class="text-center mt-3"> <a href="/" style="font-size: 25px;">VOLTAR</a>
 	
@@ -56,18 +56,10 @@
 	<script>
 		let tentativas = 0;
 
-		let select_departamento = document.getElementById('departamento');		
-		let email = document.getElementById('email');
-		let nome = document.getElementById('nome');
-		let telefone = document.getElementById('telefone');
-		let senha = document.getElementById('senha');
-		let confSenha = document.getElementById('confSenha');
-		let acesso = document.getElementById('acesso');
-
-		getDeparts();
-
 		function getDeparts(){
-			fetch('/departamentos/getAll')
+            let select_departamento = document.getElementById('departamento');		
+
+			fetch('/departamentos')
 			.then(async (res)=>{
 				res = await res.json();				
 				
@@ -84,35 +76,35 @@
 					tentativas++;
 					sleep(1000);
 					getDeparts();
-				}
+				}else{
+                    window.location.reload();
+                }
 			});
 		}
 
-		function cadFunc(){
-			fetch('/funcionarios',{
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({
-					email: email.value,
-					nome: nome.value,
-					telefone: telefone.value,
-					senha: senha.value,
-					confSenha: confSenha.value,
-					acesso: acesso.value,
-					departamento: select_departamento.value
-				})
-			})
-			.then(async (res)=>{
+        getDeparts();
+
+        const form = cadFunc;
+        form.onsubmit = async (e) => {
+            e.preventDefault();
+
+            const entries = Array.from( new FormData(form).entries() );
+            const bodyFormatted = entries.reduce((obj, field) =>{ 
+                // field = [ nameField, valueField ]
+                obj[ field[0] ] = field[1] 
+                return obj
+            }, {}); 
+
+            fetch(form.action, {
+                method: form.method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(bodyFormatted)
+            })
+            .then(async (res)=>{
 				if(res.status == 201){
 					popupCadastro('funcionário', nome.value);
-					await sleep(2500);
-					email.value = '';
-					nome.value = '';
-					telefone.value = '';
-					senha.value = '';
-					confSenha.value = '';
-					acesso.tabIndex = 0;
-					select_departamento.tabIndex = 0;
+					await sleep(1600);
+                    form.reset();
 				}else{					
 					treatmentErrorResponse(res, 'Funcionário');									
 				}
@@ -121,6 +113,6 @@
 				error = btoa(error);
 				window.location.href = 'errorPage?errorDescription='+error				
 			});
-		}
+        };
 	</script>
 </body>
