@@ -3,8 +3,7 @@ const static = require('../static');
 
 exports.getAllDepart = (req, res, next)=>{
     static.utils_functions.printRequest(req);
-    try{
-        static.utils_functions.printRequest(req);
+    try{        
         return controllers.getAllDepart(req, res, next);
     }catch(error){                   
         return next({      
