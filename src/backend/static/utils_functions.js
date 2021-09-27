@@ -17,10 +17,10 @@ exports.printRequest = (req)=>{
     });
 }
 
-exports.printResponse = (res)=>{
+exports.printResponse = (res, status = null)=>{
     console.log('--RESPONSE OUTBOUND--');
     console.log({
-        status: res.status || undefined,
+        status: res.status || status || undefined,
         body: res.body || undefined
     });
 }
