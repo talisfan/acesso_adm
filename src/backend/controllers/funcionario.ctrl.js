@@ -1,113 +1,89 @@
 const services = require('../services');
-const { utils_functions } = require('../static');
 const static = require('../static');
 
-exports.getFunc = async (req, res, next) => {
+exports.getFunc = async (buscaFunc = null) => {
 
-    let query = `
-        select f.nome, f.telefone, f.email, f.id, d.idDepart, d.nomeDepart, f.acesso 
-        from ${static.strings.TABLE_FUNCIONARIOS} f 
-        inner join ${static.strings.TABLE_DEPARTAMENTOS} d 
-        on (f.idDepart = d.idDepart) 
-    `;
+    let queryValue = {
+        query: `
+            select f.nome, f.telefone, f.email, f.id, d.idDepart, d.nomeDepart, f.acesso 
+            from ${static.strings.TABLE_FUNCIONARIOS} f 
+            inner join ${static.strings.TABLE_DEPARTAMENTOS} d 
+            on (f.idDepart = d.idDepart) `,
+        values: null
+    }
 
-    if(req.query && req.query.nome){
-        console.log(`[FUNCIONARIOS][GET]: Procurando funcionário ${req.query.nome}...`);
-        const nomeFunc = `%${req.query.nome}%`;
-        query += `where f.nome like "${nomeFunc}" order by f.id asc`;
+    if(buscaFunc.campo && buscaFunc.valor){
+        console.log(`[FUNCIONARIOS][GET]: Procurando funcionário ${buscaFunc.valor}...`);
+
+        if(buscaFunc.campo === 'nome') buscaFunc.valor = `%${buscaFunc.valor}%`;
+        
+        queryValue.query += `where f.${buscaFunc.campo} like ? order by f.id asc`;
+        queryValue.values = [ buscaFunc.valor ];
     }else{
         console.log(`[FUNCIONARIOS][GET]: Listando funcionários...`);
     }
-
-    try{
-        const response = await services.databaseConn({query, values: null});
-        utils_functions.printResponse(response, 200);
-        return res.status(200).send(response);
-    }catch(error){
-        return next(error);
-    }
+    
+    const response = await services.databaseConn(queryValue);
+    return response;    
 };
 
 // insere novos funcionarios
-exports.createFunc = async (req, res, next) => {    
+exports.createFunc = async (funcionario) => {    
     
-    const hashPass = static.utils_functions.hashMD5(req.body.senha);
+    const { nome, telefone, email, acesso, senha, departamento } = funcionario;
+
+    const hashPass = static.utils_functions.hashMD5(senha);
 
     let queryValue = {
         query: `insert into ${static.strings.TABLE_FUNCIONARIOS} 
             (nome, telefone, email, acesso, senha, idDepart) values(?, ?, ?, ?, ?, ?)`, 
         values: [
-            req.body.nome, req.body.telefone, req.body.email,
-            req.body.acesso, hashPass, req.body.departamento
+            nome, telefone, email,
+            acesso, hashPass, departamento
         ]
-    }
-
-    console.log(`[FUNCIONARIOS][POST]: Criando funcionário ${req.body.nome}...`);
+    }    
     
-    try{
-        const result = await services.databaseConn(queryValue);
-        const response = {
-            msg: 'Funcionario inserido com sucesso !',
-            id: result.insertId,
-            nome: req.body.nome,
-            telefone: req.body.telefone,
-            email: req.body.email,                    
-            idDepart: req.body.idDepart
-        };
-        utils_functions.printResponse(response, 201);
-        return res.status(201).render('SucessoFunc', response);
-    }catch(error){
-        return next(error);
-    }
+    const result = await services.databaseConn(queryValue);
+    const response = {
+        msg: 'Funcionario inserido com sucesso !',
+        id: result.insertId,
+        nome,
+        telefone,
+        email,
+        idDepart
+    };
+    return response;    
 };
 
-exports.attFunc = async (req, res, next) => {
-
-    const id = req.body.idFunc;    
-    const email = req.body.email;
-    const telefone = req.body.telefone;    
-    const idDepart = req.body.idDepart;        
-
-    console.log(`[FUNCIONARIOS][PATCH]: Atualizando funcionário ${id}...`);
+exports.attFunc = async (funcionario) => {
     
+    const { email, telefone, idDepart, id } = funcionario;
     let queryValue = {
         query: `update ${static.strings.TABLE_FUNCIONARIOS} set email = ?, telefone = ?, idDepart = ? where id = ?`,
         values: [ email, telefone, idDepart, id ]
     }
-    
-    try{
-        const result = await services.databaseConn(queryValue);
-        const response = {
-            msg: 'Funcionario atualizado com sucesso !',
-            id, email, telefone, idDepart                    
-        }
-        utils_functions.printResponse(response, 200);
-        return res.status(200).render('SucessoFunc', response);
-    }catch(error){
-        return next(error);
+        
+    const result = await services.databaseConn(queryValue);
+    const response = {
+        msg: 'Funcionario atualizado com sucesso !',
+        id, email, telefone, idDepart                    
     }
+        
+    return response;
 };
 
-exports.deleteFunc = async (req, res, next) => {
-
-    const id = req.body.idFunc;
-    console.log(`[FUNCIONARIOS][DELETE]: Deletando funcionário ${id}...`);
+exports.deleteFunc = async (id) => {
 
     let queryValue = {
         query: `delete from ${static.strings.TABLE_FUNCIONARIOS} where id = ?`,
         values: [ id ]
     };
-
-    try{
-        const result = await services.databaseConn(queryValue);
-        const response = {
-            msg: 'FUNCIONÁRIO DELETADO COM SUCESSO.',
-            id: id,
-            nome: "DELETADO"
-        };
-        utils_functions.printResponse(response, 202);
-        return res.status(202).render('SucessoFunc', response);
-    }catch(error){
-        return next(error);
-    }
+    
+    const result = await services.databaseConn(queryValue);
+    const response = {
+        msg: 'FUNCIONÁRIO DELETADO COM SUCESSO.',
+        id: id,
+        nome: "DELETADO"
+    };
+    return response        
 };
