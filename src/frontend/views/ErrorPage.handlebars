@@ -3,7 +3,7 @@
 </head>
 
 <body>
-    <div class="text-center display-4 text-danger"> ERRO {{{status}}} </div>
+    <div class="text-center display-4 text-danger"> ERRO </div>
 
     <div class="row">
         <img src="/imgs/errorImg.png" class="mx-auto col-6">
@@ -13,26 +13,31 @@
         <u id="errorBtn" onclick="errorDetails()"> Mais detalhes do erro </u>
     </div>
 
+    <div class="text-center mt-4" style="font-size: large; cursor: pointer;">
+        <a href="/" 
+            style="padding: 2%; border: 1px solid rgb(46, 123, 238, 0.5); border-radius: 15px; color: #318ce7"
+            >VOLTAR AO INÍCIO</a>
+    </div>
 
 
     <script>
-        let errorDescription = '';
-        const querys = getQueryStrings();
+        let error = '';
+        const querys = window.location.search.split('?')[1].split('&');
+        
+        const query = querys[0].split('=');
+        if(!query[1]){ query[1] = ''; }
 
-        querys.forEach(query =>{
-            if(!query[1]){ query[1] = ''; }
+        if(query[0] == 'errorDescription'){   
+            error = query[1];
+            error = atob(error);              
 
-            if(query[0] == 'errorDescription'){   
-                errorDescription = query[1];
-                errorDescription = atob(errorDescription);                                                               
-            }         
-        });
-
+            try{ error = JSON.parse(error); }catch(error){}
+        }             
 
 		function errorDetails(){           
 			Swal.fire({
                 title: 'Erro',                                                                        
-                text: errorDescription, 
+                text: error.errorDescription || error, 
                 icon: 'error',
                 confirmButtonText: 'OK'
             });                      
