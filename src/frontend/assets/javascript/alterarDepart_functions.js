@@ -1,10 +1,10 @@
 const idDepart = document.getElementById("idDepart");
 const nomeDepart = document.getElementById("nomeDepart");
 
-const querys = getQueryStrings();
-console.log(querys)
+const querys = window.location.search.split('?')[1];
 
 querys.forEach(query => {
+    query = query.split('=');
     // query = [queryString, value]     
     switch(query[0]){                
         case 'idDepart':                
