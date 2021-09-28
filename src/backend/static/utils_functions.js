@@ -21,7 +21,7 @@ exports.printResponse = (res, status = null)=>{
     console.log('--RESPONSE OUTBOUND--');
     console.log({
         status: res.status || status || undefined,
-        body: res.body || undefined
+        body: res.body || res || undefined
     });
 }
 
