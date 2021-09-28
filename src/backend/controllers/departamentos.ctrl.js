@@ -1,111 +1,54 @@
-const mysql = require('../bin/mysql');
+const services = require('../services');
 const static = require('../static');
 
 // Retorna todos departamentos
-exports.getAllDepart = (req, res, next)=>{    
+exports.getDepart = async (req, res, next)=>{    
+    try{
+        let queryValue = {
+            query: `SELECT * FROM ${static.strings.TABLE_DEPARTAMENTOS} WHERE idDepart <> 1 `,
+            values: null
+        }
 
-    const endpoint = 'Obter todos departamentos';
-
-    console.log('\nRealizando conexão com banco de dados...');
-
-    mysql.getConnection((error, conn) => {
-
-        if(error){
-            return next({
-                status: 502,
-                endpoint: endpoint,
-                operation: 'Erro ao conectar com o banco de dados.',
-                errorMessage: error
-            });
+        if(req.query && req.query.nome){
+            console.log(`[DEPARTAMENTOS][GET]: Procurando departamentos ${req.query.nome}...`);
+            const nomeDepart = `%${req.query.nome}%`;
+            queryValue.query += `AND nomeDepart LIKE ? `;
+            queryValue.values = [ nomeDepart ]
+        }else{
+            console.log(`[DEPARTAMENTOS][GET]: Listando funcionários...`);
         }
         
-        console.log('Conectado! Realizando consulta no banco de dados...');
-
-        const query = `SELECT * FROM ${static.strings.TABLE_DEPARTAMENTOS} WHERE idDepart <> 1 ORDER BY idDepart ASC`;
-
-        conn.query(query,
+        queryValue.query += 'ORDER BY idDepart ASC;';
+        const result = await services.databaseConn(queryValue);
         
-            (error, result, field) => {
-                conn.release();
+        if (result.length == 0) {                    
+            console.log('\nSem departamentos cadastrados.');
+            const response = {error: true, msg: "Sem departamentos cadastrados"};
+            utils_functions.printResponse(response)
+            return res.status(404).send(response);
+        }  
 
-                if(error){
-                    return next({                        
-                        endpoint: endpoint,
-                        operation: 'Erro ao realizar consulta no banco de dados.',
-                        errorMessage: error
-                    });
-                }
-
-                if (result.length == 0) {                    
-                    console.log('\nSem departamentos cadastrados.');
-                    return res.status(404).send({error: true, msg: "Sem departamentos cadastrados"});
-                }      
-
-                console.log('Sucesso! Resultado:');
-                console.log(result);
-                
-                return res.status(200).send(result);         
-            }
-        );        
-    });
+        utils_functions.printResponse(result, 200);
+        return res.status(200).send(result);     
+    }catch(error){
+        return next(error);
+    }
 };
 
 // Cria novos departamentos
-exports.createDepart = (req, res, next)=>{
+exports.createDepart = async (nomeDepart)=>{    
+    
+    const queryValue = {
+        query: `INSERT INTO ${static.strings.TABLE_DEPARTAMENTOS} (nomeDepart) VALUES (?)`,
+        values: [ nomeDepart ]
+    }
 
-    const endpoint = 'Criar departamento';
-
-    console.log('\nRealizando conexão com banco de dados...');
-
-    const depart = req.body.nomeDepart;
-
-    mysql.getConnection((error, conn) => {
-        if(error){
-            return next({     
-                status: 502,           
-                endpoint: endpoint,
-                operation: 'Erro ao conectar com o banco de dados.',
-                errorMessage: error
-            });
-        }
-        
-        console.log('Conectado! Realizando inserção no banco de dados...');
-
-        const query = `INSERT INTO ${static.strings.TABLE_DEPARTAMENTOS} (nomeDepart) VALUES (?)`;
-
-        conn.query(query, 
-            [ depart ], 
-
-            (error, result, field) => {
-                conn.release();
-
-                if(error){
-                    return next({                        
-                        endpoint: endpoint,
-                        operation: 'Erro ao inserir departamento no banco de dados.',
-                        errorMessage: error
-                    });
-                }
-
-                if(!result.insertId || result.insertId <= 0){
-                    return next({                        
-                        endpoint: endpoint,
-                        operation: 'Erro ao inserir departamento no banco de dados.',
-                        errorMessage: result.message
-                    });
-                }
-                        
-                console.log('Sucesso! Resultado:');
-                console.log(result);
-
-                return res.status(201).send({ idDepart: result.insertId });                
-            }
-        );
-    });
+    const result = await services.databaseConn(queryValue);
+    return result;
 };
 
 // Alterar / atualizar departamentos
-exports.attDepart = (req, res, next)=>{
+exports.attDepart = async (req, res, next)=>{
 
     const endpoint = 'Atualizar departamento';
 
@@ -154,7 +97,7 @@ exports.attDepart = (req, res, next)=>{
     });
 };
 
-exports.deleteDepart = (req, res, next)=>{
+exports.deleteDepart = async (req, res, next)=>{
     
     const endpoint = 'Deletar departamento';
 
