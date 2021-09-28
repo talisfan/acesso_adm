@@ -6,12 +6,10 @@
     <div class="text-center lead text-primary mb-4" style="font-size: 35px;">Mostrando todos Funcionários</div>
     <div id="resultados">
 
-    <script>        
-        // pega endereço atual da page
-        let baseUrl = window.location.origin;
+    <script>                        
         let params = window.location.search || '';
         
-        fetch(baseUrl + "/funcionarios" + params).then( async (result)=>{
+        fetch("/funcionarios" + params).then( async (result)=>{
 
             if(!result) return;
 

@@ -5,11 +5,9 @@
 <body>
     <div class="text-center lead text-primary mb-4" style="font-size: 35px;">Mostrando todos Departamentos</div>
     <div id="resultados">
-        <script>
+        <script>                    
             
-            let baseUrl = window.location.origin;
-            
-            fetch(baseUrl + "/departamentos").then( async (result)=>{
+            fetch("/departamentos").then( async (result)=>{
 
                 if(!result) return;
 
