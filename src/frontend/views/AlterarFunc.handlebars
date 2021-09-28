@@ -7,28 +7,25 @@
 
     <form action="/funcionarios/attFunc" method="PATCH" class="px-2">
         <!--ID-->
-        <input type="text" name="id" id="id" placeholder="ID" class="form-control backForm mx-auto d-none"
-            value="{{id}}">
+        <input type="text" name="id" id="id" placeholder="ID" class="form-control backForm mx-auto d-none">
 
         <label for="nome" class="lead mt-3">NOME</label>
         <!--NOME-->
         <input type="text" name="nome" id="nome" placeholder="Nome completo"
-            class="form-control backForm mx-auto" value="{{nome}}">
+            class="form-control backForm mx-auto">
 
         <label for="email" class="lead mt-3">EMAIL</label>
         <!--EMAIL-->
-        <input type="email" name="email" id="email" placeholder="E-mail" class="form-control backForm mx-auto"
-            value="{{email}}">
+        <input type="email" name="email" id="email" placeholder="E-mail" class="form-control backForm mx-auto">
 
         <label for="telefone" class="lead mt-3"> TELEFONE</label>
         <!--TELCELL-->
-        <input type="text" name="telefone" id="telefone" placeholder="Tel Celular" class="form-control backForm mx-auto"
-            value="{{telefone}}">
+        <input type="text" name="telefone" id="telefone" placeholder="Tel Celular" class="form-control backForm mx-auto">
 
         <label for="idDepart" class="lead mt-3">ID DEPARTAMENTO</label>
         <!--DEPARTAMENTO-->
         <input type="text" name="idDepart" id="idDepart" placeholder="ID Departamento"
-            class="form-control backForm mx-auto" value="{{idDepart}}">
+            class="form-control backForm mx-auto">
 
         <input name="cadastrar" class="col-12 mx-auto btn btn-success mt-3" type="submit" value="ALTERAR">
 
@@ -44,4 +41,29 @@
     <script src="/jquery/dist/jquery.min.js"> </script>
     <script src="/maskedInputJquery/dist/jquery.maskedinput.min.js"> </script>
     <script src="/masks/masks_cad.js"> </script>
+    <script>
+        const params = window.location.pathname.split('/');
+        const idFunc = params[params.length - 1];        
+
+        fetch('/funcionarios/' + idFunc).then(async (res) =>{
+            res = await res.json();
+            if(res.length === 1){
+                const funcionario = res[0];
+                email.value = funcionario.email;
+                id.value = idFunc;
+                nome.value = funcionario.nome;
+                telefone.value = funcionario.telefone;
+                idDepart.value = funcionario.idDepart;
+            }else{
+                error = btoa(
+                    JSON.stringify({ errorDescription: 'Funcionário não encontrado'})
+                );
+                return window.location.href = window.location.origin + '/page/errorPage?errorDescription=' + error				
+            }
+        })
+        .catch((error)=>{								
+            error = btoa(error);
+            window.location.href = window.location.origin + '/page/errorPage?errorDescription=' + error				
+        });
+    </script>
 </body>
