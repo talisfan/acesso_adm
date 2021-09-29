@@ -14,8 +14,8 @@ app.set('view engine', 'handlebars');
 //Arquivos estaticos - CSS/IMGS/JS
 app.use(express.static(path.join(path.resolve(), '/src/frontend/assets')));
 
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 
 //CORS
 app.use((req, res, next) => {        
