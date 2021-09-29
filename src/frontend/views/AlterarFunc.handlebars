@@ -5,7 +5,7 @@
 <body>
     <h1 class="lead text-center" style="font-size: 40px;">ALTERAÇÃO DE FUNCIONÁRIO</h1>
 
-    <form action="/funcionarios/attFunc" method="PATCH" class="px-2">
+    <form action="/funcionarios" onsubmit="return attFunc(this)" class="px-2">
         <!--ID-->
         <input type="text" name="id" id="id" placeholder="ID" class="form-control backForm mx-auto d-none">
 
@@ -65,5 +65,32 @@
             error = btoa(error);
             window.location.href = window.location.origin + '/page/errorPage?errorDescription=' + error				
         });
+
+        function attFunc(form){
+
+            let body = {};            
+            let elements = form.elements;
+
+            for(const input of elements){
+                if(input.id){
+                    body[input.id] = input.value;
+                }
+            }
+
+            body = JSON.stringify(body);
+            
+            fetch(form.action, {
+                method: 'PATCH',
+                body,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then( async(res) =>{
+                console.log(res);
+                res = await res.json();
+                console.log(res);
+                return true;
+            })
+        }
     </script>
 </body>

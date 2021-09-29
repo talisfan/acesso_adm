@@ -66,14 +66,15 @@ exports.createFunc = async(req, res, next)=>{
 }
 
 exports.attFunc = async(req, res, next)=>{          
-    try{
-        var funcionario = {
-            id: req.body.idFunc,
-            email: req.body.email,
-            telefone: req.body.telefone,
-            idDepart: req.body.idDepart
-        }
-    }catch(error){
+                
+    var funcionario = {
+        id: req.body.id,
+        email: req.body.email,
+        telefone: req.body.telefone,
+        idDepart: req.body.idDepart
+    }
+    
+    if(!funcionario.id){
         return next({     
             status: 400,              
             errorMessage: 'Missing required parameters'
