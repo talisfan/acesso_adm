@@ -108,7 +108,7 @@ exports.deleteFunc = async(req, res, next)=>{
         console.log(`[FUNCIONARIOS][DELETE]: Deletando funcionário ${id}...`);
         try{
             const response = await controllers.deleteFunc(id);      
-            const status = 202;            
+            const status = 204;            
             utils_functions.printResponse(response, status);
             return res.status(status).send(response);
         }catch(error){

@@ -94,7 +94,7 @@
         function dellFunc(){
             fetch('/funcionarios/' + idFunc, { method: 'DELETE' })
             .then(async (res)=>{
-                if(res.status === 202){
+                if(res.status === 204){
 	                dialogCentralTemporary(`Funcionário ${nome.value} deletado com sucesso!`);
 					await sleep(2550)                   
                     window.location.href = '/';
