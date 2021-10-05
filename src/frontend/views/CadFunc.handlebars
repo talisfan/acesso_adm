@@ -70,12 +70,12 @@
 					select_departamento.appendChild(opt);
 				});
 			})
-			.catch(error=>{
+			.catch(async (error)=>{
 				console.log(error);
 				if(tentativas < 3){
 					tentativas++;
-					sleep(1000);
-					getDeparts();
+					await sleep(1000);
+					return getDeparts();
 				}else{
                     window.location.reload();
                 }
