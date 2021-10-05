@@ -3,26 +3,30 @@ function sleep(ms) {
 }
 
 async function treatmentErrorResponse(res, entity){
-    res = await res.json();									
+    try{ res = await res.json(); }catch(error){}
 
     if(
         res.error && res.errorDescription.errorMessage.code &&
         res.errorDescription.errorMessage.code == 'ER_DUP_ENTRY'
     ){								
         genericErrors(`${entity} já existente`);										
-    }else if(
+    }else 
+    if(
         res.error && res.errorDescription.errorMessage &&
         res.errorDescription.errorMessage.includes('Missing required')
     ){
         genericErrors('Preencha todos os campos obrigatórios!');	
-    }else if(
+    }else 
+    if(
         res.error && res.errorDescription.errorMessage &&
         (res.errorDescription.errorMessage.includes('senhas') || res.errorDescription.errorMessage.includes('senha'))
     ){
         genericErrors(res.errorDescription.errorMessage);	
+    }else if(res.status && res.status === 404){
+        genericErrors(`${entity} não encontrado`);	
     }else{
         res = JSON.stringify(res);
-        res = btoa(res);
-        window.location.href = 'errorPage?errorDescription='+res				
+        res = window.btoa(res);
+        window.location.href = window.location.origin + '/errorPage?errorDescription=' + res;
     }
 }
