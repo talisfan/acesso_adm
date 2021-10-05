@@ -9,8 +9,9 @@ exports.getFunc = async(req, res, next)=>{
         }
 
         const response = await controllers.getFunc(buscaFunc);
-        utils_functions.printResponse(response, 200);
-        return res.status(200).send(response);
+        const status = 200;
+        utils_functions.printResponse(response, status);
+        return res.status(status).send(response);
     }catch(error){       
         return next(error);
     }
@@ -58,8 +59,9 @@ exports.createFunc = async(req, res, next)=>{
     try{               
         console.log(`[FUNCIONARIOS][POST]: Criando funcionário ${funcionario.nome}...`);       
         const response = await controllers.createFunc(funcionario);   
-        utils_functions.printResponse(response, 201);
-        return res.status(201).render('SucessoFunc', response);                                   
+        const status = 201;
+        utils_functions.printResponse(response, status);
+        return res.status(status).render('SucessoFunc', response);                                   
     }catch(error){       
         return next(error);
     }
@@ -84,9 +86,10 @@ exports.attFunc = async(req, res, next)=>{
     try{        
         console.log(`[FUNCIONARIOS][PATCH]: Atualizando funcionário ${funcionario.id}...`);
 
-        const response = await controllers.attFunc(funcionario);            
-        utils_functions.printResponse(response, 200);
-        return res.status(200).render('SucessoFunc', response);
+        const response = await controllers.attFunc(funcionario);  
+        const status = 202;          
+        utils_functions.printResponse(response, status);
+        return res.status(status).render('SucessoFunc', response);
     }catch(error){
         return next(error);
     }    
@@ -97,9 +100,10 @@ exports.deleteFunc = async(req, res, next)=>{
         const id = req.body.idFunc;
         console.log(`[FUNCIONARIOS][DELETE]: Deletando funcionário ${id}...`);
         try{
-            const response = await controllers.deleteFunc(id);                  
-            utils_functions.printResponse(response, 202);
-            return res.status(202).render('SucessoFunc', response);
+            const response = await controllers.deleteFunc(id);      
+            const status = 202;            
+            utils_functions.printResponse(response, status);
+            return res.status(status).render('SucessoFunc', response);
         }catch(error){
             return next(error);
         }        
