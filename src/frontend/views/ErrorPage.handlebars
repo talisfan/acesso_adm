@@ -29,7 +29,7 @@
 
         if(query[0] == 'errorDescription'){   
             error = query[1];
-            error = atob(error);              
+            error = window.atob(error);              
 
             try{ error = JSON.parse(error); }catch(error){}
         }             
@@ -37,7 +37,7 @@
 		function errorDetails(){           
 			Swal.fire({
                 title: 'Erro',                                                                        
-                text: error.errorDescription || error, 
+                text: JSON.stringify(error.errorDescription) || error, 
                 icon: 'error',
                 confirmButtonText: 'OK'
             });                      
