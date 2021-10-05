@@ -38,8 +38,7 @@
 				}
 			})
 			.catch((error)=>{								
-				error = btoa(error);
-				window.location.href = 'errorPage?errorDescription='+error				
+				treatmentErrorResponse(error, 'Departamento');
 			});
 		}
 	</script>	
