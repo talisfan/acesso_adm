@@ -104,13 +104,13 @@ exports.attFunc = async(req, res, next)=>{
 
 exports.deleteFunc = async(req, res, next)=>{        
     if(req.params && req.params.idFunc && req.params.idFunc > 0){
-        const id = req.body.idFunc;
+        const id = req.params.idFunc;
         console.log(`[FUNCIONARIOS][DELETE]: Deletando funcionário ${id}...`);
         try{
             const response = await controllers.deleteFunc(id);      
             const status = 202;            
             utils_functions.printResponse(response, status);
-            return res.status(status).render(response);
+            return res.status(status).send(response);
         }catch(error){
             return next(error);
         }        

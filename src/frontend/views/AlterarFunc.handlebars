@@ -28,13 +28,11 @@
             class="form-control backForm mx-auto">
 
         <input name="cadastrar" class="col-12 mx-auto btn btn-success mt-3" onclick="return attFunc()" type="button" value="ALTERAR">
-
     </form>
 
-    <form action="/funcionarios/dellFunc/{{id}}" method="POST" class="mt-2">
-        <input type="hidden" name="id" value="{{id}}">
-        <input type="submit" class="text-light btn btn-danger ml-2" value="DELETAR FUNCIONÁRIO">
-    </form>
+    <div class="mt-2">        
+        <input type="button" class="text-light btn btn-danger ml-2" value="DELETAR FUNCIONÁRIO" onclick="return dellFunc()">
+    </div>
 
     <div class="text-center mt-3"> <a href="/" style="font-size: 25px;">VOLTAR</a></div>
 
@@ -80,7 +78,7 @@
                 body,
                 headers: { 'Content-Type': 'application/json' }
             }).then(async (res)=>{
-				if(res.status == 202){
+				if(res.status === 202){
 					dialogCentralTemporary(`Funcionário ${nome.value} atualizado com sucesso!`);
 					await sleep(2550)                   
                     window.location.href = '/';
@@ -91,6 +89,20 @@
 			.catch((error)=>{								
 				treatmentErrorResponse(error, 'Funcionário');			
 			});            
+        }
+
+        function dellFunc(){
+            fetch('/funcionarios/' + idFunc, { method: 'DELETE' })
+            .then(async (res)=>{
+                if(res.status === 202){
+	                dialogCentralTemporary(`Funcionário ${nome.value} deletado com sucesso!`);
+					await sleep(2550)                   
+                    window.location.href = '/';
+                }
+            }).catch((error) =>{
+                treatmentErrorResponse(error, 'Funcionário');			
+
+            })
         }
     </script>
 </body>

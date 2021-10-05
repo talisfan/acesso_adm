@@ -50,7 +50,7 @@ exports.createFunc = async (funcionario) => {
         nome,
         telefone,
         email,
-        idDepart
+        departamento
     };
     return response;    
 };
