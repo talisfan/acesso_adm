@@ -4,7 +4,7 @@ const static = require('../static');
 exports.getAllDepart = (req, res, next)=>{
     static.utils_functions.printRequest(req);
     try{        
-        return controllers.getAllDepart(req, res, next);
+        return controllers.getDepart(req, res, next);
     }catch(error){                   
         return next({      
             status: error.status || undefined,
