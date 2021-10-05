@@ -1,5 +1,6 @@
 const services = require('../services');
 const static = require('../static');
+const utils_functions = require('../static/utils_functions')
 
 // Retorna todos departamentos
 exports.getDepart = async (req, res, next)=>{    
@@ -15,7 +16,7 @@ exports.getDepart = async (req, res, next)=>{
             queryValue.query += `AND nomeDepart LIKE ? `;
             queryValue.values = [ nomeDepart ]
         }else{
-            console.log(`[DEPARTAMENTOS][GET]: Listando funcionários...`);
+            console.log(`[DEPARTAMENTOS][GET]: Listando departamentos...`);
         }
         
         queryValue.query += 'ORDER BY idDepart ASC;';
