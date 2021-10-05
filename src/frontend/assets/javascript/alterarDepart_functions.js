@@ -1,45 +1,48 @@
-const idDepart = document.getElementById("idDepart");
-const nomeDepart = document.getElementById("nomeDepart");
+const elemIdDepart = document.getElementById("idDepart");
+const elemNomeDepart = document.getElementById("nomeDepart");
 
-const querys = window.location.search.split('?')[1];
+const querys = window.location.pathname.split('/');
+const idDepart = querys[querys.length -1];
 
-querys.forEach(query => {
-    query = query.split('=');
-    // query = [queryString, value]     
-    switch(query[0]){                
-        case 'idDepart':                
-            idDepart.value = query[1];                                        
-            break;
-        case 'nomeDepart':
-            nomeDepart.value = query[1];                        
-            break;
-    } 
-});
+elemIdDepart.value = idDepart;
 
-function attDepart(){    
-    const endpoint = `/departamentos?idDepart=${idDepart.value}&nomeDepart=${nomeDepart.value}`;
-
-    fetch(endpoint, { method: 'PATCH' })
-    .then(async (res)=>{                               
-        if(res.status == 204){
-            dialogCentralTemporary('Departamento alterado com sucesso!');
-        }else{
-            res = await res.json();
-            genericErrors(res.errorDescription);
+(function(){
+    fetch('/departamentos/'+idDepart).then(async(res)=>{
+        res = await res.json();
+        if(res.length === 1){
+            elemNomeDepart.value = res[0].nomeDepart;            
+        }else{                
+            treatmentErrorResponse({ status: 404 }, 'Funcionário');
         }
     }).catch((error)=>{
-        window.location.href = 'errorPage?errorDescription='+error;
-        console.log(error);
+        treatmentErrorResponse(error, 'Departamento');
+    })    
+})()
+
+function attDepart(){        
+
+    fetch('/departamentos', { 
+        method: 'PATCH', 
+        body: JSON.stringify({ idDepart, nomeDepart: elemNomeDepart.value }) 
+    })
+    .then(async (res)=>{                               
+        if(res.status == 204){
+            dialogCentralTemporary(`Departamento ${idDepart} alterado com sucesso!`);
+        }else{
+            treatmentErrorResponse(res, 'Departamento');
+        }
+    }).catch((error)=>{
+        treatmentErrorResponse(error, 'Departamento');
     });
 }
 
 function dellDepart(){
-    fetch(`/departamentos/${idDepart.value}`, { method: 'DELETE' })
+    fetch(`/departamentos/${elemIdDepart.value}`, { method: 'DELETE' })
     .then(async (res)=>{        
         if(res.status == 204){
-            dialogCentralTemporary(`Departamento "${nomeDepart.value}" deletado com sucesso!`);     
-            nomeDepart.value = '';
-            idDepart.value = '';
+            dialogCentralTemporary(`Departamento "${elemNomeDepart.value}" deletado com sucesso!`);     
+            elemNomeDepart.value = '';
+            elemIdDepart.value = '';
             await sleep(2500);
             window.location.href = 'departamentos'
         }else{

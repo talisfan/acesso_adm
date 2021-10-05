@@ -1,10 +1,24 @@
 const controllers = require('../controllers/departamentos.ctrl');
-const static = require('../static');
+const utils_functions = require('../static/utils_functions');
 
-exports.getAllDepart = (req, res, next)=>{
-    static.utils_functions.printRequest(req);
+exports.getAllDepart = async (req, res, next)=>{
     try{        
-        return controllers.getDepart(req, res, next);
+        const buscaFunc = { 
+            campo: req.params.idDepart ? 'idDepart' : null,
+            valor: req.params.idDepart || null
+        }
+
+        const response = await controllers.getDepart(buscaFunc);
+        if (response.length == 0) {                    
+            console.log('\nSem departamentos cadastrados.');
+            const response = {error: true, msg: "Sem departamentos cadastrados"};
+            utils_functions.printResponse(response)
+            return res.status(404).send(response);
+        }  
+                
+        const status = 200;
+        utils_functions.printResponse(response, status);
+        return res.status(status).send(response);
     }catch(error){                   
         return next({      
             status: error.status || undefined,
@@ -15,8 +29,7 @@ exports.getAllDepart = (req, res, next)=>{
     }
 }
 
-exports.createDepart = (req, res, next)=>{
-    static.utils_functions.printRequest(req);
+exports.createDepart = async (req, res, next)=>{
     try{
         if(req.body && req.body.nomeDepart){             
             return controllers.createDepart(req, res, next);                
@@ -36,8 +49,7 @@ exports.createDepart = (req, res, next)=>{
     }
 }
 
-exports.attDepart = (req, res, next)=>{      
-    static.utils_functions.printRequest(req);
+exports.attDepart = async (req, res, next)=>{      
     try{
         if(req.query && req.query.nomeDepart && req.query.idDepart && req.query.idDepart > 0){        
             return controllers.attDepart(req, res, next);        
@@ -57,8 +69,7 @@ exports.attDepart = (req, res, next)=>{
     }
 }
 
-exports.deleteDepart = (req, res, next)=>{   
-    static.utils_functions.printRequest(req); 
+exports.deleteDepart = async (req, res, next)=>{   
     try{
         if(req.params && req.params.idDepart && req.params.idDepart > 0){        
             return controllers.deleteDepart(req, res, next);                

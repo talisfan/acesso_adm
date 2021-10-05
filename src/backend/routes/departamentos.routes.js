@@ -5,6 +5,8 @@ const middlewares = require('../middlewares/departamentos.mid');
 
 router.get('/', middlewares.getAllDepart);
 
+router.get('/:idDepart', middlewares.getAllDepart);
+
 router.post('/', middlewares.createDepart);
 
 router.patch('/', middlewares.attDepart);

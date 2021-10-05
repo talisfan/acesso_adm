@@ -1,4 +1,3 @@
-const static = require('../static');
 const express = require('express');
 const router = express.Router();
 
@@ -15,7 +14,6 @@ router.get('/departamentos', (req, res) => {
 router.get('/alterarDepart', (req, res) => {
     console.log('\n// Página alterarDepart chamada. Request:');
     console.log('--REQUEST:');
-    static.utils_functions.printRequest(req);
     
     if (req.query) {        
         return res.render('AlterarDepart', { ...req.query });
@@ -37,12 +35,22 @@ router.get('/cadFunc', (req, res) => {
 router.get('/alterarFunc/:id', (req, res) => {
     console.log('\nPágina alterarFunc chamada. Request:');
     console.log('--REQUEST:');
-    static.utils_functions.printRequest(req);
 
     if (req.params) {
         return res.render('AlterarFunc', req.params);
     } else {
         return res.render('AlterarFunc');
+    }
+});
+
+router.get('/alterarDepart/:id', (req, res) => {
+    console.log('\nPágina alterarDepart chamada. Request:');
+    console.log('--REQUEST:');
+
+    if (req.params) {
+        return res.render('AlterarDepart', req.params);
+    } else {
+        return res.render('AlterarDepart');
     }
 });
 
