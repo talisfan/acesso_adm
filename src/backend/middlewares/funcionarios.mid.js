@@ -61,7 +61,7 @@ exports.createFunc = async(req, res, next)=>{
         const response = await controllers.createFunc(funcionario);   
         const status = 201;
         utils_functions.printResponse(response, status);
-        return res.status(status).render('SucessoFunc', response);                                   
+        return res.status(status).send(response);                                   
     }catch(error){       
         return next(error);
     }
@@ -76,7 +76,7 @@ exports.attFunc = async(req, res, next)=>{
         idDepart: req.body.idDepart
     }
     
-    if(!funcionario.id){
+    if(!funcionario.id || !funcionario.email || !funcionario.telefone || !funcionario.idDepart){
         return next({     
             status: 400,              
             errorMessage: 'Missing required parameters'
@@ -89,7 +89,7 @@ exports.attFunc = async(req, res, next)=>{
         const response = await controllers.attFunc(funcionario);  
         const status = 202;          
         utils_functions.printResponse(response, status);
-        return res.status(status).render('SucessoFunc', response);
+        return res.status(status).send(response);
     }catch(error){
         return next(error);
     }    
@@ -103,7 +103,7 @@ exports.deleteFunc = async(req, res, next)=>{
             const response = await controllers.deleteFunc(id);      
             const status = 202;            
             utils_functions.printResponse(response, status);
-            return res.status(status).render('SucessoFunc', response);
+            return res.status(status).render(response);
         }catch(error){
             return next(error);
         }        
