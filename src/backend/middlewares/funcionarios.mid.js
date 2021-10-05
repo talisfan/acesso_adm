@@ -83,6 +83,13 @@ exports.attFunc = async(req, res, next)=>{
         });
     }
 
+    if(funcionario.idDepart <= 1){
+        return next({     
+            status: 400,              
+            errorMessage: 'Departamento inválido'
+        });
+    }
+
     try{        
         console.log(`[FUNCIONARIOS][PATCH]: Atualizando funcionário ${funcionario.id}...`);
 
