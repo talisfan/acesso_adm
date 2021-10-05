@@ -2,9 +2,9 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function treatmentErrorResponse(res, entity){
+async function treatmentErrorResponse(res, entity){    
     try{ res = await res.json(); }catch(error){}
-
+    
     if(
         res.error && res.errorDescription.errorMessage.code &&
         res.errorDescription.errorMessage.code == 'ER_DUP_ENTRY'
@@ -27,6 +27,6 @@ async function treatmentErrorResponse(res, entity){
     }else{
         res = JSON.stringify(res);
         res = window.btoa(res);
-        window.location.href = window.location.origin + '/errorPage?errorDescription=' + res;
+        window.location.href = window.location.origin + '/page/errorPage?errorDescription=' + res;
     }
 }
