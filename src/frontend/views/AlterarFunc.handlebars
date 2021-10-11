@@ -42,6 +42,7 @@
     <script>
         const params = window.location.pathname.split('/');
         const idFunc = params[params.length - 1];        
+        const form = document.getElementById('formAtt');
 
         fetch('/funcionarios/' + idFunc).then(async (res) =>{
             res = await res.json();
@@ -61,7 +62,6 @@
         });
 
         function attFunc(){
-            const form = document.getElementById('formAtt');
             let body = {};            
             let elements = form.elements;
 
