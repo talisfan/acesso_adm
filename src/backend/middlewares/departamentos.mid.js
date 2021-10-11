@@ -3,8 +3,12 @@ const utils_functions = require('../static/utils_functions');
 
 exports.getAllDepart = async (req, res, next)=>{
     try{        
-        const idDepart = req.params.idDepart || null;
-        const response = await controllers.getDepart(idDepart);
+        const busca = {
+            campo: req.params.idDepart ? 'idDepart' : 'nomeDepart',
+            value: req.params.idDepart || req.query.nome || null
+        }
+        const response = await controllers.getDepart(busca);
+
         if (response.length == 0) {                    
             console.log('\nSem departamentos cadastrados.');
             const response = { 

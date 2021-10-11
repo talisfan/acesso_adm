@@ -6,8 +6,9 @@
     <div class="text-center lead text-primary mb-4" style="font-size: 35px;">Mostrando todos Departamentos</div>
     <div id="resultados">
         <script>                    
-            
-            fetch("/departamentos").then( async (result)=>{
+            let params = window.location.search || '';
+
+            fetch("/departamentos" + params).then( async (result)=>{
 
                 if(!result) return;
 
