@@ -4,7 +4,7 @@
 
 <body>
     <h1 id="title" class="lead text-center" style="font-size: 40px;">ALTERAÇÃO DE DEPARTAMENTOS</h1>
-    <div class="form px-4">
+    <form class="form px-4">
         <div class="mt-3">
             <!--ID DEPARTAMENTO-->
             <label for="idDepart" class="lead">ID do Departamento:</label>
@@ -16,11 +16,52 @@
         </div>
 
         <input class="btn btn-success mx-auto mt-3 col-12" onclick="attDepart()" type="button" value="ALTERAR">
-    </div>
+    </form>
     
     <input type="button" class="mt-2 ml-4 text-light btn btn-danger" onclick="dellDepart()" value="DELETAR DEPARTAMENTO">    
 
     <div class="text-center"> <a href="/" class="mt-4" style="font-size: 25px;">VOLTAR</a> </div>    
 
-    <script src="/javascript/alterarDepart_functions.js"> </script>
+    <script>
+        const form = document.getElementById('formAtt');
+        const idDepart = document.getElementById('idDepart').value;
+        const nomeDepart = document.getElementById('nomeDepart').value;
+        
+        function attFunc(){
+            
+            let body = { idDepart, nomeDepart };                        
+            body = JSON.stringify(body);
+            
+            fetch('/departamentos', {
+                method: 'PATCH',
+                body,
+                headers: { 'Content-Type': 'application/json' }
+            }).then(async (res)=>{
+				if(res.status === 202){
+					dialogCentralTemporary(`Departamento ${idDepart} atualizado com sucesso!`);
+					await sleep(2550)                   
+                    window.location.href = '/';
+				}else{					
+					treatmentErrorResponse(res, 'Departamento');									
+				}
+			})
+			.catch((error)=>{								
+				treatmentErrorResponse(error, 'Departamento');			
+			});            
+        }
+
+        function dellFunc(){
+            fetch('/departamentos/' + idDepart, { method: 'DELETE' })
+            .then(async (res)=>{
+                if(res.status === 204){
+	                dialogCentralTemporary(`Departamento ${nomeDepart} deletado com sucesso!`);
+					await sleep(2550)                   
+                    window.location.href = '/';
+                }
+            }).catch((error) =>{
+                treatmentErrorResponse(error, 'Departamento');			
+
+            })
+        }
+    </script>
 </body>
