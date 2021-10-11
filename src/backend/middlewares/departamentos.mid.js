@@ -53,8 +53,11 @@ exports.createDepart = async (req, res, next)=>{
 
 exports.attDepart = async (req, res, next)=>{      
     try{
-        if(req.query && req.query.nomeDepart && req.query.idDepart && req.query.idDepart > 0){        
-            return controllers.attDepart(req, res, next);        
+        if(req.body && req.body.nomeDepart && req.body.idDepart && req.body.idDepart > 0){        
+            const response = controllers.attDepart(req.body.idDepart, req.body.nomeDepart);        
+            const status = 202;          
+            utils_functions.printResponse(response, status);
+            return res.status(status).send(response);
         }else{
             return next({     
                 status: 400,              
