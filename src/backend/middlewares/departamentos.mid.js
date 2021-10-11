@@ -3,16 +3,15 @@ const utils_functions = require('../static/utils_functions');
 
 exports.getAllDepart = async (req, res, next)=>{
     try{        
-        const buscaFunc = { 
-            campo: req.params.idDepart ? 'idDepart' : null,
-            valor: req.params.idDepart || null
-        }
-
-        const response = await controllers.getDepart(buscaFunc);
+        const idDepart = req.params.idDepart || null;
+        const response = await controllers.getDepart(idDepart);
         if (response.length == 0) {                    
             console.log('\nSem departamentos cadastrados.');
-            const response = {error: true, msg: "Sem departamentos cadastrados"};
-            utils_functions.printResponse(response)
+            const response = { 
+                error: true, 
+                msg: "Sem departamentos cadastrados"
+            };
+            utils_functions.printResponse(response, 404)
             return res.status(404).send(response);
         }  
                 
@@ -32,7 +31,10 @@ exports.getAllDepart = async (req, res, next)=>{
 exports.createDepart = async (req, res, next)=>{
     try{
         if(req.body && req.body.nomeDepart){             
-            return controllers.createDepart(req, res, next);                
+            const response = controllers.createDepart(req.body.nomeDepart);                
+            const status = 201;
+            utils_functions.printResponse(response, status);
+            return res.status(status).send();
         }else{        
             return next({     
                 status: 400,              

@@ -2,16 +2,16 @@ const services = require('../services');
 const static = require('../static');
 
 // Retorna todos departamentos
-exports.getDepart = async (buscaDepart)=>{        
+exports.getDepart = async (idDepart = null)=>{        
     let queryValue = {
         query: `SELECT * FROM ${static.strings.TABLE_DEPARTAMENTOS} WHERE idDepart <> 1 `,
         values: null
     }
 
-    if(buscaDepart.campo && buscaDepart.valor){
-        console.log(`[DEPARTAMENTOS][GET]: Procurando departamento ${buscaDepart.valor}...`);            
-        queryValue.query += `AND ${buscaDepart.campo} = ? `;
-        queryValue.values = [ buscaDepart.valor ]
+    if(idDepart){
+        console.log(`[DEPARTAMENTOS][GET]: Procurando departamento de ID ${idDepart}...`);            
+        queryValue.query += `AND idDepart = ? `;
+        queryValue.values = [ idDepart ]
     }else{
         console.log(`[DEPARTAMENTOS][GET]: Listando departamentos...`);
     }
