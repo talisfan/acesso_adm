@@ -54,9 +54,9 @@ router.get('/alterarDepart/:id', (req, res) => {
     }
 });
 
-router.get('/buscaFunc', (req, res, next) => {
+router.get('/busca', (req, res, next) => {
     console.log('\n// Página buscaFunc chamada.');    
-    return res.render('BuscaFunc');
+    return res.render('Busca');
 });
 
 router.get('/errorPage', (req, res, next)=>{

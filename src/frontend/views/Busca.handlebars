@@ -1,0 +1,29 @@
+<head>
+    <title>ALTERAR FUNCIONÁRIO</title>
+</head>
+
+<body>
+    <h1 class="lead text-center" style="font-size: 40px;" id="title">BUSCAR {entidade}</h1>
+
+    <form method="GET" onsubmit="return getFunc(this)" class="px-2">
+        <label for="nome" class="lead" id="subtitle">Pesquisar {entidade} pelo nome</label>
+        <!--NOME-->
+        <input type="text" name="nome" id="nome" placeholder="NOME" class="form-control backForm mx-auto">
+        <input type="submit" value="PROCURAR" class="btn btn-primary col-12 mx-auto mt-3">
+    </form>
+
+    <script>
+        const querys = window.location.search.split('?')[1];        
+        let entidade = querys.split('=')[1];
+        
+        if(entidade == 'funcionarios') entidade = 'funcionários'
+
+        title.textContent = title.textContent.replace('{entidade}', entidade.toLocaleUpperCase());
+        subtitle.textContent = subtitle.textContent.replace('{entidade}', entidade.substr(0, entidade.length-1))
+
+        function getFunc(form){
+            form.action = `/page/${entidade.replace('á', 'a')}?nome=${form.elements[0].value}`
+            return true;
+        }
+    </script>
+</body>
