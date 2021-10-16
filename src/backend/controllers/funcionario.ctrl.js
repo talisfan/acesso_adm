@@ -5,10 +5,10 @@ exports.getFunc = async (buscaFunc = null) => {
 
     let queryValue = {
         query: `
-            select f.nome, f.telefone, f.email, f.id, d.idDepart, d.nomeDepart, f.acesso 
-            from ${static.strings.TABLE_FUNCIONARIOS} f 
-            inner join ${static.strings.TABLE_DEPARTAMENTOS} d 
-            on (f.idDepart = d.idDepart) `,
+            SELECT f.nome, f.telefone, f.email, f.id, d.idDepart, d.nomeDepart, f.acesso 
+            FROM ${static.strings.TABLE_FUNCIONARIOS} f 
+            INNER JOIN ${static.strings.TABLE_DEPARTAMENTOS} d 
+            ON (f.idDepart = d.idDepart) `,
         values: null
     }
 
@@ -17,7 +17,7 @@ exports.getFunc = async (buscaFunc = null) => {
 
         if(buscaFunc.campo === 'nome') buscaFunc.valor = `%${buscaFunc.valor}%`;
         
-        queryValue.query += `where f.${buscaFunc.campo} like ? order by f.id asc`;
+        queryValue.query += `WHERE f.${buscaFunc.campo} LIKE ? ORDER BY f.id asc`;
         queryValue.values = [ buscaFunc.valor ];
     }else{
         console.log(`[FUNCIONARIOS][GET]: Listando funcionários...`);
@@ -35,8 +35,8 @@ exports.createFunc = async (funcionario) => {
     const hashPass = static.utils_functions.hashMD5(senha);
 
     let queryValue = {
-        query: `insert into ${static.strings.TABLE_FUNCIONARIOS} 
-            (nome, telefone, email, acesso, senha, idDepart) values(?, ?, ?, ?, ?, ?)`, 
+        query: `INSERT INTO ${static.strings.TABLE_FUNCIONARIOS} 
+            (nome, telefone, email, acesso, senha, idDepart) VALUES (?, ?, ?, ?, ?, ?)`, 
         values: [
             nome, telefone, email,
             acesso, hashPass, departamento
@@ -45,7 +45,7 @@ exports.createFunc = async (funcionario) => {
     
     const result = await services.databaseConn(queryValue);
     const response = {
-        msg: 'Funcionario inserido com sucesso !',
+        msg: 'Funcionario inserido com sucesso!',
         id: result.insertId,
         nome,
         telefone,
@@ -59,7 +59,7 @@ exports.attFunc = async (funcionario) => {
     
     const { email, telefone, idDepart, id } = funcionario;
     let queryValue = {
-        query: `update ${static.strings.TABLE_FUNCIONARIOS} set email = ?, telefone = ?, idDepart = ? where id = ?`,
+        query: `UPDATE ${static.strings.TABLE_FUNCIONARIOS} SET email = ?, telefone = ?, idDepart = ? WHERE id = ?`,
         values: [ email, telefone, idDepart, id ]
     }
         
@@ -75,7 +75,7 @@ exports.attFunc = async (funcionario) => {
 exports.deleteFunc = async (id) => {
 
     let queryValue = {
-        query: `delete from ${static.strings.TABLE_FUNCIONARIOS} where id = ?`,
+        query: `DELETE FROM ${static.strings.TABLE_FUNCIONARIOS} WHERE id = ?`,
         values: [ id ]
     };
     
