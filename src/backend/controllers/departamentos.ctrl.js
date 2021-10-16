@@ -36,12 +36,10 @@ exports.createDepart = async (nomeDepart)=>{
 };
 
 // Alterar / atualizar departamentos
-exports.attDepart = async (idDepart, nomeDepart)=>{    
-
-    console.log('\nRealizando conexão com banco de dados...');
+exports.attDepart = async (idDepart, nomeDepart)=>{        
     
     const queryValue = {
-        query: `update ${static.strings.TABLE_DEPARTAMENTOS} set nomeDepart = ? WHERE idDepart = ?`,
+        query: `UPDATE ${static.strings.TABLE_DEPARTAMENTOS} SET nomeDepart = ? WHERE idDepart = ?`,
         values: [nomeDepart, idDepart]
     };
 
@@ -49,47 +47,13 @@ exports.attDepart = async (idDepart, nomeDepart)=>{
     return result;        
 };
 
-exports.deleteDepart = async (req, res, next)=>{
+exports.deleteDepart = async (idDepart)=>{
     
-    const endpoint = 'Deletar departamento';
+    const queryValue = {
+        query: `DELETE FROM ${static.strings.TABLE_DEPARTAMENTOS} WHERE idDepart = ?`,
+        values: [ idDepart ]
+    };
 
-    console.log('\nRealizando conexão com banco de dados...');
-
-    const idDepart = req.params.idDepart;
-
-    mysql.getConnection((error, conn) => {
-
-        if(error){
-            return next({
-                status: 502,
-                endpoint: endpoint,
-                operation: 'Erro ao conectar com o banco de dados.',
-                errorMessage: error
-            });
-        }
-        
-        console.log('Conectado! Realizando exclusão de departamento...');
-
-        const query = `DELETE FROM ${static.strings.TABLE_DEPARTAMENTOS} WHERE idDepart = ?`;
-
-        conn.query(query,
-            [idDepart], 
-
-            (error, result, field) => {
-                conn.release();
-
-                if(error){
-                    return next({                        
-                        endpoint: endpoint,
-                        operation: 'Erro ao deletar departamento.',
-                        errorMessage: error
-                    });
-                }
-
-                console.log('Sucesso! Resultado:');
-                console.log(result);
-
-                return res.status(204).send();
-            });
-    });
+    const result = await services.databaseConn(queryValue);
+    return result;        
 };

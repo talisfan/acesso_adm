@@ -23,13 +23,29 @@
     <div class="text-center"> <a href="/" class="mt-4" style="font-size: 25px;">VOLTAR</a> </div>    
 
     <script>
+        const params = window.location.pathname.split('/');
+        const idDepart = params[params.length - 1];                
         const form = document.getElementById('formAtt');
-        const idDepart = document.getElementById('idDepart').value;
-        const nomeDepart = document.getElementById('nomeDepart').value;
+        const idDepartElem = document.getElementById('idDepart');
+        const nomeDepartElem = document.getElementById('nomeDepart');
+
+        fetch('/departamentos/' + idDepart).then(async (res) =>{
+            res = await res.json();
+            if(res.length === 1){                
+                idDepartElem.value = res[0].idDepart;
+                nomeDepartElem.value = res[0].nomeDepart;
+            }else{                
+                treatmentErrorResponse({ status: 404 }, 'Departamento');
+            }
+        })
+        .catch((error)=>{								
+            treatmentErrorResponse(error, 'Departamento')
+        });
+
         
-        function attFunc(){
+        function attDepart(){            
             
-            let body = { idDepart, nomeDepart };                        
+            let body = { idDepart, nomeDepart: nomeDepartElem.value };                        
             body = JSON.stringify(body);
             
             fetch('/departamentos', {
@@ -50,11 +66,11 @@
 			});            
         }
 
-        function dellFunc(){
+        function dellDepart(){
             fetch('/departamentos/' + idDepart, { method: 'DELETE' })
             .then(async (res)=>{
                 if(res.status === 204){
-	                dialogCentralTemporary(`Departamento ${nomeDepart} deletado com sucesso!`);
+	                dialogCentralTemporary(`Departamento ${idDepart} deletado com sucesso!`);
 					await sleep(2550)                   
                     window.location.href = '/';
                 }

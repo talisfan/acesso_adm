@@ -57,7 +57,7 @@ exports.createDepart = async (req, res, next)=>{
 
 exports.attDepart = async (req, res, next)=>{      
     try{
-        if(req.body && req.body.nomeDepart && req.body.idDepart && req.body.idDepart > 0){        
+        if(req.body && req.body.nomeDepart && req.body.idDepart && req.body.idDepart > 1){        
             const response = controllers.attDepart(req.body.idDepart, req.body.nomeDepart);        
             const status = 202;          
             utils_functions.printResponse(response, status);
@@ -80,8 +80,11 @@ exports.attDepart = async (req, res, next)=>{
 
 exports.deleteDepart = async (req, res, next)=>{   
     try{
-        if(req.params && req.params.idDepart && req.params.idDepart > 0){        
-            return controllers.deleteDepart(req, res, next);                
+        if(req.params && req.params.idDepart && req.params.idDepart > 1){        
+            const response = controllers.deleteDepart(req.params.idDepart);                
+            const status = 204;          
+            utils_functions.printResponse(response, status);
+            return res.status(status).send(response);
         }else{
             return next({     
                 status: 400,              
