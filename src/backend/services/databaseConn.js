@@ -6,6 +6,7 @@ module.exports = (queryValue)=>{
         console.log('\n[Database]: Conectando com o banco de dados...');
 
         mysql.getConnection((error, conn) => {
+
             if(error){                
                 error = utils_functions.printError({                    
                     status: 502,                    
@@ -15,42 +16,29 @@ module.exports = (queryValue)=>{
                 return reject(error);
             }
             
-            console.log('[Database]: Conectado!');        
+            console.log('[Database]: Conectado!');   
+            
+            let callbackQuerys = (err, result, field)=>{
+                conn.release();
+        
+                if(err){
+                    err = utils_functions.printError({                        
+                        status: 502,                                    
+                        operation: '[Database]: Erro ao executar query no banco de dados.',
+                        errorMessage: err
+                    });                    
+                    return reject(err);
+                }
+        
+                console.log('[Database]: Sucesso ao executar query!');
+                //console.debug(result);
+                resolve(result);
+            }
             
             if(queryValue.values){
-                conn.query(queryValue.query, queryValue.values, (err, result, field) => {
-                    conn.release();
-            
-                    if(err){
-                        err = utils_functions.printError({                        
-                            status: 502,                                    
-                            operation: '[Database]: Erro ao executar query no banco de dados.',
-                            errorMessage: err
-                        });                    
-                        return reject(err);
-                    }
-            
-                    console.log('[Database]: Sucesso ao executar query!');
-                    //console.debug(result);
-                    resolve(result);
-                });    
+                conn.query(queryValue.query, queryValue.values, callbackQuerys)  
             }else{
-                conn.query(queryValue.query, (err, result, field) => {
-                    conn.release();
-            
-                    if(err){
-                        err = utils_functions.printError({                        
-                            status: 502,                                    
-                            operation: '[Database]: Erro ao executar query no banco de dados.',
-                            errorMessage: err
-                        });                    
-                        return reject(err);
-                    }            
-                    
-                    console.log('[Database]: Sucesso ao executar query!');
-                    //console.debug(result);                    
-                    resolve(result);
-                });    
+                conn.query(queryValue.query, callbackQuerys);    
             }
         });
     });
