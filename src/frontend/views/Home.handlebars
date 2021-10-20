@@ -30,7 +30,7 @@
         </div>
     </div>
 
-    <script>
+    <script>        
         let cookies = document.cookie; 
         let session = cookies.split('=');
 
@@ -43,9 +43,37 @@
             let data = new Date(ano, 01, 01);                
             data = data.toUTCString();
             document.cookie = 'sessionActive=true; expires='+data; 
+            
+            let timerInterval
+            
+            Swal.fire({
+                title: 'BEM VINDO!',
+                html: 'Esse é seu primeiro acesso, aguarde alguns segundos enquanto preparamos o ambiente.',
+                timer: 10000,
+                showConfirmButton: false,
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading()
+                    const b = Swal.getHtmlContainer().querySelector('p')
+                    timerInterval = setInterval(() => {
+                        b.innerHTML = Swal.getTimerLeft();
+                    }, 100)
+                },
+                willClose: () => {
+                    clearInterval(timerInterval)
+                }
+            }).then((result) => {
+                Swal.fire({
+                    position: 'botton',
+                    icon: 'success',
+                    title: 'Tudo pronto!',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            })
         }else{
             console.log('BANCO DE DADOS JÁ CRIADO');
-        }
+        }        
     </script>
     <script src="/jquery/dist/jquery.min.js"> </script>
     <script src="/maskedInputJquery/dist/jquery.maskedinput.min.js"> </script>
